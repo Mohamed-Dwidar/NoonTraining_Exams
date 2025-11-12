@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Modules\AdminModule\app\Http\Controllers\Auth;
+namespace Modules\AdminModule\App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -10,33 +9,29 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use Modules\AdminModule\Services\AdminService;
-use Modules\LogModule\Services\LogService;
 
 class AdminAuthController extends Controller
 {
     private $adminService;
-    private $logService;
 
-    public function __construct(AdminService $adminService,LogService $logService)
+    public function __construct(AdminService $adminService)
     {
         $this->adminService = $adminService;
-        $this->logService = $logService;
     }
 
-    function index()
+    public function index()
     {
         if (Auth::guard('admin')->check()) {
-            // Log 
-            //$this->logService->recordLog(Auth::guard('admin')->user());
             return redirect()->route('admin.courses');
         } else {
             return view('adminmodule::login');
         }
     }
 
-    function login(Request $request)
+    public function login(Request $request)
     {
-        $rememberme = request()->has('rememberme') ? 1 : 0;
+        $rememberme = $request->has('rememberme') ? 1 : 0;
+
         if (auth('admin')->attempt(
             [
                 'email' => $request->email,
@@ -44,16 +39,18 @@ class AdminAuthController extends Controller
             ],
             $rememberme
         )) {
-
             return redirect()->intended('admin');
         }
+
         return redirect()->back()->withErrors(['error' => 'البريد الأليكتروني او كلمة المرور ']);
     }
+
     public function changePassword()
     {
         $admin = auth()->guard('admin')->user();
         return view('adminmodule::admin.change_password', compact('admin'));
     }
+
     public function updatePassword(Request $request)
     {
         $validator = Validator::make(
@@ -63,17 +60,20 @@ class AdminAuthController extends Controller
                 'password' => 'required|confirmed|min:4',
             ]
         );
+
         if ($validator->fails()) {
             return back()
                 ->withErrors($validator)
                 ->withInput();
         }
+
         $admin = auth()->guard('admin')->user();
         $request['id'] = $admin->id;
+
         if (Hash::check($request->old_password, $admin->password)) {
             $this->adminService->updatePassword($request);
 
-            return redirect()->route(Auth::getDefaultDriver().'.changePassword')
+            return redirect()->route(Auth::getDefaultDriver() . '.changePassword')
                 ->with('success', 'تم تغيير كلمة المرور بنجاح');
         } else {
             return back()
@@ -82,7 +82,7 @@ class AdminAuthController extends Controller
         }
     }
 
-    function logout(Request $request)
+    public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
         $request->session()->flush();
