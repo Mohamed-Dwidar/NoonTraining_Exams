@@ -1,3 +1,4 @@
 {
-    "AdminModule": true
+    "AdminModule": true,
+    "LayoutModule": true
 }

@@ -1,0 +1,1212 @@
+body {
+    font-style: normal;
+    font-weight: 400;
+    direction: rtl;
+    text-align: right;
+    color: #18271A;
+}
+
+a,
+button,
+input {
+    color: #1A4A22;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.nivoSlider {
+    position: relative;
+    width: 100%;
+    height: 450px;
+}
+
+.info-area {
+    padding: 56px 0 20px;
+}
+
+.info-area .section-title h1 {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1px;
+    margin: 0 0 35px;
+    color: #1A4A22;
+}
+
+.nav-pills a.btn-lgn {
+    padding-top: 0;
+}
+
+.main-menu>li {
+    margin: 0 5px;
+    padding: 35px 3px;
+}
+
+.courses-list .one-course h1 {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0 0 5px;
+    color: #1A4A22;
+    padding: 10px 5px 5px 0px;
+}
+
+.courses-list .one-course .instructor {
+    font-size: 13px;
+    margin: 0 0 5px;
+    padding: 0 5px;
+    text-align: right;
+}
+
+.nav-pills {
+    margin-bottom: 15px;
+}
+
+
+.cll-to-action-area {
+    background: url(../images/greenbg.png) no-repeat;
+    background-size: 100%;
+    padding: 50px 0 25px;
+}
+
+.cll-to-action-area p {
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 19px;
+    margin: 0 0 8px;
+    font-weight: 700;
+
+}
+
+.cll-to-action-area span {
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 15px;
+    margin: 0 0 8px;
+    font-weight: 300;
+    display: block;
+    margin-bottom: 35px;
+}
+
+.cll-to-action-area a {
+    background: #1A4A22;
+    border: 1px solid #FFFFFF;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    box-shadow: none;
+    color: #FFF;
+    font-family: 'Cairo', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 40px;
+    padding: 6px 42px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: all .3s ease 0s;
+    white-space: nowrap;
+    margin-left: 10px;
+    display: inline;
+}
+
+.about-area {
+    padding: 56px 0 20px;
+}
+
+.login-side span.country-code {
+    margin-top: -50px;
+    float: left;
+    direction: ltr;
+    font-size: 12px;
+}
+
+.my-form span.country-code {
+    margin-top: 43px;
+    float: left;
+    direction: ltr;
+    font-size: 12px;
+    position: absolute;
+    left: 30px;
+}
+
+.my-form input.mob {
+    text-align: left;
+    padding-left: 50px;
+}
+
+.about-area .section-title h2 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1px;
+    margin: 0 0 35px;
+    color: #1A4A22;
+}
+
+.about-area p {
+    font-size: 13px;
+    font-weight: 300;
+    /* line-height: 1px; */
+    margin: 0 0 35px;
+    color: #6F6F6F;
+}
+
+.sponsers {
+    text-align: center;
+}
+
+.sponsers img {
+    height: 120px;
+    margin: 10px 60px 20px;
+}
+
+.brand-area {
+    direction: ltr;
+    padding: 50px 0px;
+}
+
+.brand-area .total-brand {
+    padding-top: 20px;
+}
+
+.brand-area .section-title h2 {
+    font-size: 27px;
+    font-weight: 600;
+    line-height: 1px;
+    margin: 0 0 35px;
+    color: #1A4A22;
+}
+
+.brand-area .single-brand img:hover {
+    border-color: #f1f1f1;
+}
+
+.footer-copyright {
+    padding: 20px 0;
+    color: #6F6F6F;
+    font-size: 12px;
+    background: #E9EDE9 0% 0%;
+}
+
+.footer-copyright .newsletter b {
+    color: #1A4A22;
+}
+
+.footer-copyright .newsletter input {
+    height: 40px;
+    color: #6F6F6F;
+    padding-right: 10px;
+    background: #E9EDE9;
+    border: 0.5px solid #A2A6A2;
+    width: 100%;
+    font-size: 14px;
+    box-shadow: none;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.footer-copyright .newsletter button {
+    background: #1A4A22;
+    border: 1px solid #1A4A22;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    box-shadow: none;
+    color: #FFF;
+    font-family: 'Cairo', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    height: 40px;
+    letter-spacing: 0px;
+    line-height: 40px;
+    padding: 10px 25px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: all .3s ease 0s;
+    white-space: nowrap;
+    margin-left: 10px;
+    padding-top: 0;
+    cursor: pointer;
+}
+
+.footer-copyright .newsletter .loading {
+    display: none;
+}
+
+.footer-copyright .newsletter .loading img {
+    width: 40px;
+}
+
+.login-screen {
+    background-color: #FAFFFB;
+}
+
+.login-screen .wrapper {
+    background: #FAFFFB;
+}
+
+.login-screen .lgn-img {
+    background: url('../images/lgn_img.png');
+    height: 775px;
+    width: 100%;
+    background-size: 100%;
+}
+
+.login-screen .logo {
+    text-align: center;
+    float: right;
+    width: 100%;
+    margin: 35px 0;
+}
+
+.login-screen .frm {
+    text-align: right;
+    float: right;
+    width: 100%;
+    margin: 10px 20px 20px 0;
+}
+
+.login-screen .frm label {
+    color: #1A4A22;
+    float: right;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.login-screen .frm input[type=text],
+.login-screen .frm input[type=password],
+.login-screen .frm input[type=email] {
+    background: #FAFFFB;
+    text-align: right;
+    float: right;
+    margin: 6px 0px 25px 0;
+    height: 30px;
+    color: #020202;
+    padding-left: 47px;
+    border: 0;
+    width: 100%;
+    font-size: 12px;
+    box-shadow: none;
+    border-bottom: 1px solid #eceff8;
+}
+
+.login-screen .frm .radiodv {
+    float: right;
+    width: 25%;
+    margin-right: 50px;
+    margin-bottom: 20px;
+}
+
+.login-screen .frm .radiodv label {
+    float: right;
+    width: auto;
+}
+
+.login-screen .frm .slctdv {
+    float: right;
+    width: 100%; 
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.login-screen .frm .slctdv label {
+    float: right;
+    width: auto;
+}
+
+.login-screen .frm input[type=radio] {
+    text-align: right;
+    float: right;
+    width: 20px;
+    margin: 0px 13px 0px;
+    height: 30px;
+}
+
+.login-screen .frm #course_date_sugg {
+    display: none;
+    width: 100%;
+}
+
+.login-screen .frm #chooseCrs {
+    display: none;
+}
+
+
+
+
+.login-screen .frm button {
+    background: #1A4A22;
+    border: 1px solid #1A4A22;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    box-shadow: none;
+    color: #FFF;
+    font-family: 'Cairo', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    height: 40px;
+    letter-spacing: 0px;
+    line-height: 40px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: all .3s ease 0s;
+    white-space: nowrap;
+    margin-left: 10px;
+    padding: 0 50px 10px;
+    margin-top: 30px;
+}
+
+.login-screen .frm .forget-pass {
+    color: #020202;
+    text-align: left;
+    font-size: 12px;
+    font-weight: bold;
+    float: right;
+}
+
+.login-screen .swtich-action {
+    text-align: center;
+    float: right;
+    width: 100%;
+    margin: 80px 0px 20px 0;
+}
+
+.login-screen .swtich-action span {
+    font-size: 15px;
+    color: #55755a;
+    font-weight: 700;
+}
+
+.login-screen .swtich-action a {
+    font-size: 15px;
+    color: #1A4A22;
+    font-weight: 700;
+}
+
+.middle-text h2 {
+    font-size: 20px;
+    line-height: 29px;
+    margin-top: 30px;
+    color: #1A4A22;
+    font-weight: 300;
+}
+
+.middle-text h1 {
+    font-size: 35px;
+    line-height: 60px;
+    color: #1A4A22;
+    font-weight: 600;
+}
+
+.after-login-student {
+    background: #ffffff;
+    border: 1px solid #9EA29F;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    box-shadow: none;
+    color: #1A4A22;
+    font-family: 'Cairo', Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 40px;
+    padding: 0px 10px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: all .3s ease 0s;
+    white-space: nowrap;
+}
+
+.after-login-student .action {
+    text-align: center;
+}
+
+.inner .top-green {
+    background: url(../images/greenbg.png) no-repeat;
+    background-size: 100%;
+    padding: 30px 0px;
+    color: #ffffff
+}
+
+.inner .top-green h1 {
+    /* margin-top: -10px; */
+    font-size: 20px;
+    color: #ffffff
+}
+
+.profile {
+    margin: 20px 0 50px;
+    padding: 0px 0px 20px;
+    line-height: 40px;
+    color: #1A4A22;
+}
+.profile .row:first{
+    padding: 0px 0px 20px;
+}
+
+.profile .profile-img {
+    text-align: right;
+    padding: 0px 0px 20px;
+}
+
+.profile .profile-img img {
+    border: 1px solid #A2A6A2;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+    width: 100px;
+    height: 100px;
+    margin: 20px 0;
+    padding: 3px;
+}
+
+.profile .profile-actions {
+    padding: 60px 0px 0px
+}
+
+.profile .profile-actions a {
+    padding: 0 10px;
+    color: #1A4A22;
+}
+
+.profile .profile-actions a:hover {
+    text-decoration: underline;
+}
+
+.profile .profile-actions i {
+    font-size: 20px;
+    padding: 0 5px
+}
+
+.profile .label {
+    color: #1A4A22;
+    font-weight: bold;
+}
+
+.my-form {
+    line-height: 25px;
+}
+
+.my-form .row {
+    margin-bottom: 20px;
+}
+
+.my-form input,
+.my-form select {
+    height: 45px;
+    color: #1A4A22;
+    padding: 10px;
+    background: #FFFFFF;
+    border: .5px solid #E0E0E0;
+    width: 100%;
+    font-size: 14px;
+    box-shadow: none;
+}
+
+.my-form input[type=checkbox] {}
+
+.my-form label.control-label {
+    color: #1A4A22;
+}
+
+.my-form .checkbox input[type=checkbox] {
+    height: auto;
+    width: auto;
+}
+
+
+/* Hide the browser's default checkbox */
+.my-form input[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.my-form .checkmark {
+    position: absolute;
+    margin-right: 10px;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border: 1px solid #A2A6A2;
+    -webkit-border-radius: 17% !important;
+    -moz-border-radius: 17% !important;
+    border-radius: 17% !important;
+}
+
+/* On mouse-over, add a grey background color */
+.my-form:hover input~.checkmark {
+    background-color: #eee;
+    border: 1px solid #A2A6A2;
+    -webkit-border-radius: 17% !important;
+    -moz-border-radius: 17% !important;
+    border-radius: 17% !important;
+}
+
+/* When the checkbox is checked, add a blue background */
+.my-form input:checked~.checkmark {
+    border: 1px solid #A2A6A2;
+    -webkit-border-radius: 17% !important;
+    -moz-border-radius: 17% !important;
+    border-radius: 17% !important;
+    background-color: #1A4A22;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.my-form input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.my-form .checkmark:after {
+    left: 8px;
+    top: 4px;
+    width: 7px;
+    height: 13px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.my-form .profile-img {
+    border: 1px solid #A2A6A2;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+    width: 60px;
+    height: 60px;
+    margin: 20px 0;
+    padding: 3px;
+}
+
+.my-form .btn-save {
+    background: #1A4A22;
+    border: 1px solid #1A4A22;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    box-shadow: none;
+    color: #FFF;
+    font-family: 'Cairo', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    height: 40px;
+    letter-spacing: 0px;
+    line-height: 15px;
+    padding: 10px 25px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: all .3s ease 0s;
+    white-space: nowrap;
+    margin-left: 10px;
+    float: left;
+    cursor: pointer;
+}
+
+.my-form .radioElm label {
+    float: right;
+    width: 100%;
+}
+
+.my-form .radioElm .radiodv {
+    float: right;
+    width: 25%;
+    margin-right: 50px;
+}
+
+.my-form .radioElm .radiodv label {
+    float: right;
+    width: auto;
+}
+
+.my-form .radioElm .radiodv input {
+    float: right;
+    width: 19px;
+    margin: -10px 10px 0;
+}
+
+/* .my-form .profile-img:hover {
+    background: #000000;
+} */
+
+.uimage {
+    position: relative;
+}
+
+.uimage .img-top {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 75px;
+    z-index: 99;
+    width: 60px;
+    height: 60px;
+}
+
+.uimage:hover .img-top {
+    display: inline;
+}
+
+.inner .page {
+    padding: 20px 0 40px;
+    line-height: 2;
+}
+
+.inner .page div.content {
+    color: #1A4A22;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 2;
+}
+
+.inner .page li {
+    list-style: disclosure-closed;
+}
+
+.inner .courses-list {
+    margin: 50px 0 50px;
+    line-height: 30px;
+    color: #1A4A22;
+}
+
+.inner .courses-list .desc {
+    margin: 20px 0 50px;
+    line-height: 30px;
+    color: #1A4A22;
+}
+
+.inner .courses-detials {
+    margin: 50px 0 50px;
+    line-height: 30px;
+    color: #1A4A22;
+}
+
+.inner .courses-detials .title-bar {
+    padding: 30px 20px 20px;
+    margin: 0 0 50px;
+    line-height: 30px;
+    color: #1A4A22;
+    background: #F2FFF4;
+}
+
+.inner .courses-detials .title-bar h1 {
+    color: #1A4A22;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.inner .courses-detials .desc {
+    margin: 20px 0 50px;
+    line-height: 30px;
+    color: #1A4A22;
+}
+
+/* .inner .courses-detials .details {} */
+
+.inner .courses-detials .details h3 {
+    color: #1A4A22;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.inner .courses-detials .details div.content {
+    color: #1A4A22;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.inner .course-info-card {
+    padding: 20px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 7px 3px rgba(0, 0, 0, .1);
+    margin-top: -100px;
+    background: #fff;
+}
+
+.inner .course-info-card .price {
+    float: right;
+    width: 100%;
+    text-align: left;
+    padding: 11px 0;
+    font-weight: bold;
+}
+
+.inner .course-info-card .price .coupon {
+    float: right;
+    text-align: right;
+}
+
+.inner .course-info-card .price .coupon .apply {}
+
+.inner .course-info-card .price .coupon .val {
+    display: none;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #C2D0C2;
+    padding: 0 20px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.inner .course-info-card .price .coupon .nval {
+    display: none;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #ad7a7a;
+    color: #FFFFFF;
+    padding: 0 20px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+
+
+.inner .course-info-card .price .coupon input {
+    width: 120px;
+    height: 29px;
+    font-size: 14px;
+}
+
+.inner .course-info-card .price .tamount {
+    float: left;
+    text-align: left;
+}
+
+.inner .course-info-card .price .tamount .before-price {
+    display: none;
+    font-size: 10px;
+    text-decoration: line-through;
+    margin-top: -15px;
+    color: #ad7a7a;
+}
+
+.help {
+    position: relative;
+    top: -1.2em;
+    left: -9em;
+    line-height: 0 !important;
+    margin-bottom: 0;
+}
+
+.help small {
+    font-size: 11px;
+    letter-spacing: normal;
+    text-align: left;
+    color: #1c8a42 !important;
+    right: 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+
+
+.inner .course-info-card .reg-button {
+    background: #1A4A22;
+    border: 1px solid #1A4A22;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    box-shadow: none;
+    color: #FFF;
+    font-family: 'Cairo', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    height: 40px;
+    letter-spacing: 0px;
+    line-height: 15px;
+    padding: 8px 70px;
+    text-shadow: none;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.inner .course-info-card .notes {
+    text-align: right;
+    padding: 24px 0 0px;
+    line-height: 10px;
+}
+
+.inner .course-info-card .notes label {
+    color: #1A4A22;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+.inner .course-info-card .notes span {
+    color: #1A4A22;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.inner .courses-reg {
+    margin: 50px 0 50px;
+    line-height: 30px;
+    color: #1A4A22;
+}
+
+.inner .courses-reg h1 {
+    margin: 0px 0 40px;
+    color: #1A4A22;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.inner .courses-reg-done h2 {
+    text-align: center;
+    padding: 80px 30px;
+    font-size: 20px;
+    line-height: 2;
+}
+
+.inner .courses-reg-done h2 i {
+    font-size: 55px;
+    color: #5C845C;
+    margin-top: 22px;
+}
+
+.inner .courses-reg-done h2 span {
+    font-size: 25px;
+    color: #5C845C;
+}
+
+.inner .courses-reg-failed h2 {
+    text-align: center;
+    padding: 80px 30px;
+    font-size: 20px;
+    line-height: 2;
+}
+
+.inner .courses-reg-failed h2 i {
+    font-size: 55px;
+    color: #882222;
+    margin-top: 22px;
+}
+
+.inner .courses-reg-failed h2 span {
+    font-size: 25px;
+    color: #5C845C;
+}
+
+.footer-social a img {
+    width: 35px;
+    margin: 9px 5px;
+}
+
+.status-frame {
+    font-size: 12px;
+    line-height: 1px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    padding: 12px 25px;
+    text-align: center;
+    height: auto;
+}
+
+.mobile-menu-area {
+    background: #1A4A22;
+}
+
+.mean-container .mean-bar::after {
+    color: #fff;
+    content: "القائمة";
+    font-size: 17px;
+    right: 0;
+    left: auto;
+    position: absolute;
+    top: 11px;
+}
+
+.mean-container a.meanmenu-reveal {
+    float: left;
+}
+
+
+/*----------------------------------------*/
+/*  20.	Contact Us page
+/*----------------------------------------*/
+.map-area-top {
+    padding-bottom: 0px;
+}
+
+.contact-details {
+    display: block;
+    overflow: hidden;
+    padding: 40px;
+    /* background: #1A1364; */
+    border-radius: 4px;
+    margin-left: 50px;
+}
+
+.contact-icon {
+    margin-bottom: 30px;
+}
+
+.single-contact h5 {
+    /* color: #fff; */
+    text-transform: capitalize;
+    margin-bottom: 25px;
+}
+
+.last-item {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.single-contact div {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+.single-contact div i {
+    float: right;
+    /* color: #fff; */
+    font-size: 18px;
+    padding-left: 20px;
+    line-height: 24px;
+}
+
+.contact-head {
+    background: #f4f4f4;
+    padding: 50px 30px;
+}
+
+.contact-head h4 {
+    font-size: 28px;
+}
+
+.contact-head p {
+    font-size: 17px;
+}
+
+.single-contact span {
+    /* color: #ddd; */
+}
+
+.project-share h5 {
+    display: inline-block;
+    font-size: 18px;
+}
+
+.project-social {
+    display: inline-block;
+}
+
+.project-social li {
+    display: inline-block;
+    margin: 10px;
+}
+
+.project-social li a {
+    color: #444;
+    font-size: 18px;
+}
+
+.contact-form {
+    width: 100%;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"] {
+    border: 1px solid #ccc;
+    border-radius: 0;
+    height: 50px;
+    margin-bottom: 15px;
+    padding-left: 20px;
+    width: 100%;
+}
+
+.contact-form textarea#message {
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    height: 220px;
+    padding: 20px;
+    width: 100%;
+}
+
+.contact-page .contact-btn {
+    background: #1A4A22;
+    border: 1px solid #1A4A22;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    box-shadow: none;
+    color: #FFF;
+    font-family: 'Cairo', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    height: 40px;
+    letter-spacing: 0px;
+    line-height: 40px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: all .3s ease 0s;
+    white-space: nowrap;
+    margin-left: 10px;
+    padding: 0 50px 10px;
+    margin-top: 30px;
+}
+
+.contact-page .contact-btn:hover {
+    /* background: #1A1364 none repeat scroll 0 0;
+    border: 1px solid #1A1364;
+    color: #fff;
+    transition: 0.4s; */
+}
+
+.picker__select--year,
+.picker__select--month {
+    width: 30% !important;
+}
+
+
+
+@media (min-width:768px) and (max-width:991px) {}
+
+@media (min-width:480px) and (max-width:767px) {}
+
+@media (max-width:479px) {
+    a.btn-reg {
+        font-size: 12px;
+        line-height: 41px;
+        border-radius: 25px;
+        -webkit-border-radius: 12px;
+        width: 71px;
+        display: block;
+        padding: 0;
+        height: 40px;
+        text-align: center;
+        float: right;
+    }
+
+    a.btn-lgn {
+        font-size: 12px;
+        line-height: 41px;
+        border-radius: 25px;
+        -webkit-border-radius: 25px;
+        /* width: 71px; */
+        display: block;
+        padding: 0 25px;
+        height: 40px;
+        text-align: center;
+        float: right;
+        margin-bottom: 4px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .before-login-student {
+        display: none;
+    }
+
+    .after-login-student {
+        font-size: 11px;
+        line-height: 20px;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+    }
+
+    .after-login-student .action {
+        text-align: center;
+    }
+
+    .header-middle-area .logo {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+
+    .mean-container .mean-nav ul {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        list-style-type: none;
+        max-height: 280px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .mean-container .mean-nav ul li a {
+        text-align: right;
+        color: #1A4A22;
+    }
+
+    .inner .top-green {
+        padding: 10px 0px;
+        color: #ffffff;
+    }
+
+    .inner .course-info-card {
+        margin-top: 10px;
+    }
+
+    .footer-copyright .container .row {
+        display: inline-block;
+    }
+
+    .lgn-img {
+        display: none;
+    }
+
+    .hide-sm {
+        display: none;
+    }
+
+    .login-side {
+        padding: 0 25px;
+    }
+
+    .nivoSlider {
+        height: auto;
+    }
+
+    .middle-text h1 {
+        font-size: 15px;
+        line-height: 40px;
+    }
+
+    .slider-container a.btn-def.btn2 {
+        font-size: 11px;
+        line-height: 41px;
+        background: #1A4A22;
+        border: 1px solid #1A4A22;
+        border-radius: 25px;
+        -webkit-border-radius: 25px;
+        width: 100px;
+        text-align: center;
+    }
+
+    .cll-to-action-area {
+        background-size: auto;
+        padding: 28px 0 20px;
+    }
+
+    .inner .courses-list,
+    .courses-list {
+        line-height: 15px;
+    }
+}

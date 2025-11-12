@@ -1,0 +1,70 @@
+body {
+	font-size: 14px;
+}
+
+h1,
+.h1 {
+	font-size: 1.7rem;
+}
+
+h2,
+.h2 {
+	font-size: 1.5rem;
+}
+
+h3,
+.h3 {
+	font-size: 1.35rem;
+}
+
+h4,
+.h4 {
+	font-size: 1.2rem;
+}
+
+h5,
+.h5 {
+	font-size: 1rem;
+}
+li{
+	list-style: none;
+}
+
+.btn {
+	font-size: 14px;
+}
+
+.navigation {
+	font-size: 15px;
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+.actions .dropdown-menu .dropdown-item{
+	font-size: 14px;
+	padding: 6px 15px;
+}
+.actions .dropdown-menu {
+	min-width: 125px;
+}
+.table-responsive {
+    overflow-x: inherit;
+}
+td.actions{
+	width: 150px;
+	text-align: right;
+}
+
+.select2-container--default .select2-selection--single {
+	text-align: right;
+}
+.select2-container--default .select2-results__option {
+	text-align: right;
+}
+.select2-container--default .select2-search__field{
+	text-align: right;
+}

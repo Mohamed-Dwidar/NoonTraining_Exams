@@ -1,56 +1,38 @@
 <?php
 
-namespace Modules\AdminModule\Http\Controllers;
+namespace Modules\AdminModule\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Modules\CourseModule\Services\CourseRegService;
+use Modules\CourseModule\Services\CourseService;
+use Modules\StudentModule\Services\StudentService;
 
 class AdminModuleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private $courseService;
+    private $studentService;
+    private $courseRegService;
+
+    public function __construct(CourseService $courseService, StudentService $studentService, CourseRegService $courseRegService)
     {
-        return view('adminmodule::index');
+        $this->courseService = $courseService;
+        $this->studentService = $studentService;
+        $this->courseRegService = $courseRegService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function dashboard()
     {
-        return view('adminmodule::create');
+        $students = $courses = $tot_amounts = $rest_amounts = 0;
+        
+        $data = [
+            'students' => $students,
+            'courses' => $courses,
+            'tot_amounts' => $tot_amounts,
+            'rest_amounts' => $rest_amounts
+        ];
+        return view('adminmodule::admin.dashboard', $data);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {}
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('adminmodule::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('adminmodule::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
 }
