@@ -1,8 +1,6 @@
 {
     "AdminModule": true,
     "LayoutModule": true,
-    "CourseModule": true,
-    "BranchModule": true,
     "PermissionModule": true,
     "UserModule": true
 }
