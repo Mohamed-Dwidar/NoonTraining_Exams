@@ -1,38 +1,34 @@
 <?php
 
-namespace Modules\AdminModule\app\Http\Controllers;
+namespace Modules\AdminModule\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Modules\CourseModule\Services\CourseRegService;
-use Modules\CourseModule\Services\CourseService;
-use Modules\StudentModule\Services\StudentService;
+use Modules\ExamModule\Services\ExamService;
 
 class AdminModuleController extends Controller
 {
-    private $courseService;
-    private $studentService;
-    private $courseRegService;
+    private $examService;
 
-    public function __construct(CourseService $courseService, StudentService $studentService, CourseRegService $courseRegService)
+    public function __construct(ExamService $examService)
     {
-        $this->courseService = $courseService;
-        $this->studentService = $studentService;
-        $this->courseRegService = $courseRegService;
+        $this->examService = $examService;
     }
+
 
     public function dashboard()
     {
-        $students = $courses = $tot_amounts = $rest_amounts = 0;
-        
+        $totalExams = $this->examService->countAll();
+        $upcomingExams = $this->examService->countUpcoming();
+        $ongoingExams = $this->examService->countOngoing();
+        $finishedExams = $this->examService->countFinished();
+
         $data = [
-            'students' => $students,
-            'courses' => $courses,
-            'tot_amounts' => $tot_amounts,
-            'rest_amounts' => $rest_amounts
+            'totalExams' => $totalExams,
+            'upcomingExams' => $upcomingExams,
+            'ongoingExams' => $ongoingExams,
+            'finishedExams' => $finishedExams,
         ];
+
         return view('adminmodule::admin.dashboard', $data);
     }
 }

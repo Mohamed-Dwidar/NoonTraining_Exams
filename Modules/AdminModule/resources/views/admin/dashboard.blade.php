@@ -1,37 +1,29 @@
 @extends('layoutmodule::admin.main')
 
 @section('title')
-    {{ __('messages.admin') }}
+    لوحة تحكم الامتحانات
 @endsection
 
 @section('content')
     <div class="content-wrapper container-fluid">
-        {{-- <div class="content-header">
-        <div class="content-header-left mb-2 breadcrumb-new col">
-            <h3>
-                <i class="fa fa-list"></i>
-                &nbsp;
-                طلبات التسجيل في الدورات
-            </h3> 
-        </div>
-    </div> --}}
 
         @include('layoutmodule::admin.flash')
 
         <div class="content-body">
             <div class="row">
+
+                <!-- Total Exams -->
                 <div class="col-xl-3 col-lg-6 col-xs-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-block">
                                 <div class="media">
                                     <div class="media-left media-middle">
-                                        <i class="fa fa-desktop teal font-large-2 float-xs-right"></i>
+                                        <i class="fa fa-file teal font-large-2 float-xs-right"></i>
                                     </div>
                                     <div class="media-body text-xs-right">
-                                        {{-- <h3 class="teal">{{$courses_regs->count()}}</h3>  --}}
-                                        <h3 class="teal">{{ $courses }}</h3>
-                                        <h5>الدورات</h5>
+                                        <h3 class="teal">{{ $totalExams }}</h3>
+                                        <h5>عدد الامتحانات الكلي</h5>
                                     </div>
                                 </div>
                             </div>
@@ -39,81 +31,67 @@
                     </div>
                 </div>
 
+                <!-- Upcoming Exams -->
                 <div class="col-xl-3 col-lg-6 col-xs-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-block">
                                 <div class="media">
                                     <div class="media-left media-middle">
-                                        <i class="fa fa-graduation-cap teal font-large-2 float-xs-right"></i>
+                                        <i class="fa fa-calendar-plus-o teal font-large-2 float-xs-right"></i>
                                     </div>
                                     <div class="media-body text-xs-right">
-                                        {{-- <h3 class="teal">{{$courses_regs->sum('price')}}</h3>  --}}
-                                        <h3 class="teal">{{ $students }}</h3>
-                                        <h5>الطلاب</h5>
+                                        <h3 class="teal">{{ $upcomingExams }}</h3>
+                                        <h5>الامتحانات القادمة</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Ongoing Exams -->
                 <div class="col-xl-3 col-lg-6 col-xs-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-block">
                                 <div class="media">
                                     <div class="media-left media-middle">
-                                        <i class="icon icon-money1 teal font-large-2 float-xs-right"></i>
+                                        <i class="fa fa-hourglass-half teal font-large-2 float-xs-right"></i>
                                     </div>
-                                    <?php
-                                    // $paid = 0 ;
-                                    // if(!empty($courses_regs)){
-                                    //     foreach ($courses_regs as $one_reg) {
-                                    //         $paid = $paid + $one_reg->payments->sum('amount');
-                                    //     }
-                                    // }
-                                    ?>
                                     <div class="media-body text-xs-right">
-                                        {{-- <h3 class="teal">{{$paid}} --}}
-                                        <h3 class="teal">{{ $tot_amounts }}</h3>
-                                        <h5>الإيراد</h5>
+                                        <h3 class="teal">{{ $ongoingExams }}</h3>
+                                        <h5>الامتحانات الجارية</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Finished Exams -->
                 <div class="col-xl-3 col-lg-6 col-xs-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-block">
                                 <div class="media">
                                     <div class="media-left media-middle">
-                                        <i class="fa fa-money teal font-large-2 float-xs-right"></i>
+                                        <i class="fa fa-check-square-o teal font-large-2 float-xs-right"></i>
                                     </div>
                                     <div class="media-body text-xs-right">
-                                        {{-- <h3 class="teal">{{$courses_regs->sum('price') - $paid}}</h3> --}}
-                                        <h3 class="teal">{{ $rest_amounts }}</h3>
-                                        <h5>المبالغ غير مسددة</h5>
+                                        <h3 class="teal">{{ $finishedExams }}</h3>
+                                        <h5>الامتحانات المنتهية</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-
                     </div>
                 </div>
 
             </div>
+
+            <!-- You can add more exam-related widgets here -->
+
         </div>
     </div>
 @endsection

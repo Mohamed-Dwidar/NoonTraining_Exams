@@ -1,0 +1,13 @@
+{
+    "name": "ExamModule",
+    "alias": "exammodule",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ExamModule\\App\\Providers\\ExamModuleServiceProvider",
+        "Modules\\ExamModule\\App\\Providers\\RouteServiceProvider",
+        "Modules\\ExamModule\\App\\Providers\\EventServiceProvider"
+    ],
+    "files": []
+}

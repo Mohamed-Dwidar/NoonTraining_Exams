@@ -22,7 +22,7 @@ class AdminAuthController extends Controller
     public function index()
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.courses');
+            return redirect()->route('admin.dashboard');
         } else {
             return view('adminmodule::login');
         }

@@ -38,12 +38,6 @@
         href="{{ asset('admin-assets/vendors/css/pickers/pickadate/pickadate.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-
-
-    {{-- <link rel="stylesheet"
-                href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="{{ asset('admin-assets/vendors/css/jquery.comiseo.daterangepicker.css') }}"> --}}
-
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style-admin.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/colors-admin.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('admin-assets/fonts/fontawesome/css/font-awesome.min.css') }}">
@@ -95,8 +89,6 @@
     <script src="{{ asset('admin-assets/js/core/app.js') }}" type="text/javascript"></script>
     <!-- END ROBUST JS-->
     <!-- BEGIN PAGE LEVEL JS-->
-    {{-- <script src="{{ asset('admin-assets/js/scripts/pages/dashboard-lite.js') }}" type="text/javascript">
-        </script> --}}
     <!-- END PAGE LEVEL JS-->
 
     <script src="{{ asset('admin-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
