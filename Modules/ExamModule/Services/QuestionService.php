@@ -8,67 +8,86 @@ use Illuminate\Validation\ValidationException;
 
 class QuestionService
 {
-    private $questionRepository;
-    private $answerRepository;
+    private $questions;
+    private $answers;
 
     public function __construct(
         QuestionRepository $questionRepository,
         AnswerRepository $answerRepository
     ) {
-        $this->questionRepository = $questionRepository;
-        $this->answerRepository   = $answerRepository;
+        $this->questions = $questionRepository;
+        $this->answers   = $answerRepository;
     }
 
     /**
-     * Create a question
+     * Create a single question
      */
     public function create(array $data)
     {
         $this->validateQuestion($data);
 
-        // Create question
-        $question = $this->questionRepository->create([
-            'exam_id'      => $data['exam_id'],
-            'type'         => $data['type'],
-            'question_text'=> $data['question_text'],
-            'options'      => $data['options'] ?? null,
-            'grade'        => $data['grade'] ?? 1,
+        $question = $this->questions->create([
+            'exam_id'       => $data['exam_id'],
+            'type'          => $data['type'],
+            'question_text' => $data['question_text'],
+            'options'       => $data['options'] ?? null,
         ]);
 
-        // Create answer via repository
-        $this->answerRepository->create([
-            'question_id'     => $question->id,
-            'correct_answer'  => $data['answer'],
+        $this->answers->create([
+            'question_id'    => $question->id,
+            'correct_answer' => $data['answer'],
         ]);
 
         return $question;
     }
 
     /**
-     * Update question
+     * CREATE + UPDATE MULTIPLE QUESTIONS
+     */
+    public function createMultiple(array $questions, $examId)
+    {
+        $saved = [];
+
+        foreach ($questions as $q) {
+            $q['exam_id'] = $examId;
+
+            // UPDATE
+            if (!empty($q['id'])) {
+                $saved[] = $this->update($q);
+            }
+            // CREATE
+            else {
+                $saved[] = $this->create($q);
+            }
+        }
+
+        return $saved;
+    }
+
+    /**
+     * Update a question
      */
     public function update(array $data)
     {
         $this->validateQuestion($data);
 
-        // Update question
-        $question = $this->questionRepository->update([
-            'type'         => $data['type'],
-            'question_text'=> $data['question_text'],
-            'options'      => $data['options'] ?? null,
-            'grade'        => $data['grade'] ?? 1,
+        $question = $this->questions->update([
+            'type'          => $data['type'],
+            'question_text' => $data['question_text'],
+            'options'       => $data['options'] ?? null,
         ], $data['id']);
 
-        // Update or create answer
-        $answer = $this->answerRepository->findByQuestionId($data['id']);
+        // Fetch answer by question_id not by ID
+        $answer = $this->answers->findByQuestionId($data['id']);
+
         if ($answer) {
-            $this->answerRepository->update([
-                'correct_answer' => $data['answer']
+            $this->answers->update([
+                'correct_answer' => $data['answer'],
             ], $answer->id);
         } else {
-            $this->answerRepository->create([
+            $this->answers->create([
                 'question_id'    => $data['id'],
-                'correct_answer' => $data['answer']
+                'correct_answer' => $data['answer'],
             ]);
         }
 
@@ -76,12 +95,23 @@ class QuestionService
     }
 
     /**
-     * Question Validation Logic
+     * Validate question data
      */
     private function validateQuestion(array $data)
     {
-        if ($data['type'] === 'mcq') {
+        if (!isset($data['type'])) {
+            throw ValidationException::withMessages(['type' => 'Question type is required.']);
+        }
 
+        if (!isset($data['answer'])) {
+            throw ValidationException::withMessages(['answer' => 'Answer is required.']);
+        }
+
+        if (!isset($data['question_text'])) {
+            throw ValidationException::withMessages(['question_text' => 'Question text is required.']);
+        }
+
+        if ($data['type'] === 'mcq') {
             if (empty($data['options']) || !is_array($data['options'])) {
                 throw ValidationException::withMessages([
                     'options' => 'MCQ questions require options as an array.'
@@ -93,15 +123,12 @@ class QuestionService
                     'answer' => 'Answer must be one of the MCQ options.'
                 ]);
             }
-
         } elseif ($data['type'] === 'true_false') {
-
             if (!in_array(strtolower($data['answer']), ['true', 'false'])) {
                 throw ValidationException::withMessages([
                     'answer' => 'True/False answer must be "true" or "false".'
                 ]);
             }
-
         } else {
             throw ValidationException::withMessages([
                 'type' => 'Invalid question type.'
@@ -109,25 +136,14 @@ class QuestionService
         }
     }
 
-    /**
-     * Get all questions for an exam
-     */
-    public function getQuestionsByExam($examId)
-    {
-        return $this->questionRepository->where('exam_id', $examId)->get();
-    }
-
-    /**
-     * Delete a question and its answer
-     */
     public function delete($id)
     {
-        // Delete answer via repository
-        $answer = $this->answerRepository->findByQuestionId($id);
+        $answer = $this->answers->findByQuestionId($id);
+
         if ($answer) {
-            $this->answerRepository->delete($answer->id);
+            $this->answers->delete($answer->id);
         }
 
-        return $this->questionRepository->delete($id);
+        return $this->questions->delete($id);
     }
 }

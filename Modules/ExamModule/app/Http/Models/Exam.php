@@ -6,6 +6,7 @@ namespace Modules\ExamModule\app\Http\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\UserModule\app\Http\Models\User;
+use Modules\ExamModule\app\Http\Models\Question;
 
 class Exam extends Model
 {
@@ -33,10 +34,10 @@ class Exam extends Model
     }
 
     // // If you will store questions in a table like exam_questions
-    // public function questions()
-    // {
-    //     return $this->hasMany(ExamQuestion::class, 'exam_id');
-    // }
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'exam_id');
+    }
 
     // // If you will store submissions/attempts
     // public function attempts()

@@ -12,4 +12,9 @@ class AnswerRepository extends BaseRepository
         return Answer::class;
     }
 
+    public function findByQuestionId($questionId)
+    {
+        return Answer::where('question_id', $questionId)->first();
+    }
+
 }

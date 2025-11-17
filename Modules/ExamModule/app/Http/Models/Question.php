@@ -26,6 +26,11 @@ class Question extends Model
         return $this->belongsTo(Exam::class);
     }
 
+    public function answer()
+    {
+        return $this->hasOne(Answer::class);
+    }
+
     /**
      * Validate that the correct answer matches the question type
      */

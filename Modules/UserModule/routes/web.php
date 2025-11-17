@@ -14,8 +14,8 @@ Route::group(['prefix' => 'admin/users', 'middleware' => ['auth:admin']], functi
 });
 
 Route::prefix('user')->group(function () {
-    Route::get('/', 'Auth\UserAuthController@loginForm')->name('user.loginForm');
-    Route::get('login', 'Auth\UserAuthController@loginForm')->name('user.loginForm');
+    Route::get('/', 'Auth\UserAuthController@loginForm');
+    Route::get('login', 'Auth\UserAuthController@loginForm');
     Route::post('login', 'Auth\UserAuthController@login')->name('user.loginpost');
 });
 

@@ -17,7 +17,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route(Auth::getDefaultDriver().'.exams.index') }}" class="@if (Request::segment(2) == 'exams') active @endif">
+                    <a href="{{ route(Auth::getDefaultDriver().'.exam.index') }}" class="@if (Request::segment(2) == 'exams') active @endif">
                         <i class="fa fa-exams"></i>
                         <span data-i18n="nav.dash.main" class="menu-title">الامتحانات</span>
                     </a>
