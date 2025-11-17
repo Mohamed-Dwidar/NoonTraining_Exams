@@ -12,7 +12,7 @@
             </div>
         </div>
         <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2">
-            <span>برنامج الحسابات</span></h6>
+            <span>برنامج الاختبارات</span></h6>
             <h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2">
                 <span>تسجيل دخول مدير البرنامج</span></h6>
     </div>

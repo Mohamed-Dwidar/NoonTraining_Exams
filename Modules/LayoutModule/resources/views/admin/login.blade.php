@@ -8,7 +8,7 @@
     <meta name="description" content="لوحه تحكم الإدارة">
     <meta name="keywords" content="لوحه تحكم الإدارة">
     <meta name="author" content="PIXINVENT">
-    <title> برنامج الحسابات | مركز نون</title>
+    <title> برنامج الاختبارات | مركز نون</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
     <meta name="apple-mobile-web-app-capable" content="yes">
