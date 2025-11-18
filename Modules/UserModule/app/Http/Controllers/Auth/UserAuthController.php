@@ -18,10 +18,19 @@ class UserAuthController extends Controller
         $this->userService = $userService;
     }
 
+    public function dashboard()
+    {
+        if (Auth::guard('user')->check()) {
+            return view('usermodule::user.dashboard');
+        } else {
+            return redirect('user/login');
+        }
+    }
+
     public function loginForm()
     {
         if (Auth::guard('user')->check()) {
-            return redirect()->route('user.courses');
+           return redirect()->route('user.dashboard');
         } else {
             return view('usermodule::login');
         }
@@ -38,7 +47,7 @@ class UserAuthController extends Controller
             ],
             $rememberme
         )) {
-            return redirect()->intended('user');
+            return redirect()->intended('user/dashboard');
         }
 
         return redirect()->back()->withErrors(['error' => 'البريد الأليكتروني او كلمة المرور غير صحيحة']);

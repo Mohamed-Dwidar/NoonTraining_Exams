@@ -4,10 +4,10 @@ namespace Modules\ExamModule\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Modules\ExamModule\Services\ExamService;
 use Modules\ExamModule\Services\QuestionService;
-use Illuminate\Validation\ValidationException;
 
 class ExamModuleController extends Controller
 {
@@ -20,26 +20,17 @@ class ExamModuleController extends Controller
         $this->questionService = $questionService;
     }
 
-    /**
-     * List all exams
-     */
     public function index()
     {
         $exams = $this->examService->findAll();
         return view('exammodule::admin.index', compact('exams'));
     }
 
-    /**
-     * Show create form (can be empty exam)
-     */
     public function create()
     {
-        return view('exammodule::admin.create'); // same blade for create/edit
+        return view('exammodule::admin.create');
     }
 
-    /**
-     * Store a new exam (can be empty)
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -60,23 +51,17 @@ class ExamModuleController extends Controller
         }
 
         $exam = $this->examService->create($request->all());
-
-        return redirect()->route('admin.exam.edit', $exam->id)
+        
+        return redirect()->route(Auth::getDefaultDriver() . '.exam.edit', $exam->id)
             ->with('success', 'تم إنشاء الامتحان بنجاح. يمكنك الآن إضافة الأسئلة.');
     }
 
-    /**
-     * Show edit form with questions
-     */
     public function edit($id)
     {
-        $exam = $this->examService->findOne($id); // includes questions & answers
+        $exam = $this->examService->findOne($id);
         return view('exammodule::admin.edit', compact('exam'));
     }
 
-    /**
-     * Update exam info
-     */
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -99,21 +84,17 @@ class ExamModuleController extends Controller
         $request->merge(['id' => $id]);
         $this->examService->update($request->all());
 
-        return redirect()->route('admin.exam.edit', $id)
+        return redirect()->route(Auth::getDefaultDriver() . '.exam.edit', $id)
             ->with('success', 'تم تحديث بيانات الامتحان.');
     }
 
-    /**
-     * Delete an exam
-     */
     public function destroy($id)
     {
         $this->examService->deleteOne($id);
 
-        return redirect()->route('admin.exam.index')
+        return redirect()->route(Auth::getDefaultDriver() . '.exam.index')
             ->with('success', 'تم حذف الامتحان بنجاح.');
     }
-
 
     public function questions($id)
     {
@@ -123,14 +104,10 @@ class ExamModuleController extends Controller
 
     public function showQuestions($examId)
     {
-        $exam = $this->examService->findOne($examId); // includes questions & answers
+        $exam = $this->examService->findOne($examId);
         return view('exammodule::questions.show', compact('exam'));
     }
 
-
-    /**
-     * Store multiple questions at once
-     */
     public function storeQuestion(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -150,7 +127,7 @@ class ExamModuleController extends Controller
         $questionsData = [];
         foreach ($request->questions as $question) {
             $questionsData[] = [
-                'id' => $question['id'] ?? null, // include ID for existing
+                'id' => $question['id'] ?? null,
                 'question_text' => $question['question_text'],
                 'type' => $question['type'],
                 'options' => $question['type'] === 'mcq' ? ($question['options'] ?? null) : null,
@@ -160,15 +137,10 @@ class ExamModuleController extends Controller
 
         $this->questionService->createMultiple($questionsData, $request->exam_id);
 
-        return redirect()->route('exammodule::questions.show', $request->exam_id)
+        return redirect()->route(Auth::getDefaultDriver() . '.exam.question.show', $request->exam_id)
             ->with('success', 'تم حفظ جميع الأسئلة بنجاح.');
     }
 
-
-
-    /**
-     * Update a single question
-     */
     public function updateQuestion(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -193,9 +165,6 @@ class ExamModuleController extends Controller
         return back()->with('success', 'تم تحديث السؤال بنجاح.');
     }
 
-    /**
-     * Delete a single question
-     */
     public function deleteQuestion($id)
     {
         $this->questionService->delete($id);

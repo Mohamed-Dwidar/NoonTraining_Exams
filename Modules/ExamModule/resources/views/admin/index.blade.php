@@ -62,17 +62,19 @@
 
                                                     <td>
                                                         <a class="btn btn-warning"
-                                                            href="{{ route('admin.exam.edit', $exam->id) }}" role="button">
+                                                            href="{{ route(Auth::getDefaultDriver() . '.exam.edit', $exam->id) }}"
+                                                            role="button">
                                                             تعديل
                                                         </a>
 
                                                         <a class="btn btn-danger"
-                                                            href="{{ route('admin.exam.delete', $exam->id) }}"
+                                                            href="{{ route(Auth::getDefaultDriver() . '.exam.delete', $exam->id) }}"
                                                             onclick="return confirm('هل انت متأكد انك تريد حذف هذا الامتحان ؟')"
                                                             role="button">
                                                             حذف
                                                         </a>
                                                     </td>
+
                                                 </tr>
                                             @endforeach
                                         @endif
@@ -85,7 +87,10 @@
 
                             @include('layoutmodule::admin.flash')
 
-                            <a href="{{ route('admin.exam.create') }}" class="btn btn-primary mb-3">إنشاء امتحان جديد</a>
+                            <a href="{{ route(Auth::getDefaultDriver() . '.exam.create') }}" class="btn btn-primary mb-3">
+                                إنشاء امتحان جديد
+                            </a>
+
 
                             <div class="card">
                                 <div class="card-body">
@@ -104,22 +109,25 @@
                                                     <td>{{ $exam->title }}</td>
                                                     <td>{{ $exam->start_date }} - {{ $exam->end_date }}</td>
                                                     <td>
-                                                        <a href="{{ route('question.list', $exam->id) }}"
+
+                                                        <a href="{{ route(Auth::getDefaultDriver() . '.exam.question.list', $exam->id) }}"
                                                             class="btn btn-success btn-sm">
                                                             إضافة الأسئلة / تعديل
                                                         </a>
 
-                                                        <a href="{{ route('question.show', $exam->id) }}"
+                                                        <a href="{{ route(Auth::getDefaultDriver() . '.exam.question.show', $exam->id) }}"
                                                             class="btn btn-info btn-sm">
                                                             عرض الأسئلة والإجابات
                                                         </a>
 
-                                                        <a href="{{ route('admin.exam.delete', $exam->id) }}"
+                                                        <a href="{{ route(Auth::getDefaultDriver() . '.exam.delete', $exam->id) }}"
                                                             class="btn btn-danger btn-sm"
                                                             onclick="return confirm('هل انت متأكد انك تريد حذف هذا الامتحان ؟')">
                                                             حذف الامتحان
                                                         </a>
+
                                                     </td>
+
 
                                                 </tr>
                                             @endforeach
@@ -132,8 +140,6 @@
                     </div>
 
                 @endsection
-
-
             </div>
         </div>
 
