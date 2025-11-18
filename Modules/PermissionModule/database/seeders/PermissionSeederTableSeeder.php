@@ -34,14 +34,12 @@ class PermissionSeederTableSeeder extends Seeder
             ]);
         }
 
-        // Optional: create roles and assign permissions
         // DB::table('roles')->truncate();
         // DB::table('role_has_permissions')->truncate();
 
-        // Example role assignment
         $roles = [
             'Admin' => ['create_exam', 'create_questions', 'create_student'],
-            'Moderator' => ['create_exam', 'create_questions', 'create_student'], // customize
+            'Moderator' => ['create_exam', 'create_questions', 'create_student'], 
         ];
 
         foreach ($roles as $roleName => $rolePermissions) {

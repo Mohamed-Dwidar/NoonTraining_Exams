@@ -15,7 +15,7 @@ class PermissionModuleDatabaseSeeder extends Seeder
         // 1️⃣ Define All Permissions in System (English => Arabic)
         // ======================================
         $permissions = [
-            'manage_users'     => 'إدارة الطلاب',        // create / edit / delete students
+            'manage_students'     => 'إدارة الطلاب',        // create / edit / delete students
             'manage_exams'     => 'إدارة الاختبارات',   // create / update exams
             'manage_questions' => 'إدارة الأسئلة',      // create / update questions
             'manage_answers'   => 'إدارة الإجابات',     // create answers

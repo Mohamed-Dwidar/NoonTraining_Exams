@@ -109,23 +109,26 @@
                                                     <td>{{ $exam->title }}</td>
                                                     <td>{{ $exam->start_date }} - {{ $exam->end_date }}</td>
                                                     <td>
+                                                        @if (auth()->user() && auth()->user()->hasPermission('manage_exams'))
+                                                            <a href="{{ route(Auth::getDefaultDriver() . '.exam.question.list', $exam->id) }}"
+                                                                class="btn btn-success btn-sm">
+                                                                إضافة الأسئلة / تعديل
+                                                            </a>
+                                                        @endif
 
-                                                        <a href="{{ route(Auth::getDefaultDriver() . '.exam.question.list', $exam->id) }}"
-                                                            class="btn btn-success btn-sm">
-                                                            إضافة الأسئلة / تعديل
-                                                        </a>
-
-                                                        <a href="{{ route(Auth::getDefaultDriver() . '.exam.question.show', $exam->id) }}"
-                                                            class="btn btn-info btn-sm">
-                                                            عرض الأسئلة والإجابات
-                                                        </a>
-
-                                                        <a href="{{ route(Auth::getDefaultDriver() . '.exam.delete', $exam->id) }}"
-                                                            class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('هل انت متأكد انك تريد حذف هذا الامتحان ؟')">
-                                                            حذف الامتحان
-                                                        </a>
-
+                                                        @if (auth()->user() && auth()->user()->hasPermission('manage_exams'))
+                                                            <a href="{{ route(Auth::getDefaultDriver() . '.exam.question.show', $exam->id) }}"
+                                                                class="btn btn-info btn-sm">
+                                                                عرض الأسئلة والإجابات
+                                                            </a>
+                                                        @endif
+                                                        @if (auth()->user() && auth()->user()->hasPermission('manage_exams'))
+                                                            <a href="{{ route(Auth::getDefaultDriver() . '.exam.delete', $exam->id) }}"
+                                                                class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('هل انت متأكد انك تريد حذف هذا الامتحان ؟')">
+                                                                حذف الامتحان
+                                                            </a>
+                                                        @endif
                                                     </td>
 
 
