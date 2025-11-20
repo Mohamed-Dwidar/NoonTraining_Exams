@@ -8,7 +8,7 @@
     @include('layoutmodule::admin.flash')
 
     <div class="card">
-        <div class="card-body">
+        <div class="card-body p-3">
 
             <form method="POST" action="{{ route('admin.exam.store') }}">
                 @csrf
