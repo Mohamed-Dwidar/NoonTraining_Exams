@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\ExamModule\app\Http\Models;
+namespace Modules\QuestionModule\app\Http\Models;
 
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;

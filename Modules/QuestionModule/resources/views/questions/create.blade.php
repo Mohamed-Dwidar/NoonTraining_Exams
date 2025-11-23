@@ -7,7 +7,7 @@
 
         @include('layoutmodule::admin.flash')
 
-        <h3 class="mb-4">الأسئلة الخاصة بالامتحان: <span class="text-primary">{{ $exam->title }}</span></h3>
+        <h3 class="mb-4">بنك الاسئله : <span class="text-primary">{{ $exam->title }}</span></h3>
 
         <div class="card shadow-sm p-4 mb-4">
             <div class="card-body p-3">
