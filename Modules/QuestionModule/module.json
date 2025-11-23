@@ -1,0 +1,11 @@
+{
+    "name": "QuestionModule",
+    "alias": "questionmodule",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\QuestionModule\\Providers\\QuestionModuleServiceProvider"
+    ],
+    "files": []
+}

@@ -3,5 +3,6 @@
     "LayoutModule": true,
     "PermissionModule": true,
     "UserModule": true,
-    "ExamModule": true
+    "ExamModule": true,
+    "QuestionModule": true
 }
