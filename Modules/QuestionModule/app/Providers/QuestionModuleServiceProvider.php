@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\QuestionModule\Providers;
+namespace Modules\QuestionModule\App\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;

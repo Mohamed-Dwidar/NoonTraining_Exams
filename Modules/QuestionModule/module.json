@@ -5,7 +5,9 @@
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\QuestionModule\\Providers\\QuestionModuleServiceProvider"
+        "Modules\\QuestionModule\\App\\Providers\\QuestionModuleServiceProvider",
+        "Modules\\QuestionModule\\App\\Providers\\RouteServiceProvider",
+        "Modules\\QuestionModule\\App\\Providers\\EventServiceProvider"
     ],
     "files": []
 }

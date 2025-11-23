@@ -109,7 +109,7 @@
                                                     <td>{{ $exam->title }}</td>
                                                     <td>{{ $exam->start_date }} - {{ $exam->end_date }}</td>
                                                     <td>
-                                                        @if (auth()->user() && auth()->user()->hasPermission('manage_exams'))
+                                                        {{-- @if (auth()->user() && auth()->user()->hasPermission('manage_exams'))
                                                             <a href="{{ route(Auth::getDefaultDriver() . '.exam.question.list', $exam->id) }}"
                                                                 class="btn btn-success btn-sm">
                                                                 إضافة الأسئلة / تعديل
@@ -120,6 +120,12 @@
                                                             <a href="{{ route(Auth::getDefaultDriver() . '.exam.question.show', $exam->id) }}"
                                                                 class="btn btn-info btn-sm">
                                                                 عرض الأسئلة والإجابات
+                                                            </a>
+                                                        @endif --}}
+                                                        @if (auth()->user() && auth()->user()->hasPermission('manage_exams'))
+                                                            <a href="{{ route(Auth::getDefaultDriver() . '.exam.edit', $exam->id) }}"
+                                                                class="btn btn-warning btn-sm">
+                                                                تعديل الامتحان
                                                             </a>
                                                         @endif
                                                         @if (auth()->user() && auth()->user()->hasPermission('manage_exams'))
