@@ -23,7 +23,7 @@
                             <div class="col-lg-12 col-12">
 
                                 <form class="card-form side-form" method="POST"
-                                      action="{{ route('admin.exam.update') }}">
+                                      action="{{ route(Auth::getDefaultDriver() .'.exam.update') }}">
                                     @csrf
 
                                     <input type="hidden" name="id" value="{{ $exam->id }}">

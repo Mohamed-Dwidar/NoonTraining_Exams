@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\ExamModule\app\Http\Models;
+namespace Modules\QuestionModule\app\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\ExamModule\app\Http\Models\Answer;
-use Modules\ExamModule\app\Http\Models\Exam;
+use Modules\QuestionModule\app\Http\Models\Category;
+use Modules\QuestionModule\app\Http\Models\Answer;
 
 class Question extends Model
 {
@@ -21,15 +21,17 @@ class Question extends Model
         'options' => 'array',   // A, B, C, D stored in JSON
     ];
 
-    public function exam()
-    {
-        return $this->belongsTo(Exam::class);
-    }
 
     public function answer()
     {
         return $this->hasOne(Answer::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 
     /**
      * Validate that the correct answer matches the question type

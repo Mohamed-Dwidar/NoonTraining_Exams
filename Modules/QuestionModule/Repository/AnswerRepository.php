@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\ExamModule\Repository;
+namespace Modules\QuestionModule\Repository;
 
-use Modules\ExamModule\app\Http\Models\Answer;
+use Modules\QuestionModule\app\Http\Models\Answer;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class AnswerRepository extends BaseRepository

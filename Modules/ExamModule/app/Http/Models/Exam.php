@@ -1,18 +1,19 @@
 <?php
 
-namespace Modules\QuestionModule\app\Http\Models;
+namespace Modules\ExamModule\app\Http\Models;
 
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\UserModule\app\Http\Models\User;
-use Modules\ExamModule\app\Http\Models\Question;
+use Modules\QuestionModule\app\Http\Models\Category;
 
 class Exam extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'category_id',
         'title',
         'description',
         'start_date',
@@ -33,10 +34,9 @@ class Exam extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    // // If you will store questions in a table like exam_questions
-    public function questions()
+    public function category()
     {
-        return $this->hasMany(Question::class, 'exam_id');
+        return $this->belongsTo(Category::class);
     }
 
     // // If you will store submissions/attempts

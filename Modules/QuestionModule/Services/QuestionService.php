@@ -1,10 +1,11 @@
 <?php
 
-namespace Modules\ExamModule\Services;
+namespace Modules\QuestionModule\Services;
 
-use Modules\ExamModule\Repository\QuestionRepository;
-use Modules\ExamModule\Repository\AnswerRepository;
+
 use Illuminate\Validation\ValidationException;
+use Modules\QuestionModule\Repository\AnswerRepository;
+use Modules\QuestionModule\Repository\QuestionRepository;
 
 class QuestionService
 {
@@ -27,7 +28,7 @@ class QuestionService
         $this->validateQuestion($data);
 
         $question = $this->questions->create([
-            'exam_id'       => $data['exam_id'],
+            'category_id'       => $data['category_id'],
             'type'          => $data['type'],
             'question_text' => $data['question_text'],
             'options'       => $data['options'] ?? null,
@@ -49,7 +50,7 @@ class QuestionService
         $saved = [];
 
         foreach ($questions as $q) {
-            $q['exam_id'] = $examId;
+            $q['category_id'] = $examId;
 
             // UPDATE
             if (!empty($q['id'])) {

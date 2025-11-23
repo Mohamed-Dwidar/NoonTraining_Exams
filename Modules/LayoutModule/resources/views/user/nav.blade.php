@@ -22,7 +22,13 @@
                     </li>
                 @endif
 
-
+                <li class="nav-item">
+                    <a href="{{ route(Auth::getDefaultDriver() . '.categories.index') }}"
+                        class="@if (Request::segment(2) == 'exam') active @endif">
+                        <i class="fa fa-book"></i>
+                        <span data-i18n="nav.dash.main" class="menu-title"></span>
+                    </a>
+                </li>
 
             </ul>
         </nav>
