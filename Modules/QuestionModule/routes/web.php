@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\QuestionModule\app\Http\Controllers\CategoryController;
-use Modules\QuestionModule\Http\Controllers\QuestionModuleController;
+use Modules\QuestionModule\app\Http\Controllers\QuestionModuleController;
 
 foreach (['admin', 'user'] as $guard) {
 
@@ -12,18 +12,22 @@ foreach (['admin', 'user'] as $guard) {
         ->group(function () {
 
             // Questions routes
+            Route::get('question', [QuestionModuleController::class, 'indexQuestions'])
+                ->name('questions.index');
+
+            Route::get('question/create', [QuestionModuleController::class, 'createQuestion'])
+                ->name('question.create');
+
             Route::post('question/store', [QuestionModuleController::class, 'storeQuestion'])
                 ->name('question.store');
 
             Route::put('question/{id}/update', [QuestionModuleController::class, 'updateQuestion'])
-                ->name('question.update')
-                ->middleware("permission:edit_questions");
+                ->name('question.update');
 
             Route::get('question/{id}/delete', [QuestionModuleController::class, 'deleteQuestion'])
-                ->name('question.delete')
-                ->middleware("permission:delete_questions");
+                ->name('question.delete');
 
-            // Category routes (all CRUD manually)
+
             Route::get('categories', [CategoryController::class, 'index'])
                 ->name('categories.index');
 

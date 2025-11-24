@@ -20,6 +20,11 @@ class QuestionService
         $this->answers   = $answerRepository;
     }
 
+    public function findAll()
+    {
+        return $this->questions->all();
+    }
+
     /**
      * Create a single question
      */

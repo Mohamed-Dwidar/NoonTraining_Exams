@@ -21,6 +21,7 @@ class ExamService
     {
         $exam_data = [
             'title' => $data['title'],
+            'category_id'   => $data['category_id'],
             'description' => $data['description'] ?? null,
             'start_date' => $data['start_date'],
             'end_date' => $data['end_date'],
@@ -32,7 +33,6 @@ class ExamService
             'total_grade' => $data['total_grade'],
             'created_by' => auth()->id(),
         ];
-
         return $this->examRepository->create($exam_data);
     }
 

@@ -28,6 +28,24 @@
 
                                     <input type="hidden" name="id" value="{{ $exam->id }}">
 
+                                    {{-- Category --}}
+                                    <div class="row">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
+                                            <label for="category_id">التصنيف</label>
+                                            <div class="form-group">
+                                                <select class="form-control" id="category_id" name="category_id">
+                                                    <option value="">-- اختر التصنيف --</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}"
+                                                            {{ old('category_id', $exam->category_id) == $category->id ? 'selected' : '' }}>
+                                                            {{ $category->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {{-- Title --}}
                                     <div class="row">
                                         <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
@@ -137,6 +155,7 @@
                                     </div>
 
                                 </form>
+
                             </div>
                             <div class="col-lg-1 col-1"></div>
                         </div>

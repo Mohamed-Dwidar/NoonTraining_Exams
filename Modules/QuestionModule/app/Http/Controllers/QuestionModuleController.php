@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\QuestionModule\Http\Controllers;
+namespace Modules\QuestionModule\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,14 +21,16 @@ class QuestionModuleController extends Controller
     // ================= Questions =================
     public function indexQuestions()
     {
+        $categories = Category::all();
         $questions = $this->questionService->findAll();
-        return view('questionmodule::admin.questions.index', compact('questions'));
+        return view('questionmodule::questions.index', compact('questions', 'categories'));
     }
 
     public function createQuestion()
     {
         $categories = Category::all();
-        return view('questionmodule::admin.questions.create', compact('categories'));
+        $questions = $this->questionService->findAll();
+        return view('questionmodule::questions.create', compact('categories', 'questions'));
     }
 
     public function storeQuestion(Request $request)
@@ -61,7 +63,7 @@ class QuestionModuleController extends Controller
     {
         $question = $this->questionService->findOne($id);
         $categories = Category::all();
-        return view('questionmodule::admin.questions.edit', compact('question', 'categories'));
+        return view('questionmodule::questions.edit', compact('question', 'categories'));
     }
 
     public function updateQuestion(Request $request, $id)

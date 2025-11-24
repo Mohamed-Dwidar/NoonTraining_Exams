@@ -12,7 +12,7 @@
         <a href="{{ route(Auth::getDefaultDriver() . '.categories.create') }}" class="btn btn-primary">إضافة تصنيف</a>
     </div>
 
-    <div class="card shadow-sm p-3">
+    <div class="card shadow-sm p-3 mt-2">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>

@@ -3,139 +3,163 @@
 @section('title', 'إنشاء امتحان جديد')
 
 @section('content')
-
-<div class="container-fluid" dir="rtl">
-    @include('layoutmodule::admin.flash')
-
-    <div class="card shadow-sm p-4">
-        <div class="card-header bg-white d-flex align-items-center justify-content-between">
-            <h5 class="mb-0">إنشاء امتحان جديد</h5>
-        </div>
-
-        <div class="card-body p-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form method="POST" action="{{ route(Auth::getDefaultDriver() .'.exam.store') }}">
-                @csrf
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="title" class="form-label">عنوان الامتحان</label>
-                            <input id="title" type="text" name="title" value="{{ old('title') }}"
-                                   class="form-control @error('title') is-invalid @enderror" placeholder="أدخل عنوان الامتحان" required>
-                            @error('title')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="category_id" class="form-label">التصنيف</label>
-                            <select id="category_id" name="category_id"
-                                    class="form-control @error('category_id') is-invalid @enderror" required>
-                                <option value="">اختر التصنيف</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('category_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="start_date" class="form-label">تاريخ البداية</label>
-                            <input id="start_date" type="date" name="start_date" value="{{ old('start_date') }}"
-                                   class="form-control @error('start_date') is-invalid @enderror">
-                            @error('start_date')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="end_date" class="form-label">تاريخ النهاية</label>
-                            <input id="end_date" type="date" name="end_date" value="{{ old('end_date') }}"
-                                   class="form-control @error('end_date') is-invalid @enderror">
-                            @error('end_date')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="duration_minutes" class="form-label">المدة (بالدقائق)</label>
-                            <input id="duration_minutes" type="number" name="duration_minutes"
-                                   value="{{ old('duration_minutes') }}" min="1"
-                                   class="form-control @error('duration_minutes') is-invalid @enderror">
-                            @error('duration_minutes')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="total_questions" class="form-label">عدد الأسئلة</label>
-                            <input id="total_questions" type="number" name="total_questions"
-                                   value="{{ old('total_questions') }}" min="1"
-                                   class="form-control @error('total_questions') is-invalid @enderror">
-                            @error('total_questions')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="success_grade" class="form-label">درجة النجاح</label>
-                            <input id="success_grade" type="number" step="0.01" name="success_grade"
-                                   value="{{ old('success_grade') }}" min="0"
-                                   class="form-control @error('success_grade') is-invalid @enderror">
-                            @error('success_grade')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <label for="total_grade" class="form-label">الدرجة الكلية</label>
-                            <input id="total_grade" type="number" step="0.01" name="total_grade"
-                                   value="{{ old('total_grade') }}" min="0"
-                                   class="form-control @error('total_grade') is-invalid @enderror">
-                            @error('total_grade')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-footer bg-white border-0 mt-3 d-flex justify-content-between">
-                    <a href="{{ route(Auth::getDefaultDriver() .'.exam.index') }}" class="btn btn-outline-secondary">إلغاء</a>
-                    <button type="submit" class="btn btn-primary">إنشاء الامتحان</button>
-                </div>
-
-            </form>
+<div class="content-wrapper container-fluid">
+    <div class="content-header">
+        <div class="content-header-left mb-2 breadcrumb-new col">
+            <h3><i class="fa fa-file"></i> إنشاء امتحان جديد</h3>
         </div>
     </div>
-</div>
 
+    @include('layoutmodule::admin.flash')
+
+    <div class="content-body">
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col-lg-12 col-12">
+
+                                <form class="card-form side-form" method="POST"
+                                      action="{{ route(Auth::getDefaultDriver() .'.exam.store') }}">
+                                    @csrf
+
+                                    {{-- Category --}}
+                                    <div class="row">
+                                        <div class="col-lg-4 col-sm-12 col-6">
+                                            <label for="category_id">التصنيف</label>
+                                            <div class="form-group">
+                                                <select class="form-control" id="category_id" name="category_id">
+                                                    <option value="">-- اختر التصنيف --</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}"
+                                                            {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                            {{ $category->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Title --}}
+                                    <div class="row">
+                                        <div class="col-lg-4 col-sm-12 col-6">
+                                            <label for="title">عنوان الامتحان</label>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="title" name="title"
+                                                       value="{{ old('title') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Description --}}
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-12 col-12">
+                                            <label for="description">الوصف</label>
+                                            <div class="form-group">
+                                                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Dates --}}
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-12 col-6">
+                                            <label for="start_date">تاريخ البداية</label>
+                                            <div class="form-group">
+                                                <input type="date" class="form-control" id="start_date" name="start_date"
+                                                       value="{{ old('start_date') }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-sm-12 col-6">
+                                            <label for="end_date">تاريخ النهاية</label>
+                                            <div class="form-group">
+                                                <input type="date" class="form-control" id="end_date" name="end_date"
+                                                       value="{{ old('end_date') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Duration --}}
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-12 col-6">
+                                            <label for="duration_minutes">المدة (بالدقائق)</label>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="duration_minutes"
+                                                       name="duration_minutes"
+                                                       value="{{ old('duration_minutes') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Questions --}}
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-12 col-6">
+                                            <label for="total_questions">عدد الأسئلة</label>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="total_questions"
+                                                       name="total_questions"
+                                                       value="{{ old('total_questions') }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-sm-12 col-6">
+                                            <label for="mcq_count">عدد أسئلة الاختيار من متعدد</label>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="mcq_count"
+                                                       name="mcq_count"
+                                                       value="{{ old('mcq_count') }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-sm-12 col-6">
+                                            <label for="true_false_count">عدد أسئلة صح/خطأ</label>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="true_false_count"
+                                                       name="true_false_count"
+                                                       value="{{ old('true_false_count') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Grades --}}
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-12 col-6">
+                                            <label for="success_grade">درجة النجاح</label>
+                                            <div class="form-group">
+                                                <input type="number" step="0.01" class="form-control" id="success_grade"
+                                                       name="success_grade"
+                                                       value="{{ old('success_grade') }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-sm-12 col-6">
+                                            <label for="total_grade">الدرجة الكلية</label>
+                                            <div class="form-group">
+                                                <input type="number" step="0.01" class="form-control" id="total_grade"
+                                                       name="total_grade"
+                                                       value="{{ old('total_grade') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Submit --}}
+                                    <div class="col-12 mt-2">
+                                        <button type="submit" class="btn btn-primary">إنشاء الامتحان</button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            <div class="col-lg-1 col-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 @endsection
