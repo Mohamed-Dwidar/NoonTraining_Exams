@@ -4,5 +4,6 @@
     "PermissionModule": true,
     "UserModule": true,
     "ExamModule": true,
-    "QuestionModule": true
+    "QuestionModule": true,
+    "StudentModule": true
 }

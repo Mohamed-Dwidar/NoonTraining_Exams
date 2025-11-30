@@ -1,0 +1,13 @@
+{
+    "name": "StudentModule",
+    "alias": "studentmodule",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\StudentModule\\App\\Providers\\StudentModuleServiceProvider",
+         "Modules\\StudentModule\\App\\Providers\\RouteServiceProvider",
+        "Modules\\StudentModule\\App\\Providers\\EventServiceProvider"
+    ],
+    "files": []
+}
