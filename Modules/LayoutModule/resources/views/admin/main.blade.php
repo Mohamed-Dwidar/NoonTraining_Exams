@@ -16,7 +16,7 @@
     <!-- BEGIN VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css-rtl/bootstrap.css') }}">
     <!-- font icons-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/fonts/icomoon.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/fonts/icomoon.css') }}"> --}}
     {{-- <link rel="stylesheet" type="text/css"
                 href="{{ asset('admin-assets/fonts/flag-icon-css/css-rtl/flag-icon.min.css') }}"> --}}
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/vendors/css-rtl/extensions/pace.css') }}">
@@ -37,6 +37,10 @@
     <link rel="stylesheet" type="text/css"
         href="{{ asset('admin-assets/vendors/css/pickers/pickadate/pickadate.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Font Awesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKB4Imkb9l9+gqV0MZoHLM2lSXZ1rtB8F7R9E5yNEdaJv0J8B+Dm/o9H9H8w+P6JvJzk5Fyw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style-admin.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/colors-admin.css') }}">

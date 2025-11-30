@@ -36,7 +36,6 @@
                                 data-index="{{ $index }}">
                                 <div class="card-body">
                                     <div class="row align-items-end">
-                                        <!-- الفئة -->
                                         <div class="col-md-3 mb-3">
                                             <label class="form-label fw-semibold">الفئة <span class="text-danger">*</span></label>
                                             <select name="questions[{{ $index }}][category_id]" class="form-select" required>
@@ -50,7 +49,6 @@
                                             <div class="invalid-feedback">يرجى اختيار الفئة</div>
                                         </div>
 
-                                        <!-- نوع السؤال -->
                                         <div class="col-md-3 mb-3">
                                             <label class="form-label fw-semibold">نوع السؤال</label>
                                             <select name="questions[{{ $index }}][type]"
@@ -60,7 +58,6 @@
                                             </select>
                                         </div>
 
-                                        <!-- نص السؤال -->
                                         <div class="col-md-3 mb-3">
                                             <label class="form-label fw-semibold">نص السؤال <span class="text-danger">*</span></label>
                                             <input type="text" name="questions[{{ $index }}][question_text]"
@@ -68,7 +65,6 @@
                                             <div class="invalid-feedback">يرجى إدخال نص السؤال</div>
                                         </div>
 
-                                        <!-- الإجابة -->
                                         <div class="col-md-2 mb-3 answer-container">
                                             @if ($type === 'mcq')
                                                 <label class="form-label fw-semibold">الإجابة الصحيحة <span class="text-danger">*</span></label>
@@ -90,7 +86,6 @@
                                             @endif
                                         </div>
 
-                                        <!-- زر الحذف -->
                                         <div class="col-md-1 mb-3">
                                             <button type="button" class="btn btn-outline-danger btn-sm remove-question"
                                                 title="حذف السؤال">
@@ -99,7 +94,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- خيارات MCQ -->
                                     @if ($type === 'mcq')
                                         <div class="row mt-3 options-container">
                                             <div class="col-12">
@@ -184,15 +178,6 @@
             justify-content: center;
         }
 
-        .question-counter {
-            background: #4e73df;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
         .is-invalid {
             border-color: #e74a3b;
         }
@@ -214,19 +199,16 @@
             const container = document.getElementById('questions-container');
             const questionsCount = document.getElementById('questions-count');
 
-            // تحديث عداد الأسئلة
             function updateQuestionsCount() {
                 const count = document.querySelectorAll('.question-row').length;
                 questionsCount.textContent = `عدد الأسئلة: ${count}`;
             }
 
-            // إضافة سؤال جديد
             document.getElementById('add-question').addEventListener('click', function() {
                 const html = `
                 <div class="question-row card rounded p-3 mb-3 shadow-sm border-0" data-index="${questionIndex}">
                     <div class="card-body">
                         <div class="row align-items-end">
-                            <!-- الفئة -->
                             <div class="col-md-3 mb-3">
                                 <label class="form-label fw-semibold">الفئة <span class="text-danger">*</span></label>
                                 <select name="questions[${questionIndex}][category_id]" class="form-select" required>
@@ -238,7 +220,6 @@
                                 <div class="invalid-feedback">يرجى اختيار الفئة</div>
                             </div>
 
-                            <!-- نوع السؤال -->
                             <div class="col-md-3 mb-3">
                                 <label class="form-label fw-semibold">نوع السؤال</label>
                                 <select name="questions[${questionIndex}][type]" class="form-select question-type">
@@ -247,14 +228,12 @@
                                 </select>
                             </div>
 
-                            <!-- نص السؤال -->
                             <div class="col-md-3 mb-3">
                                 <label class="form-label fw-semibold">نص السؤال <span class="text-danger">*</span></label>
                                 <input type="text" name="questions[${questionIndex}][question_text]" class="form-control question-text" required>
                                 <div class="invalid-feedback">يرجى إدخال نص السؤال</div>
                             </div>
 
-                            <!-- الإجابة -->
                             <div class="col-md-2 mb-3 answer-container">
                                 <label class="form-label fw-semibold">الإجابة الصحيحة <span class="text-danger">*</span></label>
                                 <select name="questions[${questionIndex}][answer]" class="form-select" required>
@@ -267,7 +246,6 @@
                                 <div class="invalid-feedback">يرجى اختيار الإجابة الصحيحة</div>
                             </div>
 
-                            <!-- زر الحذف -->
                             <div class="col-md-1 mb-3">
                                 <button type="button" class="btn btn-outline-danger btn-sm remove-question" title="حذف السؤال">
                                     <i class="fas fa-trash"></i>
@@ -275,7 +253,6 @@
                             </div>
                         </div>
 
-                        <!-- خيارات MCQ -->
                         <div class="row mt-3 options-container">
                             <div class="col-12">
                                 <label class="form-label fw-semibold mb-2">خيارات الإجابة <span class="text-danger">*</span></label>
@@ -305,7 +282,6 @@
                 attachEventListeners();
             });
 
-            // تغيير نوع السؤال
             function handleTypeChange(select) {
                 const row = select.closest('.question-row');
                 const answerContainer = row.querySelector('.answer-container');
@@ -356,7 +332,6 @@
                 }
             }
 
-            // حذف سؤال
             function handleRemoveQuestion(button) {
                 const row = button.closest('.question-row');
                 row.style.opacity = '0';
@@ -367,14 +342,12 @@
                 }, 300);
             }
 
-            // إعادة ترقيم الأسئلة
             function reindexQuestions() {
                 document.querySelectorAll('.question-row').forEach((row, index) => {
                     row.setAttribute('data-index', index);
                 });
             }
 
-            // إرفاق مستمعي الأحداث
             function attachEventListeners() {
                 document.querySelectorAll('.question-type').forEach(select => {
                     select.removeEventListener('change', typeChangeHandler);
@@ -387,7 +360,6 @@
                 });
             }
 
-            // معالجات الأحداث
             function typeChangeHandler() {
                 handleTypeChange(this);
             }
@@ -396,7 +368,6 @@
                 handleRemoveQuestion(this);
             }
 
-            // التحقق من الصحة قبل الإرسال
             document.getElementById('questions-form').addEventListener('submit', function(e) {
                 const form = this;
                 if (!form.checkValidity()) {
@@ -406,7 +377,6 @@
                 form.classList.add('was-validated');
             });
 
-            // التهيئة الأولية
             updateQuestionsCount();
             attachEventListeners();
         });
