@@ -70,16 +70,6 @@
 
                                     <div class="row mb-3">
                                         <div class="col-lg-6">
-                                            <label class="form-label fw-bold">التصنيف</label>
-                                            <select name="category_id" class="form-control">
-                                                <option value="">اختر التصنيف</option>
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-lg-6">
                                             <label class="form-label fw-bold">كود الطالب</label>
                                             <input type="text" name="student_code" class="form-control" value="{{ old('student_code') }}">
                                         </div>

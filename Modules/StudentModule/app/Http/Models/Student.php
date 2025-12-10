@@ -20,8 +20,6 @@ class Student extends Authenticatable
         'gender',
         'student_code',
         'password',
-        'category_id',
-        'is_active',
     ];
 
     protected $hidden = [

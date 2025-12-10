@@ -20,7 +20,6 @@
                         <th>الكود</th>
                         <th>البريد الإلكتروني</th>
                         <th>الهاتف</th>
-                        <th>التصنيف</th>
                         <th>تاريخ الإنشاء</th>
                         <th class="text-center">الإجراءات</th>
                     </tr>
@@ -33,7 +32,6 @@
                             <td>{{ $student->student_code }}</td>
                             <td>{{ $student->email ?? '-' }}</td>
                             <td>{{ $student->phone ?? '-' }}</td>
-                            <td>{{ $student->category->name ?? '-' }}</td>
                             <td>{{ $student->created_at->format('Y-m-d') }}</td>
 
                             <td class="text-center">

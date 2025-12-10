@@ -13,7 +13,7 @@
             </a>
         </div>
 
-        <div class="card">
+        <div class="card mt-2 shadow-sm">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>

@@ -47,7 +47,6 @@ class StudentService
             'gender'       => $data['gender'] ?? null,
             'student_code' => $data['student_code'] ?? null,
             'password'     => Hash::make($data['password']),
-            'is_active'    => isset($data['is_active']) ? (bool) $data['is_active'] : true,
         ]);
     }
 
@@ -66,7 +65,7 @@ class StudentService
             'birth_date'   => $data['birth_date'] ?? null,
             'gender'       => $data['gender'] ?? null,
             'student_code' => $data['student_code'] ?? null,
-            'is_active'    => isset($data['is_active']) ? (bool) $data['is_active'] : true,
+
         ];
 
         // update password only if provided

@@ -26,7 +26,7 @@ foreach (['admin', 'user'] as $guard) {
             Route::get('students/{id}/edit', [StudentModuleController::class, 'edit'])
                 ->name('students.edit');
 
-            Route::put('students/update', [StudentModuleController::class, 'update'])
+            Route::POST('students/update', [StudentModuleController::class, 'update'])
                 ->name('students.update');
 
             Route::delete('students/{id}/delete', [StudentModuleController::class, 'delete'])
