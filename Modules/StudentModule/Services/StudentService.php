@@ -87,13 +87,18 @@ class StudentService
     public function assignExamToStudent($studentId, $examId)
     {
         $student = $this->students->find($studentId);
-        if (!$student) {
-            throw ValidationException::withMessages(['student' => 'Student not found.']);
-        }
 
-        $student->exams()->attach($examId);
+        if (!$student) {
+            throw ValidationException::withMessages([
+                'student' => 'Student not found.',
+            ]);
+        }
+        
+        $student->exams()->syncWithoutDetaching([$examId]);
+
         return $student;
     }
+
 
     /**
      * Student validation rules

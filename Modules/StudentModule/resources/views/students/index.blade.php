@@ -28,7 +28,13 @@
                 <tbody>
                     @forelse ($students as $student)
                         <tr>
-                            <td>{{ $student->name }}</td>
+                            <td>
+                                <a href="{{ route(Auth::getDefaultDriver() . '.students.show', $student->id) }}"
+                                    class="text-primary fw-bold">
+                                    {{ $student->name }}
+                                </a>
+                            </td>
+
                             <td>{{ $student->student_code }}</td>
                             <td>{{ $student->email ?? '-' }}</td>
                             <td>{{ $student->phone ?? '-' }}</td>

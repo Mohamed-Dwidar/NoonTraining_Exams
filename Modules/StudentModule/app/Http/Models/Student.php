@@ -38,7 +38,6 @@ class Student extends Authenticatable
 
     public function exams()
     {
-        return $this->belongsToMany(Exam::class);
+        return $this->belongsToMany(Exam::class, 'student_exam', 'student_id', 'exam_id');
     }
-    
 }

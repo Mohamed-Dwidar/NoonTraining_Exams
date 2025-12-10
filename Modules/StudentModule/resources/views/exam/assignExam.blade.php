@@ -29,7 +29,10 @@
                                         <label class="fw-bold">اختر الامتحانات</label>
                                         <select name="exam_id[]" class="form-control" multiple required>
                                             @foreach ($exams as $exam)
-                                                <option value="{{ $exam->id }}">{{ $exam->title }}</option>
+                                                <option value="{{ $exam->id }}"
+                                                    {{ in_array($exam->id, $student->exams->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                    {{ $exam->title }}
+                                                </option>
                                             @endforeach
                                         </select>
 

@@ -26,10 +26,10 @@ foreach (['admin', 'user'] as $guard) {
             Route::get('students/{id}/edit', [StudentModuleController::class, 'edit'])
                 ->name('students.edit');
 
-            Route::POST('students/update', [StudentModuleController::class, 'update'])
+            Route::post('students/update', [StudentModuleController::class, 'update'])
                 ->name('students.update');
 
-            Route::delete('students/{id}/delete', [StudentModuleController::class, 'delete'])
+            Route::post('students/{id}/delete', [StudentModuleController::class, 'delete'])
                 ->name('students.delete');
 
             Route::get('/students/show-exams/{id}', [StudentModuleController::class, 'showExams'])
