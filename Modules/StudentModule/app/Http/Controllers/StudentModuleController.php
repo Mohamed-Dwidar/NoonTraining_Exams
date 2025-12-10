@@ -1,14 +1,16 @@
 <?php
 
-namespace Modules\StudentModule\Http\Controllers;
+namespace Modules\StudentModule\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\ExamModule\app\Http\Models\Exam;
 use Modules\QuestionModule\app\Http\Models\Category;
+use Modules\StudentModule\app\Http\Models\Student;
 use Modules\StudentModule\Services\StudentService;
 
-class StudentController extends Controller
+class StudentModuleController extends Controller
 {
     private $students;
 
@@ -21,14 +23,14 @@ class StudentController extends Controller
     public function index()
     {
         $students = $this->students->findAll();
-        return view('admin.students.index', compact('students'));
+        return view('studentmodule::students.index', compact('students'));
     }
 
 
     public function create()
     {
         $categories = Category::all();
-        return view('admin.students.create', compact('categories'));
+        return view('studentmodule::students.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -57,7 +59,7 @@ class StudentController extends Controller
         $student = $this->students->find($id);
         $categories = Category::all();
 
-        return view('admin.students.edit', compact('student', 'categories'));
+        return view('studentmodule::students.edit', compact('student', 'categories'));
     }
 
 
@@ -89,5 +91,34 @@ class StudentController extends Controller
 
         return redirect()->route(Auth::getDefaultDriver() . '.students.index')
             ->with('success', 'تم حذف الطالب بنجاح');
+    }
+
+    public function show($id)
+    {
+        $student = Student::with('category')->findOrFail($id);
+        return view('studentmodule::students.show', compact('student'));
+    }
+
+    public function assignExam(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'exam_id'    => 'required|array',
+            'exam_id.*'  => 'exists:exams,id'
+        ]);
+
+        $this->students->assignExamToStudent(
+            $request->student_id,
+            $request->exam_id
+        );
+
+        return redirect()->back()->with('success', 'تم ربط الامتحان بالطالب بنجاح');
+    }
+
+     public function showExams($id)
+    {
+        $student = Student::with('category')->findOrFail($id);
+        $exams = Exam::class::all();
+        return view('studentmodule::exam.assignExam', compact('student', 'exams'));
     }
 }

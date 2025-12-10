@@ -27,6 +27,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('student_id');
             $table->bigInteger('exam_id');
+            $table->float('score')->nullable();
             $table->timestamps();
         });
     }

@@ -40,6 +40,7 @@ class Student extends Authenticatable
 
     public function exams()
     {
-        return $this->belongsToMany(Exam::class)->withTimestamps();
+        return $this->belongsToMany(Exam::class);
     }
+    
 }

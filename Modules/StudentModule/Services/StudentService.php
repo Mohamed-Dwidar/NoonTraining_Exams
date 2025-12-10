@@ -85,6 +85,17 @@ class StudentService
         return $this->students->delete($id);
     }
 
+    public function assignExamToStudent($studentId, $examId)
+    {
+        $student = $this->students->find($studentId);
+        if (!$student) {
+            throw ValidationException::withMessages(['student' => 'Student not found.']);
+        }
+
+        $student->exams()->attach($examId);
+        return $student;
+    }
+
     /**
      * Student validation rules
      */
