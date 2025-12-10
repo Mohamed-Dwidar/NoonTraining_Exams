@@ -21,6 +21,9 @@ foreach (['admin', 'user'] as $guard) {
             Route::post('question/store', [QuestionModuleController::class, 'storeQuestion'])
                 ->name('question.store');
 
+            Route::get('question/{id}/edit', [QuestionModuleController::class, 'editQuestion'])
+                ->name('question.edit');
+
             Route::put('question/{id}/update', [QuestionModuleController::class, 'updateQuestion'])
                 ->name('question.update');
 

@@ -25,6 +25,11 @@ class QuestionService
         return $this->questions->all();
     }
 
+    public function find($id)
+    {
+        return $this->questions->find($id);
+    }
+
     /**
      * Create a single question
      */

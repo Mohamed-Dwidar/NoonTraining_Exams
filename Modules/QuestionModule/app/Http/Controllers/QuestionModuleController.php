@@ -61,7 +61,7 @@ class QuestionModuleController extends Controller
 
     public function editQuestion($id)
     {
-        $question = $this->questionService->findOne($id);
+        $question = $this->questionService->find($id);
         $categories = Category::all();
         return view('questionmodule::questions.edit', compact('question', 'categories'));
     }
