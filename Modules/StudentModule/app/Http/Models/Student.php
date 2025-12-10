@@ -3,10 +3,11 @@
 namespace Modules\StudentModule\app\Http\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\ExamModule\app\Http\Models\Exam;
 use Modules\QuestionModule\app\Http\Models\Category;
 
-class Student extends Model
+class Student extends Authenticatable
 {
     use HasFactory;
 
@@ -17,9 +18,14 @@ class Student extends Model
         'national_id',
         'birth_date',
         'gender',
-        'category_id',
         'student_code',
+        'password',
+        'category_id',
         'is_active',
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     protected $casts = [
@@ -32,9 +38,8 @@ class Student extends Model
         return $this->belongsTo(Category::class);
     }
 
-
-    public function getFullInfoAttribute()
+    public function exams()
     {
-        return $this->name . ' - ' . ($this->student_code ?? 'بدون كود');
+        return $this->belongsToMany(Exam::class)->withTimestamps();
     }
 }

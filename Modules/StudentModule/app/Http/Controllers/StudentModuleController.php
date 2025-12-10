@@ -4,53 +4,90 @@ namespace Modules\StudentModule\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Modules\QuestionModule\app\Http\Models\Category;
+use Modules\StudentModule\Services\StudentService;
 
-class StudentModuleController extends Controller
+class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $students;
+
+    public function __construct(StudentService $studentService)
+    {
+        $this->students = $studentService;
+    }
+
+
     public function index()
     {
-        return view('studentmodule::index');
+        $students = $this->students->findAll();
+        return view('admin.students.index', compact('students'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        return view('studentmodule::create');
+        $categories = Category::all();
+        return view('admin.students.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {}
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function store(Request $request)
     {
-        return view('studentmodule::show');
+        $request->validate([
+            'name'         => 'required|string|max:255',
+            'email'        => 'nullable|email|unique:students,email',
+            'phone'        => 'required|string|max:20|unique:students,phone',
+            'national_id'  => 'nullable|digits:14|unique:students,national_id',
+            'birth_date'   => 'nullable|date',
+            'gender'       => 'nullable|in:male,female',
+            'category_id'  => 'nullable|exists:categories,id',
+            'student_code' => 'nullable|string|unique:students,student_code',
+            'password'     => 'required|string|min:6',
+        ]);
+
+        $this->students->create($request->all());
+
+        return redirect()->route(Auth::getDefaultDriver() . '.students.index')
+            ->with('success', 'تم إضافة الطالب بنجاح');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit($id)
     {
-        return view('studentmodule::edit');
+        $student = $this->students->find($id);
+        $categories = Category::all();
+
+        return view('admin.students.edit', compact('student', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+    public function update(Request $request)
+    {
+        $request->validate([
+            'id'           => 'required|exists:students,id',
+            'name'         => 'required|string|max:255',
+            'email'        => 'nullable|email|unique:students,email,' . $request->id,
+            'phone'        => 'required|string|max:20|unique:students,phone,' . $request->id,
+            'national_id'  => 'nullable|digits:14|unique:students,national_id,' . $request->id,
+            'birth_date'   => 'nullable|date',
+            'gender'       => 'nullable|in:male,female',
+            'category_id'  => 'nullable|exists:categories,id',
+            'student_code' => 'nullable|string|unique:students,student_code,' . $request->id,
+            'password'     => 'nullable|string|min:6',
+        ]);
+
+        $this->students->update($request->all());
+
+        return redirect()->route(Auth::getDefaultDriver() . '.students.index')
+            ->with('success', 'تم تحديث بيانات الطالب بنجاح');
+    }
+
+
+    public function delete($id)
+    {
+        $this->students->delete($id);
+
+        return redirect()->route(Auth::getDefaultDriver() . '.students.index')
+            ->with('success', 'تم حذف الطالب بنجاح');
+    }
 }

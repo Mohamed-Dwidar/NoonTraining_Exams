@@ -6,31 +6,34 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('category_id')->nullable();
             $table->string('name');
             $table->string('email')->unique()->nullable();
-            $table->string('phone')->nullable();
-            $table->string('national_id', 14)->unique()->nullable(); 
+            $table->string('phone')->unique();
+            $table->string('national_id', 14)->unique()->nullable();
             $table->date('birth_date')->nullable();
-            $table->string('gender')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('student_code')->unique()->nullable();
+            $table->string('password'); 
             $table->boolean('is_active')->default(true);
+            $table->timestamps();
+        });
+
+        // pivot table student_exam
+        Schema::create('student_exam', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('student_id');
+            $table->bigInteger('exam_id');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
+        Schema::dropIfExists('student_exam');
         Schema::dropIfExists('students');
     }
 };
