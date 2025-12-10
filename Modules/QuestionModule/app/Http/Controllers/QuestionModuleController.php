@@ -66,7 +66,7 @@ class QuestionModuleController extends Controller
         return view('questionmodule::questions.edit', compact('question', 'categories'));
     }
 
-    public function updateQuestion(Request $request, $id)
+    public function updateQuestion(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|exists:categories,id',
@@ -81,7 +81,7 @@ class QuestionModuleController extends Controller
         }
 
         $this->questionService->update([
-            'id' => $id,
+            'id' => $request->id,
             'category_id' => $request->category_id,
             'question_text' => $request->question_text,
             'type' => $request->type,
@@ -89,7 +89,7 @@ class QuestionModuleController extends Controller
             'answer' => $request->answer,
         ]);
 
-        return redirect()->route(Auth::getDefaultDriver() . '.question.index')
+        return redirect()->route(Auth::getDefaultDriver() . '.questions.index')
             ->with('success', 'تم تحديث السؤال بنجاح.');
     }
 
