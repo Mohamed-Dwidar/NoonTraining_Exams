@@ -41,14 +41,12 @@
 
                                             <tr>
                                                 <td>{{ $exam->title }}</td>
-
                                                 <td>
                                                     @if (!$attempt)
+                                                    
                                                         <span class="badge bg-secondary">غير مسجل</span>
                                                     @elseif($attempt && $attempt->status == 'not_started')
                                                         <span class="badge bg-warning">لم يبدأ بعد</span>
-                                                    @elseif($attempt && $attempt->status == 'in_progress')
-                                                        <span class="badge bg-info">جاري الامتحان</span>
                                                     @elseif($attempt && $attempt->status == 'completed')
                                                         <span class="badge bg-success">تم التسليم</span>
                                                     @endif
@@ -70,13 +68,13 @@
                                                 </td>
 
                                                 <td>
-                                                    @if (!$attempt || $attempt->status == 'not_started')
+                                                    @if ($attempt->status == 'not_started')
                                                         <a href="{{ route('student.exam.start', $exam->id) }}"
                                                             class="btn btn-success btn-sm">
                                                             بدء الامتحان
                                                         </a>
                                                    
-                                                    @elseif($attempt && $attempt->status == 'completed')
+                                                    @elseif($attempt->status == 'completed')
                                                         <a href="{{ route('student.exam.result', $exam->id) }}"
                                                             class="btn btn-info btn-sm">
                                                             عرض النتيجة
