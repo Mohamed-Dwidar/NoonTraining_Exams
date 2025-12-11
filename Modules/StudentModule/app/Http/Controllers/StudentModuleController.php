@@ -20,6 +20,12 @@ class StudentModuleController extends Controller
     }
 
 
+    public function dashboard()
+    {
+        $exams = Auth::guard('student')->user()->exams;
+        return view('studentmodule::auth.dashboard' , compact('exams'));
+    }
+
     public function index()
     {
         $students = $this->students->findAll();
