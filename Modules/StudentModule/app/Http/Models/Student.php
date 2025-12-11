@@ -40,4 +40,14 @@ class Student extends Authenticatable
     {
         return $this->belongsToMany(Exam::class, 'student_exam', 'student_id', 'exam_id');
     }
+
+    public function examAttempts()
+    {
+        return $this->hasMany(StudentExam::class, 'student_id');
+    }
+
+    public function examAttempt($examId)
+    {
+        return $this->examAttempts()->where('exam_id', $examId)->first();
+    }
 }

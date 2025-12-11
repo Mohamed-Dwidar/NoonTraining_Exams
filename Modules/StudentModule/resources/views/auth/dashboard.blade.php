@@ -8,7 +8,6 @@
 
     <div class="content-wrapper container-fluid">
 
-
         @include('layoutmodule::admin.flash')
 
         <div class="content-body">
@@ -37,7 +36,7 @@
                                     <tbody>
                                         @foreach ($exams as $exam)
                                             @php
-                                                $attempt = $exam->attempt;
+                                                $attempt = $exam->studentAttempt(auth()->guard('student')->id())->first();
                                             @endphp
 
                                             <tr>
@@ -45,31 +44,43 @@
 
                                                 <td>
                                                     @if (!$attempt)
+                                                        <span class="badge bg-secondary">غير مسجل</span>
+                                                    @elseif($attempt && $attempt->status == 'not_started')
                                                         <span class="badge bg-warning">لم يبدأ بعد</span>
-                                                    @elseif($attempt && !$attempt->is_finished)
+                                                    @elseif($attempt && $attempt->status == 'in_progress')
                                                         <span class="badge bg-info">جاري الامتحان</span>
-                                                    @else
+                                                    @elseif($attempt && $attempt->status == 'completed')
                                                         <span class="badge bg-success">تم التسليم</span>
                                                     @endif
                                                 </td>
 
                                                 <td>
-                                                    @if ($attempt && $attempt->is_finished)
-                                                        <span class="badge bg-primary">
-                                                            {{ $attempt->score }} / {{ $exam->total_grade }}
+                                                    @if ($attempt && $attempt->score !== null)
+                                                        <span class="badge @if($attempt->score >= $exam->success_grade) bg-success @else bg-danger @endif">
+                                                            {{ number_format($attempt->score, 1) }}%
                                                         </span>
+                                                        @if($attempt->score >= $exam->success_grade)
+                                                            <small class="text-success d-block">(ناجح)</small>
+                                                        @else
+                                                            <small class="text-danger d-block">(راسب)</small>
+                                                        @endif
                                                     @else
                                                         —
                                                     @endif
                                                 </td>
 
                                                 <td>
-                                                    @if (!$attempt)
+                                                    @if (!$attempt || $attempt->status == 'not_started')
                                                         <a href="{{ route('student.exam.start', $exam->id) }}"
                                                             class="btn btn-success btn-sm">
                                                             بدء الامتحان
                                                         </a>
-                                                    
+                                                   
+                                                    @elseif($attempt && $attempt->status == 'completed')
+                                                        <a href="{{ route('student.exam.result', $exam->id) }}"
+                                                            class="btn btn-info btn-sm">
+                                                            عرض النتيجة
+                                                        </a>
                                                     @endif
                                                 </td>
                                             </tr>

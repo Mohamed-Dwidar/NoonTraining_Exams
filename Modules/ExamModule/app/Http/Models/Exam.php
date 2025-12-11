@@ -2,11 +2,11 @@
 
 namespace Modules\ExamModule\app\Http\Models;
 
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\UserModule\app\Http\Models\User;
 use Modules\QuestionModule\app\Http\Models\Category;
+use Modules\StudentModule\app\Http\Models\StudentExam;
 
 class Exam extends Model
 {
@@ -27,7 +27,6 @@ class Exam extends Model
         'created_by',
     ];
 
-
     // Exam creator (Admin/User)
     public function creator()
     {
@@ -39,15 +38,41 @@ class Exam extends Model
         return $this->belongsTo(Category::class);
     }
 
-    // // If you will store submissions/attempts
-    // public function attempts()
-    // {
-    //     return $this->hasMany(ExamAttempt::class, 'exam_id');
-    // }
+    // Students who took this exam
+    public function students()
+    {
+        return $this->belongsToMany(
+            \Modules\StudentModule\app\Http\Models\Student::class,
+            'student_exam',
+            'exam_id',
+            'student_id'
+        )->withPivot(['score', 'status', 'started_at', 'completed_at']);
+    }
 
-    // // If you want to store results
-    // public function results()
-    // {
-    //     return $this->hasMany(ExamResult::class, 'exam_id');
-    // }
+    // Exam attempts (through pivot table)
+    public function attempts()
+    {
+        return $this->hasMany(
+            \Modules\StudentModule\app\Http\Models\StudentExam::class,
+            'exam_id'
+        );
+    }
+
+    // Get student's specific attempt
+    public function studentAttempt($studentId = null)
+    {
+        if (!$studentId) {
+            $studentId = auth()->guard('student')->id();
+        }
+
+        return $this->hasOne(
+            StudentExam::class,
+            'exam_id'
+        )->where('student_id', $studentId);
+    }
+
+    public function attempt()
+    {
+        return $this->studentAttempt();
+    }
 }
