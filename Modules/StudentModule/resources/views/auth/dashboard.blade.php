@@ -64,19 +64,13 @@
                                                 </td>
 
                                                 <td>
-                                                    {{-- @if (!$attempt)
-                                                        <a href="{{ route('student.startExam', $exam->id) }}"
+                                                    @if (!$attempt)
+                                                        <a href="{{ route('student.exam.start', $exam->id) }}"
                                                             class="btn btn-success btn-sm">
                                                             بدء الامتحان
                                                         </a>
-                                                    @elseif($attempt && $attempt->is_finished)
-                                                        <a class="btn btn-secondary btn-sm disabled">تم الحل</a>
-                                                    @else
-                                                        <a href="{{ route('student.continueExam', $exam->id) }}"
-                                                            class="btn btn-info btn-sm">
-                                                            متابعة الامتحان
-                                                        </a>
-                                                    @endif --}}
+                                                    
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

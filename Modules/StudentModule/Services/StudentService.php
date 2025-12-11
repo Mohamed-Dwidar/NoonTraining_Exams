@@ -84,7 +84,7 @@ class StudentService
         return $this->students->delete($id);
     }
 
-    public function assignExamToStudent($studentId, $examId)
+    public function assignExamToStudent($studentId, array $examIds)
     {
         $student = $this->students->find($studentId);
 
@@ -93,10 +93,33 @@ class StudentService
                 'student' => 'Student not found.',
             ]);
         }
-        
-        $student->exams()->syncWithoutDetaching([$examId]);
 
-        return $student;
+        // Get exams that are already assigned to this student
+        $alreadyAssignedExams = $student->exams()
+            ->whereIn('exam_id', $examIds)
+            ->pluck('exam_id')
+            ->toArray();
+
+        $newExamIds = array_diff($examIds, $alreadyAssignedExams);
+
+        if (empty($newExamIds)) {
+            throw ValidationException::withMessages([
+                'exam' => 'All these exams are already assigned to the student.',
+            ]);
+        }
+        
+        $student->exams()->attach($newExamIds);
+
+        $result = [
+            'success' => true,
+            'student' => $student->load('exams'),
+            'added_exams' => $newExamIds,
+            'already_assigned_exams' => $alreadyAssignedExams,
+            'message' => count($newExamIds) . ' exam(s) assigned successfully. ' .
+                count($alreadyAssignedExams) . ' exam(s) were already assigned.'
+        ];
+
+        return $result;
     }
 
 

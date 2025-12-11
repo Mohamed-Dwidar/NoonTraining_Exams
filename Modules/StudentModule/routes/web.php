@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\StudentModule\app\Http\Controllers\StudentModuleController;
 use Modules\StudentModule\app\Http\Controllers\Auth\StudentAuthController;
+use Modules\StudentModule\app\Http\Controllers\Exam\StudentExamController;
 
 foreach (['admin', 'user'] as $guard) {
 
@@ -52,4 +53,10 @@ Route::group(['prefix' => 'student', 'middleware' => ['auth:student']], function
     Route::get('logout', [StudentAuthController::class, 'logout'])->name('student.logout');
     Route::get('changePassword', [StudentAuthController::class, 'changePassword'])->name('student.changePassword');
     Route::post('updatePassword', [StudentAuthController::class, 'updatePassword'])->name('student.updatePassword');
+});
+
+Route::prefix('student/exam')->middleware('auth:student')->group(function () {
+    Route::get('/start/{examId}', [StudentExamController::class, 'startExam'])->name('student.exam.start');
+    Route::post('/submit/{examId}', [StudentExamController::class, 'submitExam'])->name('student.exam.submit');
+    Route::get('/result/{examId}', [StudentExamController::class, 'examResult'])->name('student.exam.result');
 });

@@ -21,20 +21,10 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
-
-        // pivot table student_exam
-        Schema::create('student_exam', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('student_id');
-            $table->bigInteger('exam_id');
-            $table->float('score')->nullable();
-            $table->timestamps();
-        });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('student_exam');
         Schema::dropIfExists('students');
     }
 };
