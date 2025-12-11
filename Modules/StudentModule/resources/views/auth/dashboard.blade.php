@@ -60,9 +60,9 @@
                                                             {{ number_format($attempt->score, 1) }}%
                                                         </span>
                                                         @if($attempt->score >= $exam->success_grade)
-                                                            <small class="text-success d-block">(ناجح)</small>
+                                                            <small class="text-success d-block pt-1">(ناجح)</small>
                                                         @else
-                                                            <small class="text-danger d-block">(راسب)</small>
+                                                            <small class="text-danger d-block pt-1">(راسب)</small>
                                                         @endif
                                                     @else
                                                         —
