@@ -15,7 +15,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card">
+                    <div class="card p-3">
                         <div class="card-header">
                             <h4 class="card-title"><i class="fa fa-list"></i> الامتحانات المرتبطة بالطالب</h4>
                         </div>

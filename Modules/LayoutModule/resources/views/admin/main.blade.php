@@ -57,6 +57,8 @@
 
     @if (Auth::guard('admin')->check())
         @include('layoutmodule::admin.nav')
+    @elseif (Auth::guard('student')->check())
+        @include('layoutmodule::student.nav')
     @else
         @include('layoutmodule::user.nav')
     @endif
