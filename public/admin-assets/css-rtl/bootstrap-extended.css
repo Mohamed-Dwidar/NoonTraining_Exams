@@ -362,8 +362,8 @@ select.form-control {
   padding-bottom : 0 !important;
 }
 
-/* 
-TODO:M: To check with latest bootstrap version and remove it. 
+/*
+TODO:M: To check with latest bootstrap version and remove it.
 Bootstrap Enhance */
 .custom-control {
   display : block;

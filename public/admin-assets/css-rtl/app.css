@@ -3364,11 +3364,42 @@ input[type='month'].form-control {
     border-radius: 0.175rem;
 }
 
-/* .input-group-btn > button {
-    &.dropdown-toggle::after{
-        margin-top: -1.75rem;
-    }
-} */
+/* Dropdown toggle arrow styling */
+.dropdown-toggle::after {
+    display: inline-block !important;
+    margin-right: 0.5em;
+    vertical-align: 0.15em;
+    content: "";
+    border-left: 0.4em solid transparent;
+    border-top: 0.4em solid currentColor;
+    border-left: 0.4em solid transparent;
+    border-bottom: 0;
+    border-right: 0.4em solid transparent;
+    width: 0;
+    height: 0;
+}
+
+.dropdown-toggle:empty::after {
+    margin-right: 0;
+}
+
+/* Ensure dropdown arrows are visible in navbar */
+.navbar .dropdown-toggle::after {
+    border-top-color: #fff !important;
+}
+
+/* Dropdown arrow for dark backgrounds */
+.navbar-dark .dropdown-toggle::after,
+.bg-dark .dropdown-toggle::after {
+    border-top-color: #fff !important;
+}
+
+/* Dropdown arrow for light backgrounds */
+.navbar-light .dropdown-toggle::after,
+.bg-light .dropdown-toggle::after {
+    border-top-color: #333 !important;
+}
+
 .input-group-addon {
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
