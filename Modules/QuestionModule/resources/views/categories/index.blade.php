@@ -1,52 +1,78 @@
 @extends('layoutmodule::admin.main')
 
-@section('title', 'قائمة التصنيفات')
+@section('title')
+    التصنيفات
+@endsection
 
 @section('content')
-<div class="container-fluid">
 
-    @include('layoutmodule::admin.flash')
+    <div class="content-wrapper container-fluid">
+        <div class="content-header">
+            <div class="content-header-left mb-2 breadcrumb-new col">
+                <h3>
+                    <i class="fa fa-tags"></i>
+                    &nbsp;
+                    التصنيفات
+                </h3>
+            </div>
+        </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>التصنيفات</h3>
-        <a href="{{ route(Auth::getDefaultDriver() . '.categories.create') }}" class="btn btn-primary">إضافة تصنيف</a>
+        @include('layoutmodule::admin.flash')
+
+        <div class="content-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-lg-8"></div>
+                                <div class="col-lg-4">
+                                    <a class="btn btn-success round btn-min-width mr-1 mb-1"
+                                        href="{{ route(Auth::getDefaultDriver() . '.categories.create') }}" role="button">إضافة تصنيف جديد</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr class="head">
+                                            <th>الاسم</th>
+                                            <th>الوصف</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if($categories)
+                                            @foreach($categories as $cat)
+                                                <tr>
+                                                    <td class="strong">{{ $cat->name }}</td>
+                                                    <td>{{ $cat->description }}</td>
+                                                    <td>
+                                                        <a class="btn btn-warning"
+                                                            href="{{ route(Auth::getDefaultDriver() . '.categories.edit', $cat->id) }}"
+                                                            role="button">تعديل</a>
+
+                                                        <form action="{{ route(Auth::getDefaultDriver() . '.categories.destroy', $cat->id) }}" method="POST" class="d-inline-block">
+                                                            @csrf @method('DELETE')
+                                                            <button onclick="return confirm('هل أنت متأكد من الحذف؟')" class="btn btn-danger">
+                                                                حذف
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr><td colspan="3" class="text-center">لا توجد تصنيفات</td></tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-
-    <div class="card shadow-sm p-3 mt-2">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>الاسم</th>
-                    <th>الوصف</th>
-                    <th>تاريخ الإنشاء</th>
-                    <th class="text-center">الإجراءات</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($categories as $cat)
-                    <tr>
-                        <td>{{ $cat->name }}</td>
-                        <td>{{ $cat->description }}</td>
-                        <td>{{ $cat->created_at->format('Y-m-d') }}</td>
-                        <td class="text-center">
-                            <a href="{{ route(Auth::getDefaultDriver() . '.categories.edit', $cat->id) }}" class="btn btn-sm btn-warning">تعديل</a>
-
-                            <form action="{{ route(Auth::getDefaultDriver() . '.categories.destroy', $cat->id) }}" method="POST" class="d-inline-block">
-                                @csrf @method('DELETE')
-                                <button onclick="return confirm('هل أنت متأكد من الحذف؟')" class="btn btn-sm btn-danger">
-                                    حذف
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr><td colspan="4" class="text-center">لا توجد تصنيفات</td></tr>
-                @endforelse
-            </tbody>
-        </table>
-
-        {{ $categories->links() }}
-    </div>
-
-</div>
 @endsection

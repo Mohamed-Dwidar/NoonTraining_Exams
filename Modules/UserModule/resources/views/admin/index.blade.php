@@ -1,12 +1,8 @@
-
-
-
 @extends('layoutmodule::admin.main')
 
 @section('title')
     المستخدمون
 @endsection
-
 
 @section('content')
 

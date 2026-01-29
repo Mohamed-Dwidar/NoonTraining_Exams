@@ -3,14 +3,14 @@
         <nav id="primary-menu">
             <ul class="top-menu menu-eff text-right">
 
-                @if (auth()->user() && auth()->user()->hasPermission('manage_students'))
+                {{-- @if (auth()->user() && auth()->user()->hasPermission('manage_students'))
                     <li class="nav-item">
                         <a href="" class="@if (Request::segment(2) == 'students' && in_array(Request::segment(3), ['', 'add', 'edit', 'view'])) active @endif">
                             <i class="fa fa-graduation-cap"></i>
                             <span data-i18n="nav.dash.main" class="menu-title">الطلاب</span>
                         </a>
                     </li>
-                @endif
+                @endif --}}
 
                 @if (auth()->user() && auth()->user()->hasPermission('manage_exams'))
                     <li class="nav-item">
@@ -25,22 +25,22 @@
                     <a href="{{ route(Auth::getDefaultDriver() . '.categories.index') }}"
                         class="@if (Request::segment(2) == 'category') active @endif">
                         <i class="fa fa-list"></i>
-                        <span data-i18n="nav.dash.main" class="menu-title">التصنيفات</span> 
+                        <span data-i18n="nav.dash.main" class="menu-title">تصنيفات الأسئلة</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route(Auth::getDefaultDriver() . '.questions.index') }}"
                         class="@if (Request::segment(2) == 'question') active @endif">
                         <i class="fa fa-question-circle fa-fw"></i>
-                        <span data-i18n="nav.dash.main" class="menu-title">بنك الاسئله</span> 
+                        <span data-i18n="nav.dash.main" class="menu-title">بنك الاسئله</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="{{ route(Auth::getDefaultDriver() . '.students.index') }}"
                         class="@if (Request::segment(2) == 'student') active @endif">
-                        <i class="fa fa-user fa-fw"></i>
-                        <span data-i18n="nav.dash.main" class="menu-title">الطلبه</span> 
+                         <i class="fa fa-graduation-cap"></i>
+                        <span data-i18n="nav.dash.main" class="menu-title">الطلاب</span>
                     </a>
                 </li>
 

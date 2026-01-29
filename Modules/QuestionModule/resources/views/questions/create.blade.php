@@ -1,40 +1,59 @@
 @extends('layoutmodule::admin.main')
 
-@section('title', 'الأسئلة')
+@section('title')
+    إضافة أسئلة جديدة
+@endsection
 
 @section('content')
-<div class="container-fluid">
+    <div class="content-wrapper container-fluid">
+        <div class="content-header">
+            <div class="content-header-left mb-2 breadcrumb-new col">
+                <h3><i class="fa fa-plus-circle"></i>
+                    بنك الأسئلة - إضافة أسئلة جديدة
+                </h3>
+            </div>
+        </div>
 
-    @include('layoutmodule::admin.flash')
+        @include('layoutmodule::admin.flash')
 
-    <h3 class="mb-4">بنك الأسئلة</h3>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-lg-12 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-lg-12 col-12">
+                                    <form class="card-form side-form" method="POST"
+                                        action="{{ route(Auth::getDefaultDriver() . '.question.store') }}"
+                                        enctype="multipart/form-data" id="questions-form">
+                                        @csrf
 
-    <div class="card shadow-sm p-4 mb-4">
-        <div class="card-body p-3">
-            <h4 class="mb-4 text-success">إضافة أسئلة جديدة</h4>
+                                        <div id="questions-container"></div>
 
-            <form method="POST" action="{{ route(Auth::getDefaultDriver() . '.question.store') }}" id="questions-form">
-                @csrf
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="button" id="add-question" class="btn btn-outline-primary fw-bold">
+                                                    <i class="fas fa-plus ms-2"></i> إضافة سؤال جديد
+                                                </button>
+                                                <span class="text-muted ms-3" id="questions-count">عدد الأسئلة: 0</span>
+                                            </div>
+                                        </div>
 
-                <div id="questions-container"></div>
-
-                <div class="d-flex justify-content-between mt-4 pt-3 border-top">
-                    <div>
-                        <button type="button" id="add-question" class="btn btn-outline-primary fw-bold">
-                            <i class="fas fa-plus ms-2"></i> إضافة سؤال جديد
-                        </button>
-                        <span class="text-muted ms-3" id="questions-count">عدد الأسئلة: 0</span>
+                                        <div class="col-12 mt-3">
+                                            <button type="submit" class="btn btn-primary fw-bold px-4">
+                                                <i class="fas fa-save ms-2"></i> حفظ الأسئلة
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-lg-1 col-1"></div>
+                            </div>
+                        </div>
                     </div>
-
-                    <button type="submit" class="btn btn-success fw-bold px-4 mt-3">
-                        <i class="fas fa-save ms-2"></i> حفظ الأسئلة
-                    </button>
                 </div>
-
-            </form>
+            </div>
         </div>
     </div>
-</div>
 
 <style>
     .question-row {

@@ -53,6 +53,7 @@ li{
 }
 .table-responsive {
     overflow-x: inherit;
+    padding-bottom: 50px;
 }
 td.actions{
 	width: 150px;

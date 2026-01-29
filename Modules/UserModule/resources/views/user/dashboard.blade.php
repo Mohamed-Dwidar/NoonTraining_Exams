@@ -13,7 +13,7 @@
                 <i class="fa fa-list"></i>
                 &nbsp;
                 طلبات التسجيل في الدورات
-            </h3> 
+            </h3>
         </div>
     </div> --}}
 
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
- 
+
             <div class="col-xl-3 col-lg-6 col-xs-12">
                 <div class="card">
                     <div class="card-body">
@@ -51,7 +51,7 @@
                                 <div class="media-body text-xs-right">
                                     {{-- <h3 class="teal">{{$courses_regs->sum('price')}}</h3>  --}}
                                     <h3 class="teal">0000000</h3>
-                                    
+
                                     <h5>الطلاب</h5>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
 
 
 
@@ -111,7 +111,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                   
+
                 </div>
             </div>
 
@@ -119,5 +119,3 @@
     </div>
 </div>
 @endsection
-
- 

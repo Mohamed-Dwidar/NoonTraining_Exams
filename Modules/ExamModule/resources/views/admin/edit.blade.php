@@ -5,165 +5,207 @@
 @endsection
 
 @section('content')
-<div class="content-wrapper container-fluid">
-    <div class="content-header">
-        <div class="content-header-left mb-2 breadcrumb-new col">
-            <h3><i class="fa fa-file"></i> تعديل امتحان</h3>
+    <div class="content-wrapper container-fluid">
+        <div class="content-header">
+            <div class="content-header-left mb-2 breadcrumb-new col">
+                <h3><i class="fa fa-edit"></i>
+                    تعديل امتحان
+                </h3>
+            </div>
         </div>
-    </div>
 
-    @include('layoutmodule::admin.flash')
+        @include('layoutmodule::admin.flash')
 
-    <div class="content-body">
-        <div class="row">
-            <div class="col-lg-12 col-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="row">
-                            <div class="col-lg-12 col-12">
+        <div class="content-body">
+            <div class="row">
+                <div class="col-lg-12 col-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-lg-12 col-12">
+                                    <form class="card-form side-form" method="POST"
+                                        action='{{ route(Auth::getDefaultDriver() . '.exam.update') }}'
+                                        enctype="multipart/form-data">
+                                        @csrf
 
-                                <form class="card-form side-form" method="POST"
-                                      action="{{ route(Auth::getDefaultDriver() .'.exam.update') }}">
-                                    @csrf
+                                        <input type="hidden" name="id" value="{{ $exam->id }}">
 
-                                    <input type="hidden" name="id" value="{{ $exam->id }}">
-
-                                    {{-- Category --}}
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
-                                            <label for="category_id">التصنيف</label>
-                                            <div class="form-group">
-                                                <select class="form-control" id="category_id" name="category_id">
-                                                    <option value="">-- اختر التصنيف --</option>
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}"
-                                                            {{ old('category_id', $exam->category_id) == $category->id ? 'selected' : '' }}>
-                                                            {{ $category->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- Title --}}
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
-                                            <label for="title">عنوان الامتحان</label>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="title" name="title"
-                                                       value="{{ old('title', $exam->title) }}">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- Description --}}
-                                    <div class="row">
-                                        <div class="col-lg-6 col-sm-12 col-xs-12 col-12">
-                                            <label for="description">الوصف</label>
-                                            <div class="form-group">
-                                                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $exam->description) }}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- Dates --}}
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                            <label for="start_date">تاريخ البداية</label>
-                                            <div class="form-group">
-                                                <input type="date" class="form-control" id="start_date" name="start_date"
-                                                       value="{{ old('start_date', $exam->start_date) }}">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
+                                                <label for="title">عنوان الامتحان</label>
+                                                <div class="form-group">
+                                                    <input type="text"
+                                                        class="form-control @error('title') is-invalid @enderror"
+                                                        id="title" name="title"
+                                                        value="{{ old('title', $exam->title) }}">
+                                                    @error('title')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                            <label for="end_date">تاريخ النهاية</label>
-                                            <div class="form-group">
-                                                <input type="date" class="form-control" id="end_date" name="end_date"
-                                                       value="{{ old('end_date', $exam->end_date) }}">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- Duration --}}
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                            <label for="duration_minutes">المدة (بالدقائق)</label>
-                                            <div class="form-group">
-                                                <input type="number" class="form-control" id="duration_minutes"
-                                                       name="duration_minutes"
-                                                       value="{{ old('duration_minutes', $exam->duration_minutes) }}">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- Questions --}}
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                            <label for="total_questions">عدد الأسئلة</label>
-                                            <div class="form-group">
-                                                <input type="number" class="form-control" id="total_questions"
-                                                       name="total_questions"
-                                                       value="{{ old('total_questions', $exam->total_questions) }}">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
+                                                <label for="category_id">التصنيف</label>
+                                                <div class="form-group">
+                                                    <select class="form-control @error('category_id') is-invalid @enderror"
+                                                        id="category_id" name="category_id">
+                                                        <option value="">-- اختر التصنيف --</option>
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}"
+                                                                {{ old('category_id', $exam->category_id) == $category->id ? 'selected' : '' }}>
+                                                                {{ $category->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('category_id')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                            <label for="mcq_count">عدد أسئلة الاختيار من متعدد</label>
-                                            <div class="form-group">
-                                                <input type="number" class="form-control" id="mcq_count"
-                                                       name="mcq_count"
-                                                       value="{{ old('mcq_count', $exam->mcq_count) }}">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
+                                                <label for="description">وصف الامتحان</label>
+                                                <div class="form-group">
+                                                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
+                                                        rows="3">{{ old('description', $exam->description) }}</textarea>
+                                                    @error('description')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                            <label for="true_false_count">عدد أسئلة صح/خطأ</label>
-                                            <div class="form-group">
-                                                <input type="number" class="form-control" id="true_false_count"
-                                                       name="true_false_count"
-                                                       value="{{ old('true_false_count', $exam->true_false_count) }}">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="start_date">تاريخ البداية</label>
+                                                <div class="form-group">
+                                                    <input type="date"
+                                                        class="form-control @error('start_date') is-invalid @enderror"
+                                                        id="start_date" name="start_date"
+                                                        value="{{ old('start_date', $exam->start_date) }}">
+                                                    @error('start_date')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="end_date">تاريخ النهاية</label>
+                                                <div class="form-group">
+                                                    <input type="date"
+                                                        class="form-control @error('end_date') is-invalid @enderror"
+                                                        id="end_date" name="end_date"
+                                                        value="{{ old('end_date', $exam->end_date) }}">
+                                                    @error('end_date')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    {{-- Grades --}}
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                            <label for="success_grade">درجة النجاح</label>
-                                            <div class="form-group">
-                                                <input type="number" step="0.01" class="form-control" id="success_grade"
-                                                       name="success_grade"
-                                                       value="{{ old('success_grade', $exam->success_grade) }}">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="duration_minutes">المدة (دقيقة)</label>
+                                                <div class="form-group">
+                                                    <input type="number"
+                                                        class="form-control @error('duration_minutes') is-invalid @enderror"
+                                                        id="duration_minutes" name="duration_minutes"
+                                                        value="{{ old('duration_minutes', $exam->duration_minutes) }}"
+                                                        min="1">
+                                                    @error('duration_minutes')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="total_questions">عدد الأسئلة الكلي</label>
+                                                <div class="form-group">
+                                                    <input type="number"
+                                                        class="form-control @error('total_questions') is-invalid @enderror"
+                                                        id="total_questions" name="total_questions"
+                                                        value="{{ old('total_questions', $exam->total_questions) }}"
+                                                        min="1">
+                                                    @error('total_questions')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="mcq_count">عدد أسئلة الاختيار من متعدد</label>
+                                                <div class="form-group">
+                                                    <input type="number"
+                                                        class="form-control @error('mcq_count') is-invalid @enderror"
+                                                        id="mcq_count" name="mcq_count"
+                                                        value="{{ old('mcq_count', $exam->mcq_count) }}" min="0">
+                                                    @error('mcq_count')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="true_false_count">عدد أسئلة صح/خطأ</label>
+                                                <div class="form-group">
+                                                    <input type="number"
+                                                        class="form-control @error('true_false_count') is-invalid @enderror"
+                                                        id="true_false_count" name="true_false_count"
+                                                        value="{{ old('true_false_count', $exam->true_false_count) }}"
+                                                        min="0">
+                                                    @error('true_false_count')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            {{-- <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
                                             <label for="total_grade">الدرجة الكلية</label>
                                             <div class="form-group">
-                                                <input type="number" step="0.01" class="form-control" id="total_grade"
-                                                       name="total_grade"
-                                                       value="{{ old('total_grade', $exam->total_grade) }}">
+                                                <input type="number" step="0.01" class="form-control @error('total_grade') is-invalid @enderror"
+                                                    id="total_grade" name="total_grade" value="{{ old('total_grade', $exam->total_grade) }}" min="1">
+                                                @error('total_grade')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div> --}}
+
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="success_grade">درجة النجاح</label>
+                                                <div class="form-group">
+                                                    <input type="number" step="0.01"
+                                                        class="form-control @error('success_grade') is-invalid @enderror"
+                                                        id="success_grade" name="success_grade"
+                                                        value="{{ old('success_grade', $exam->success_grade) }}"
+                                                        min="1">
+                                                    @error('success_grade')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    {{-- Submit --}}
-                                    <div class="col-12 mt-2">
-                                        <button type="submit" class="btn btn-primary">حفظ</button>
-                                    </div>
+                                        <div class="col-12">
+                                            <a href="{{ route(Auth::getDefaultDriver() . '.exam.index') }}"
+                                                class="btn btn-secondary">إلغاء</a>
 
-                                </form>
-
+                                            <button type="submit" class="btn btn-primary">تحديث</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-lg-1 col-1"></div>
                             </div>
-                            <div class="col-lg-1 col-1"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-</div>
 @endsection

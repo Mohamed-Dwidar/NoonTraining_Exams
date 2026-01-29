@@ -1,12 +1,16 @@
 @extends('layoutmodule::admin.main')
 
-@section('title', 'تعديل بيانات طالب')
+@section('title')
+    تعديل بيانات طالب
+@endsection
 
 @section('content')
     <div class="content-wrapper container-fluid">
         <div class="content-header">
             <div class="content-header-left mb-2 breadcrumb-new col">
-                <h3><i class="fa fa-edit"></i> تعديل بيانات الطالب</h3>
+                <h3><i class="fa fa-edit"></i>
+                    تعديل بيانات الطالب
+                </h3>
             </div>
         </div>
 
@@ -15,145 +19,94 @@
         <div class="content-body">
             <div class="row">
                 <div class="col-lg-12 col-12">
-                    <div class="card p-2">
+                    <div class="card">
                         <div class="card-content">
                             <div class="row">
                                 <div class="col-lg-12 col-12">
-
-                                    <form method="POST"
-                                        action="{{ route(Auth::getDefaultDriver() . '.students.update') }}">
+                                    <form class="card-form side-form" method="POST"
+                                        action="{{ route(Auth::getDefaultDriver() . '.students.update') }}" enctype="multipart/form-data">
                                         @csrf
 
                                         <input type="hidden" name="id" value="{{ $student->id }}">
 
-                                        <div class="row mb-3">
-                                            <div class="col-lg-6">
-                                                <label class="form-label fw-bold">اسم الطالب</label>
-                                                <input type="text" name="name" class="form-control"
-                                                    value="{{ old('name', $student->name) }}" required>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <label class="form-label fw-bold">البريد الإلكتروني</label>
-                                                <input type="email" name="email" class="form-control"
-                                                    value="{{ old('email', $student->email) }}">
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-lg-6">
-                                                <label class="form-label fw-bold">رقم الهاتف</label>
-                                                <input type="text" name="phone" class="form-control"
-                                                    value="{{ old('phone', $student->phone) }}">
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <label class="form-label fw-bold">كلمة المرور</label>
-                                                <div class="input-group">
-                                                    <input type="password" id="passwordInput" name="password"
-                                                        class="form-control" placeholder="أدخل كلمة مرور جديدة">
-                                                    <span class="input-group-text" onclick="togglePassword()">
-                                                        <i id="passwordIcon" class="fa fa-eye"></i>
-                                                    </span>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
+                                                <label for="name">اسم الطالب</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                                        id="name" name="name" value="{{ old('name', $student->name) }}">
+                                                    @error('name')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
-                                                <small class="text-muted">اترك الحقل فارغًا إذا كنت لا تريد تغيير كلمة
-                                                    المرور</small>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <label class="form-label fw-bold">الرقم القومي</label>
-                                                <input type="text" name="national_id" class="form-control"
-                                                    value="{{ old('national_id', $student->national_id) }}">
                                             </div>
                                         </div>
 
-                                        <div class="row mb-3">
-                                            <div class="col-lg-6">
-                                                <label class="form-label fw-bold">تاريخ الميلاد</label>
-                                                <input type="date" name="birth_date" class="form-control"
-                                                    value="{{ old('birth_date', $student->birth_date) }}">
+                                        <div class="row">
+
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="phone">رقم الهاتف</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                                                        id="phone" name="phone" value="{{ old('phone', $student->phone) }}">
+                                                    @error('phone')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                             </div>
 
-                                            <div class="col-lg-6">
-                                                <label class="form-label fw-bold">النوع</label>
-                                                <select name="gender" class="form-control">
-                                                    <option value="male"
-                                                        {{ $student->gender == 'male' ? 'selected' : '' }}>ذكر</option>
-                                                    <option value="female"
-                                                        {{ $student->gender == 'female' ? 'selected' : '' }}>أنثى</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-
-                                        <div class="row mb-3">
-                                            <div class="col-lg-6">
-                                                <label class="form-label fw-bold">كود الطالب</label>
-                                                <input type="text" name="student_code" class="form-control"
-                                                    value="{{ old('student_code', $student->student_code) }}">
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="email">البريد الإلكتروني</label>
+                                                <div class="form-group">
+                                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                                        id="email" name="email" value="{{ old('email', $student->email) }}">
+                                                    @error('email')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="d-flex gap-2 mt-3">
-                                            <button type="submit" class="btn btn-primary px-4">تحديث</button>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
+                                                <label for="national_id">الرقم القومي</label>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control @error('national_id') is-invalid @enderror"
+                                                        id="national_id" name="national_id" value="{{ old('national_id', $student->national_id) }}">
+                                                    @error('national_id')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
+                                                <label for="password">الرقم السري</label>
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                                        id="password" name="password">
+                                                    @error('password')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
                                             <a href="{{ route(Auth::getDefaultDriver() . '.students.index') }}"
                                                 class="btn btn-secondary">إلغاء</a>
+
+                                            <button type="submit" class="btn btn-primary">تحديث</button>
                                         </div>
-
                                     </form>
-
                                 </div>
+                                <div class="col-lg-1 col-1"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
-
- @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
-        const passwordInput = document.getElementById('passwordInput');
-        const passwordIcon = document.getElementById('passwordIcon');
-        
-        if (togglePasswordBtn && passwordInput && passwordIcon) {
-            togglePasswordBtn.addEventListener('click', function() {
-                if (passwordInput.type === "password") {
-                    passwordInput.type = "text";
-                    passwordIcon.classList.remove("fa-eye");
-                    passwordIcon.classList.add("fa-eye-slash");
-                    this.setAttribute('aria-label', 'إخفاء كلمة المرور');
-                } else {
-                    passwordInput.type = "password";
-                    passwordIcon.classList.remove("fa-eye-slash");
-                    passwordIcon.classList.add("fa-eye");
-                    this.setAttribute('aria-label', 'إظهار كلمة المرور');
-                }
-            });
-        }
-        
-        // Keep the original function for backward compatibility
-        window.togglePassword = function() {
-            const passwordInput = document.getElementById('passwordInput');
-            const passwordIcon = document.getElementById('passwordIcon');
-            
-            if (passwordInput && passwordIcon) {
-                if (passwordInput.type === "password") {
-                    passwordInput.type = "text";
-                    passwordIcon.classList.remove("fa-eye");
-                    passwordIcon.classList.add("fa-eye-slash");
-                } else {
-                    passwordInput.type = "password";
-                    passwordIcon.classList.remove("fa-eye-slash");
-                    passwordIcon.classList.add("fa-eye");
-                }
-            }
-        }
-    });
-</script>
-@endsection
-
