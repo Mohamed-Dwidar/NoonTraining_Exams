@@ -1,5 +1,5 @@
 
-@extends('layoutmodule::admin.login')
+@extends('layoutmodule::layouts.home_layout')
 
 @section('title', 'تسجيل دخول الإدارة')
 

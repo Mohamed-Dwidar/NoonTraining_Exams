@@ -1,4 +1,4 @@
-@extends('layoutmodule::admin.login')
+@extends('layoutmodule::layouts.home_layout')
 
 @section('content')
     <div class="content-wrapper">
