@@ -5,7 +5,7 @@ use Modules\UserModule\app\Http\Controllers\Admin\UserAdminModuleController;
 use Modules\UserModule\app\Http\Controllers\Auth\UserAuthController;
 
 // Public user login routes
-Route::get('/', [UserAuthController::class, 'loginForm'])->name('user.loginForm');
+// Route::get('/', [UserAuthController::class, 'loginForm'])->name('user.loginForm');
 
 Route::prefix('user')->group(function () {
     Route::get('/', [UserAuthController::class, 'loginForm']);

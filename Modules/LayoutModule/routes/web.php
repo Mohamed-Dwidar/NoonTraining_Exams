@@ -3,13 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\LayoutModule\app\Http\Controllers\LayoutModuleController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
+// Commented out to let StudentModule handle the root route
+Route::get('/', function () {
+    return view('layoutmodule::index');
+})->name('home');

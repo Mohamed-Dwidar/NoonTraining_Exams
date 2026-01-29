@@ -19,6 +19,13 @@ class StudentModuleController extends Controller
         $this->students = $studentService;
     }
 
+    /**
+     * Display the intro page for students
+     */
+    public function intro()
+    {
+        return view('studentmodule::intro');
+    }
 
     public function dashboard()
     {
