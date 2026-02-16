@@ -73,8 +73,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="options-container" id="mcq-options"
-                                            style="{{ $question->type == 'true_false' ? 'display: none;' : '' }}">
+                                         @if($question->type == 'mcq')
+                                        <div class="options-container" id="mcq-options">
                                             <div class="row">
                                                 @foreach (['A', 'B', 'C', 'D'] as $o=>$option)
                                                     <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
@@ -91,6 +91,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
+                                        @endif
 
                                         <div class="row">
                                             <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
@@ -115,8 +116,8 @@
                                                     <div class="form-group">
                                                         <select class="form-control @error('answer') is-invalid @enderror" id="answer_tf" name="answer">
                                                             <option value="">اختر الإجابة الصحيحة</option>
-                                                            <option value="true" {{ old('answer', $question->answer) == 'true' ? 'selected' : '' }}>صح</option>
-                                                            <option value="false" {{ old('answer', $question->answer) == 'false' ? 'selected' : '' }}>خطأ</option>
+                                                            <option value="true" {{ old('answer', $question->answer->correct_answer) == 'true' ? 'selected' : '' }}>صح</option>
+                                                            <option value="false" {{ old('answer', $question->answer->correct_answer) == 'false' ? 'selected' : '' }}>خطأ</option>
                                                         </select>
                                                         @error('answer')
                                                             <div class="invalid-feedback">{{ $message }}</div>

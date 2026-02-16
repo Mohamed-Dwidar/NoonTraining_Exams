@@ -28,7 +28,7 @@
                                 <div class="col-lg-8"></div>
                                 <div class="col-lg-4">
                                     <a class="btn btn-success round btn-min-width mr-1 mb-1"
-                                        href="{{ route(Auth::getDefaultDriver() . '.exam.create') }}" role="button">أضف امتحان جديد</a>
+                                        href="{{ route(Auth::getDefaultDriver() . '.exam.create') }}" role="button">إنشاء امتحان جديد</a>
                                 </div>
                             </div>
                         </div>

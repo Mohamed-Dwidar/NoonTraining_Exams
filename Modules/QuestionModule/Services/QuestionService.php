@@ -35,17 +35,23 @@ class QuestionService {
      * Create a single question
      */
     public function create($data) {
+        if ($data['type'] === 'mcq') {
+            $arr_options = array_values($data['options'] ?? []) ?? null;
+        } else {
+            $arr_options = ['true', 'false'];
+        }
+
         $question_data = [
             'category_id'       => $data['category_id'],
             'type'          => $data['type'],
             'question_text' => $data['question_text'],
-            'options'       => array_values($data['options'] ?? []) ?? null,
+            'options'       => $arr_options,
         ];
         $question = $this->questions->create($question_data);
 
         $this->answers->create([
             'question_id'    => $question->id,
-            'correct_answer' => $data['options'][$data['answer']],
+            'correct_answer' => $data['type'] === 'mcq' ? $data['options'][$data['answer']] : $data['answer'],
         ]);
 
         return $question;
@@ -77,22 +83,29 @@ class QuestionService {
      * Update a question
      */
     public function update(array $data) {
+        // dd($data);
+        if ($data['type'] === 'mcq') {
+            $arr_options = array_values($data['options'] ?? []) ?? null;
+        } else {
+            $arr_options = ['true', 'false'];
+        }
+
         $question = $this->questions->update([
             'category_id' => $data['category_id'],
             'question_text' => $data['question_text'],
-            'options' => array_values($data['options'] ?? []) ?? null,
+            'options' => $arr_options,
         ], $data['id']);
 
         // Fetch answer by question_id not by ID
         $answer = $this->answers->findByQuestionId($data['id']);
         if ($answer) {
             $this->answers->update([
-                'correct_answer' => $data['options'][$data['answer']],
+                'correct_answer' => $data['type'] === 'mcq' ? $data['options'][$data['answer']] : $data['answer'],
             ], $answer->id);
         } else {
             $this->answers->create([
                 'question_id'    => $data['id'],
-                'correct_answer' => $data['options'][$data['answer']],
+                'correct_answer' => $data['type'] === 'mcq' ? $data['options'][$data['answer']] : $data['answer'],
             ]);
         }
 

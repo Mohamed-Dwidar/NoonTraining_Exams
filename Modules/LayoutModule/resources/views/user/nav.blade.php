@@ -32,7 +32,7 @@
                     <a href="{{ route(Auth::getDefaultDriver() . '.questions.index') }}"
                         class="@if (Request::segment(2) == 'question') active @endif">
                         <i class="fa fa-question-circle fa-fw"></i>
-                        <span data-i18n="nav.dash.main" class="menu-title">بنك الاسئله</span>
+                        <span data-i18n="nav.dash.main" class="menu-title">بنك الأسئلة</span>
                     </a>
                 </li>
 
