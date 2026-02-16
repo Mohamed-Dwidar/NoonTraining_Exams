@@ -10,7 +10,6 @@ foreach (['admin', 'user'] as $guard) {
         ->middleware("auth:$guard")
         ->name("$guard.")
         ->group(function () {
-
             // Questions routes
             Route::get('question', [QuestionModuleController::class, 'indexQuestions'])
                 ->name('questions.index');
@@ -29,7 +28,6 @@ foreach (['admin', 'user'] as $guard) {
 
             Route::get('question/{id}/delete', [QuestionModuleController::class, 'deleteQuestion'])
                 ->name('question.delete');
-
 
             Route::get('categories', [CategoryController::class, 'index'])
                 ->name('categories.index');

@@ -33,7 +33,8 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <button type="button" id="add-question" class="btn btn-outline-primary fw-bold">
-                                                    <i class="fas fa-plus ms-2"></i> إضافة سؤال جديد
+                                                    <i class="fa fa-plus ms-2"></i>
+                                                    إضافة سؤال جديد
                                                 </button>
                                                 <span class="text-muted ms-3" id="questions-count">عدد الأسئلة: 0</span>
                                             </div>
@@ -41,7 +42,7 @@
 
                                         <div class="col-12 mt-3">
                                             <button type="submit" class="btn btn-primary fw-bold px-4">
-                                                <i class="fas fa-save ms-2"></i> حفظ الأسئلة
+                                                <i class="fa fa-save ms-2"></i> حفظ الأسئلة
                                             </button>
                                         </div>
                                     </form>
@@ -108,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const html = `
         <div class="question-row" data-index="${questionIndex}">
             <div class="row align-items-end">
-                <div class="col-md-3 mb-3">
+                <div class="col-md-2 mb-2">
                     <label class="form-label fw-semibold">الفئة <span class="text-danger">*</span></label>
                     <select name="questions[${questionIndex}][category_id]" class="form-select" required>
                         <option value="">اختر الفئة</option>
@@ -119,21 +120,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="invalid-feedback">يرجى اختيار الفئة</div>
                 </div>
 
-                <div class="col-md-3 mb-3">
-                    <label class="form-label fw-semibold">نوع السؤال</label>
+                <div class="col-md-2 mb-2">
+                    <label class="form-label fw-semibold">نوع السؤال<span class="text-danger">*</span></label>
                     <select name="questions[${questionIndex}][type]" class="form-select question-type">
                         <option value="mcq">اختيار من متعدد</option>
                         <option value="true_false">صح / خطأ</option>
                     </select>
                 </div>
 
-                <div class="col-md-3 mb-3">
+                <div class="col-md-4 mb-2">
                     <label class="form-label fw-semibold">نص السؤال <span class="text-danger">*</span></label>
                     <input type="text" name="questions[${questionIndex}][question_text]" class="form-control question-text" required>
                     <div class="invalid-feedback">يرجى إدخال نص السؤال</div>
                 </div>
 
-                <div class="col-md-2 mb-3 answer-container">
+                <div class="col-md-2 mb-2 answer-container">
                     <label class="form-label fw-semibold">الإجابة الصحيحة <span class="text-danger">*</span></label>
                     <select name="questions[${questionIndex}][answer]" class="form-select" required>
                         <option value="">اختر الإجابة</option>
@@ -147,12 +148,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 <div class="col-md-1 mb-3">
                     <button type="button" class="btn btn-outline-danger btn-sm remove-question" title="حذف السؤال">
-                        <i class="fas fa-trash"></i>
+                        <i class="fa fa-trash"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="row mt-3 options-container">
+            <div class="row mt-1 options-container">
                 <div class="col-12">
                     <label class="form-label fw-semibold mb-2">خيارات الإجابة <span class="text-danger">*</span></label>
                 </div>

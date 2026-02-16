@@ -7,8 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Modules\QuestionModule\Repository\AnswerRepository;
 use Modules\QuestionModule\Repository\QuestionRepository;
 
-class QuestionService
-{
+class QuestionService {
     private $questions;
     private $answers;
 
@@ -20,33 +19,33 @@ class QuestionService
         $this->answers   = $answerRepository;
     }
 
-    public function findAll()
-    {
+    public function findAll() {
         return $this->questions->all();
     }
 
-    public function find($id)
-    {
+    public function paginate($perPage = 15) {
+        return $this->questions->paginate($perPage);
+    }
+
+    public function find($id) {
         return $this->questions->find($id);
     }
 
     /**
      * Create a single question
      */
-    public function create(array $data)
-    {
-        $this->validateQuestion($data);
-
-        $question = $this->questions->create([
+    public function create($data) {
+        $question_data = [
             'category_id'       => $data['category_id'],
             'type'          => $data['type'],
             'question_text' => $data['question_text'],
-            'options'       => $data['options'] ?? null,
-        ]);
+            'options'       => array_values($data['options'] ?? []) ?? null,
+        ];
+        $question = $this->questions->create($question_data);
 
         $this->answers->create([
             'question_id'    => $question->id,
-            'correct_answer' => $data['answer'],
+            'correct_answer' => $data['options'][$data['answer']],
         ]);
 
         return $question;
@@ -55,8 +54,7 @@ class QuestionService
     /**
      * CREATE + UPDATE MULTIPLE QUESTIONS
      */
-    public function createMultiple(array $questions, $examId)
-    {
+    public function createMultiple(array $questions, $examId) {
         $saved = [];
 
         foreach ($questions as $q) {
@@ -78,27 +76,23 @@ class QuestionService
     /**
      * Update a question
      */
-    public function update(array $data)
-    {
-        $this->validateQuestion($data);
-
+    public function update(array $data) {
         $question = $this->questions->update([
-            'type'          => $data['type'],
+            'category_id' => $data['category_id'],
             'question_text' => $data['question_text'],
-            'options'       => $data['options'] ?? null,
+            'options' => array_values($data['options'] ?? []) ?? null,
         ], $data['id']);
 
         // Fetch answer by question_id not by ID
         $answer = $this->answers->findByQuestionId($data['id']);
-
         if ($answer) {
             $this->answers->update([
-                'correct_answer' => $data['answer'],
+                'correct_answer' => $data['options'][$data['answer']],
             ], $answer->id);
         } else {
             $this->answers->create([
                 'question_id'    => $data['id'],
-                'correct_answer' => $data['answer'],
+                'correct_answer' => $data['options'][$data['answer']],
             ]);
         }
 
@@ -108,8 +102,7 @@ class QuestionService
     /**
      * Validate question data
      */
-    private function validateQuestion(array $data)
-    {
+    private function validateQuestion(array $data) {
         if (!isset($data['type'])) {
             throw ValidationException::withMessages(['type' => 'Question type is required.']);
         }
@@ -147,8 +140,7 @@ class QuestionService
         }
     }
 
-    public function delete($id)
-    {
+    public function delete($id) {
         $answer = $this->answers->findByQuestionId($id);
 
         if ($answer) {

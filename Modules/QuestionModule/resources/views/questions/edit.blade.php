@@ -32,6 +32,15 @@
 
                                         <div class="row">
                                             <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
+                                                <label for="type">نوع السؤال
+                                                    &nbsp; : &nbsp;
+                                                    <b>{{ $question->type == 'mcq' ? 'اختيار من متعدد' : 'صح أو خطأ' }}</b>
+                                                    <input type="hidden" name="type" value="{{ $question->type }}">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
                                                 <label for="category_id">الفئة</label>
                                                 <div class="form-group">
                                                     <select class="form-control @error('category_id') is-invalid @enderror"
@@ -52,27 +61,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
-                                                <label for="type">نوع السؤال</label>
-                                                <div class="form-group">
-                                                    <select class="form-control @error('type') is-invalid @enderror"
-                                                        id="type" name="type">
-                                                        <option value="mcq"
-                                                            {{ old('type', $question->type) == 'mcq' ? 'selected' : '' }}>اختيار من متعدد
-                                                        </option>
-                                                        <option value="true_false"
-                                                            {{ old('type', $question->type) == 'true_false' ? 'selected' : '' }}>صح / خطأ
-                                                        </option>
-                                                    </select>
-                                                    @error('type')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-8 col-sm-12 col-xs-12 col-12">
+                                            <div class="col-lg-5 col-sm-12 col-xs-12 col-12">
                                                 <label for="question_text">نص السؤال</label>
                                                 <div class="form-group">
                                                     <textarea class="form-control @error('question_text') is-invalid @enderror"
@@ -87,13 +76,13 @@
                                         <div class="options-container" id="mcq-options"
                                             style="{{ $question->type == 'true_false' ? 'display: none;' : '' }}">
                                             <div class="row">
-                                                @foreach (['A', 'B', 'C', 'D'] as $option)
-                                                    <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
+                                                @foreach (['A', 'B', 'C', 'D'] as $o=>$option)
+                                                    <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
                                                         <label for="option_{{ $option }}">الخيار {{ $option }}</label>
                                                         <div class="form-group">
                                                             <input type="text" class="form-control @error('options.' . $option) is-invalid @enderror"
                                                                 id="option_{{ $option }}" name="options[{{ $option }}]"
-                                                                value="{{ old('options.' . $option, $question->options[$option] ?? '') }}">
+                                                                value="{{ old('options.' . $option, $question->options[$o] ?? '') }}">
                                                             @error('options.' . $option)
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -104,16 +93,15 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
-                                                <div id="mcq-answer" style="{{ $question->type == 'true_false' ? 'display: none;' : '' }}">
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                @if($question->type == 'mcq')
+                                                <div id="mcq-answer">
                                                     <label for="answer_mcq">الإجابة الصحيحة</label>
                                                     <div class="form-group">
-                                                        <select class="form-control @error('answer') is-invalid @enderror"
-                                                            id="answer_mcq" name="answer">
+                                                        <select class="form-control @error('answer') is-invalid @enderror" id="answer_mcq" name="answer">
                                                             <option value="">اختر الإجابة الصحيحة</option>
-                                                            @foreach (['A', 'B', 'C', 'D'] as $option)
-                                                                <option value="{{ $option }}"
-                                                                    {{ old('answer', $question->answer) == $option ? 'selected' : '' }}>الخيار {{ $option }}</option>
+                                                            @foreach (['A', 'B', 'C', 'D'] as $o=>$option)
+                                                                <option value="{{ $option }}" {{ old('answer', $question->answer->correct_answer) == $question->options[$o] ? 'selected' : '' }}>الخيار {{ $option }}</option>
                                                             @endforeach
                                                         </select>
                                                         @error('answer')
@@ -121,22 +109,21 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-
-                                                <div id="true-false-answer" style="{{ $question->type == 'mcq' ? 'display: none;' : '' }}">
+                                                @elseif ($question->type == 'true_false')
+                                                <div id="true-false-answer">
                                                     <label for="answer_tf">الإجابة الصحيحة</label>
                                                     <div class="form-group">
-                                                        <select class="form-control @error('answer') is-invalid @enderror"
-                                                            id="answer_tf" name="answer">
-                                                            <option value="true"
-                                                                {{ old('answer', $question->answer) == 'true' ? 'selected' : '' }}>صح</option>
-                                                            <option value="false"
-                                                                {{ old('answer', $question->answer) == 'false' ? 'selected' : '' }}>خطأ</option>
+                                                        <select class="form-control @error('answer') is-invalid @enderror" id="answer_tf" name="answer">
+                                                            <option value="">اختر الإجابة الصحيحة</option>
+                                                            <option value="true" {{ old('answer', $question->answer) == 'true' ? 'selected' : '' }}>صح</option>
+                                                            <option value="false" {{ old('answer', $question->answer) == 'false' ? 'selected' : '' }}>خطأ</option>
                                                         </select>
                                                         @error('answer')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                @endif
                                             </div>
                                         </div>
 

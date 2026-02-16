@@ -9,12 +9,13 @@ use Modules\QuestionModule\app\Http\Models\Answer;
 class Question extends Model
 {
     protected $fillable = [
-        'exam_id',
+        // 'exam_id',
+        'category_id',
         'type',
         'question_text',
         'options',       // JSON for MCQ
-        'correct_answer',
-        'grade'
+        // 'correct_answer',
+        // 'grade'
     ];
 
     protected $casts = [

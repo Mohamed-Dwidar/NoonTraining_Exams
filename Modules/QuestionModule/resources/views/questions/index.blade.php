@@ -28,7 +28,8 @@
                                 <div class="col-lg-8"></div>
                                 <div class="col-lg-4">
                                     <a class="btn btn-success round btn-min-width mr-1 mb-1"
-                                        href="{{ route(Auth::getDefaultDriver() . '.question.create') }}" role="button">إضافة أسئلة جديدة</a>
+                                        href="{{ route(Auth::getDefaultDriver() . '.question.create') }}"
+                                        role="button">إضافة أسئلة جديدة</a>
                                 </div>
                             </div>
                         </div>
@@ -44,12 +45,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if($questions)
-                                            @foreach($questions as $question)
+                                        @if ($questions)
+                                            @foreach ($questions as $question)
                                                 <tr>
                                                     <td class="strong">{{ Str::limit($question->question_text, 60) }}</td>
                                                     <td>
-                                                        @if($question->type == 'mcq')
+                                                        @if ($question->type == 'mcq')
                                                             <span class="badge badge-primary">اختياري</span>
                                                         @else
                                                             <span class="badge badge-success">صح/خطأ</span>
@@ -69,10 +70,15 @@
                                                 </tr>
                                             @endforeach
                                         @else
-                                            <tr><td colspan="4" class="text-center">لا توجد أسئلة</td></tr>
+                                            <tr>
+                                                <td colspan="4" class="text-center">لا توجد أسئلة</td>
+                                            </tr>
                                         @endif
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="mt-3">
+                                {{ $questions->appends(request()->query())->links('pagination::bootstrap-4') }}
                             </div>
                         </div>
                     </div>
