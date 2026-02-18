@@ -41,7 +41,7 @@ foreach (['admin', 'user'] as $guard) {
             Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])
                 ->name('categories.edit');
 
-            Route::put('categories/{category}', [CategoryController::class, 'update'])
+            Route::post('categories/{category}', [CategoryController::class, 'update'])
                 ->name('categories.update');
 
             Route::delete('categories/{category}', [CategoryController::class, 'destroy'])

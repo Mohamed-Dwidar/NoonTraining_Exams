@@ -816,3 +816,27 @@ nav.pagination-nav {
     border-top-right-radius: 0.2rem;
     border-bottom-right-radius: 0.2rem;
 }
+
+.exam-checkbox-card {
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    padding-bottom: .5rem !important;
+    padding-top: 1rem !important;
+}
+
+.exam-checkbox-card:hover {
+    background-color: #e9ecef;
+    border-left-color: #01640d !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.exam-checkbox-card input[type="checkbox"]:checked+label {
+    color: #01640d;
+    font-weight: 500;
+}
+
+.exam-checkbox-card input[type="checkbox"]:checked~* {
+    color: #01640d;
+}

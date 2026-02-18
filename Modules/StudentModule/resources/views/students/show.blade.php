@@ -26,11 +26,6 @@
                         </li>
 
                         <li class="list-group-item d-flex justify-content-between">
-                            <strong>الكود:</strong>
-                            <span>{{ $student->student_code ?? '-' }}</span>
-                        </li>
-
-                        <li class="list-group-item d-flex justify-content-between">
                             <strong>البريد الإلكتروني:</strong>
                             <span>{{ $student->email ?? '-' }}</span>
                         </li>
@@ -54,13 +49,6 @@
                     <ul class="list-group">
 
                         <li class="list-group-item d-flex justify-content-between">
-                            <strong>تاريخ الميلاد:</strong>
-                            <span>{{ $student->birth_date ?? '-' }}</span>
-                        </li>
-
-
-
-                        <li class="list-group-item d-flex justify-content-between">
                             <strong>تاريخ التسجيل:</strong>
                             <span>{{ $student->created_at->format('Y-m-d') }}</span>
                         </li>
@@ -71,13 +59,13 @@
             </div>
 
             <div class="card shadow-sm p-4 mt-4">
-                <h5 class="fw-bold mb-3">الامتحانات المسندة للطالب</h5>
+                <h5 class="fw-bold mb-3">الأختبارات المسندة للطالب</h5>
 
                 @if ($student->exams->count() > 0)
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>اسم الامتحان</th>
+                                <th>اسم الأختبار</th>
                                 <th>النتيجة</th>
                                 <th>تاريخ الإسناد</th>
                             </tr>
@@ -103,7 +91,7 @@
                     </table>
                 @else
                     <div class="alert alert-info text-center">
-                        لا توجد امتحانات مسندة لهذا الطالب حتى الآن.
+                        لا توجد أختبارات مسندة لهذا الطالب حتى الآن.
                     </div>
                 @endif
             </div>

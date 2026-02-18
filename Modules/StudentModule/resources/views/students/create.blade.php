@@ -66,8 +66,8 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                                <label for="national_id">الرقم القومي</label>
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="national_id">رقم الهوية</label>
                                                 <div class="form-group">
                                                     <input type="text" class="form-control @error('national_id') is-invalid @enderror"
                                                         id="national_id" name="national_id" value="{{ old('national_id') }}">
@@ -76,11 +76,23 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="gender">الجنس</label>
+                                                <div class="form-group">
+                                                    <select class="form-control @error('gender') is-invalid @enderror" id="gender" name="gender">
+                                                        <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>ذكر</option>
+                                                        <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>أنثى</option>
+                                                    </select>
+                                                    @error('gender')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                                <label for="password">الرقم السري</label>
+                                                <label for="password">كلمة المرور</label>
                                                 <div class="form-group">
                                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
                                                         id="password" name="password" value="{{ old('password') }}">

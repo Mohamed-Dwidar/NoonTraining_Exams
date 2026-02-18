@@ -1,7 +1,7 @@
 @extends('layoutmodule::admin.main')
 
 @section('title')
-    الامتحانات
+    الأختبارات
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
                 <h3>
                     <i class="fa fa-book"></i>
                     &nbsp;
-                    الامتحانات
+                    الأختبارات
                 </h3>
             </div>
         </div>
@@ -28,7 +28,7 @@
                                 <div class="col-lg-8"></div>
                                 <div class="col-lg-4">
                                     <a class="btn btn-success round btn-min-width mr-1 mb-1"
-                                        href="{{ route(Auth::getDefaultDriver() . '.exam.create') }}" role="button">إنشاء امتحان جديد</a>
+                                        href="{{ route(Auth::getDefaultDriver() . '.exam.create') }}" role="button">إنشاء أختبار جديد</a>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr class="head">
-                                            <th>عنوان الامتحان</th>
+                                            <th>عنوان الأختبار</th>
                                             <th>تاريخ البداية</th>
                                             <th>تاريخ النهاية</th>
                                             <th>عدد الأسئلة</th>
@@ -59,13 +59,13 @@
 
                                                         <a class="btn btn-danger"
                                                             href="{{ route(Auth::getDefaultDriver() . '.exam.delete', $exam->id) }}"
-                                                            onclick="return confirm('هل انت متأكد انك تريد حذف هذا الامتحان ؟')"
+                                                            onclick="return confirm('هل انت متأكد انك تريد حذف هذا الأختبار ؟')"
                                                             role="button">حذف</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         @else
-                                            <tr><td colspan="5" class="text-center">لا توجد امتحانات</td></tr>
+                                            <tr><td colspan="5" class="text-center">لا توجد أختبارات</td></tr>
                                         @endif
                                     </tbody>
                                 </table>

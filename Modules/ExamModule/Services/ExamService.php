@@ -30,7 +30,7 @@ class ExamService
             'mcq_count' => $data['mcq_count'] ?? 0,
             'true_false_count' => $data['true_false_count'] ?? 0,
             'success_grade' => $data['success_grade'],
-            'total_grade' => $data['total_grade'],
+            'total_grade' => $data['total_questions'],
             'created_by' => auth()->id(),
         ];
         return $this->examRepository->create($exam_data);
@@ -51,7 +51,7 @@ class ExamService
             'mcq_count' => $data['mcq_count'] ?? 0,
             'true_false_count' => $data['true_false_count'] ?? 0,
             'success_grade' => $data['success_grade'],
-            'total_grade' => $data['total_grade'],
+            'total_grade' => $data['total_questions'],
             'created_by' => $data['created_by'] ?? null,
         ];
 

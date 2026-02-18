@@ -1,7 +1,7 @@
 @extends('layoutmodule::admin.main')
 
 @section('title')
-لوحة تحكم الطالب  
+لوحة تحكم الطالب
 @endsection
 
 @section('content')
@@ -16,17 +16,17 @@
                 <div class="col-lg-12">
                     <div class="card p-3">
                         <div class="card-header">
-                            <h4 class="card-title"><i class="fa fa-list"></i> الامتحانات المرتبطة بالطالب</h4>
+                            <h4 class="card-title"><i class="fa fa-list"></i> الأختبارات المرتبطة بالطالب</h4>
                         </div>
 
                         <div class="card-body">
                             @if ($exams->isEmpty())
-                                <p class="text-center text-muted">لا توجد امتحانات مرتبطة بهذا الطالب.</p>
+                                <p class="text-center text-muted">لا توجد أختبارات مرتبطة بهذا الطالب.</p>
                             @else
                                 <table class="table table-striped table-bordered text-center">
                                     <thead>
                                         <tr>
-                                            <th>اسم الامتحان</th>
+                                            <th>اسم الأختبار</th>
                                             <th>الحالة</th>
                                             <th>النتيجة</th>
                                             <th>التحكم</th>
@@ -43,7 +43,7 @@
                                                 <td>{{ $exam->title }}</td>
                                                 <td>
                                                     @if (!$attempt)
-                                                    
+
                                                         <span class="badge bg-secondary">غير مسجل</span>
                                                     @elseif($attempt && $attempt->status == 'not_started')
                                                         <span class="badge bg-warning">لم يبدأ بعد</span>
@@ -71,9 +71,9 @@
                                                     @if ($attempt->status == 'not_started')
                                                         <a href="{{ route('student.exam.start', $exam->id) }}"
                                                             class="btn btn-success btn-sm">
-                                                            بدء الامتحان
+                                                            بدء الأختبار
                                                         </a>
-                                                   
+
                                                     @elseif($attempt->status == 'completed')
                                                         <a href="{{ route('student.exam.result', $exam->id) }}"
                                                             class="btn btn-info btn-sm">

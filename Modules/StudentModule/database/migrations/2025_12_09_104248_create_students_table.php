@@ -14,10 +14,8 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique();
             $table->string('national_id', 14)->unique()->nullable();
-            $table->date('birth_date')->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();
-            $table->string('student_code')->unique()->nullable();
-            $table->string('password'); 
+            $table->string('password');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

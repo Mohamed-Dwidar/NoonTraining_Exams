@@ -1,7 +1,7 @@
 @extends('layoutmodule::admin.main')
 
 @section('title')
-    إنشاء امتحان جديد
+    إنشاء أختبار جديد
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <div class="content-header">
             <div class="content-header-left mb-2 breadcrumb-new col">
                 <h3><i class="fa fa-plus-circle"></i>
-                    إنشاء امتحان جديد
+                    إنشاء أختبار جديد
                 </h3>
             </div>
         </div>
@@ -29,7 +29,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
-                                                <label for="title">عنوان الامتحان</label>
+                                                <label for="title">عنوان الأختبار</label>
                                                 <div class="form-group">
                                                     <input type="text"
                                                         class="form-control @error('title') is-invalid @enderror"
@@ -64,7 +64,7 @@
 
                                         <div class="row">
                                             <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
-                                                <label for="description">وصف الامتحان</label>
+                                                <label for="description">وصف الأختبار</label>
                                                 <div class="form-group">
                                                     <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
                                                         rows="3">{{ old('description') }}</textarea>

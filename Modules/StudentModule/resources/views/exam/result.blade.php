@@ -1,7 +1,7 @@
 @extends('layoutmodule::admin.main')
 
 @section('title')
-    نتيجة الامتحان - {{ $exam->title }}
+    نتيجة الأختبار - {{ $exam->title }}
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
                         <div class="p-2">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h4 class="card-title mb-0">
-                                    نتيجة الامتحان: {{ $exam->title }}
+                                    نتيجة الأختبار: {{ $exam->title }}
                                 </h4>
                                 <a href="{{ route('student.dashboard') }}" class="btn btn-secondary btn-sm mt-1">
                                     <i class="fa fa-arrow-right"></i> العودة
@@ -26,9 +26,9 @@
                             <div class="card-body">
                                 @if (!$attempt)
                                     <div class="alert alert-warning text-center">
-                                        <h5>لم تتم إجراء هذا الامتحان بعد</h5>
+                                        <h5>لم تتم إجراء هذا الأختبار بعد</h5>
                                         <a href="{{ route('student.exam.start', $exam->id) }}" class="btn btn-success mt-2">
-                                            بدء الامتحان
+                                            بدء الأختبار
                                         </a>
                                     </div>
                                 @else
@@ -76,7 +76,7 @@
                                         <div class="col-md-12">
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <h5>تفاصيل الامتحان</h5>
+                                                    <h5>تفاصيل الأختبار</h5>
                                                 </div>
                                                 <div class="card-body">
                                                     <table class="table table-bordered">
@@ -91,7 +91,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <th>مدة الامتحان</th>
+                                                            <th>مدة الأختبار</th>
                                                             <td>{{ $exam->duration_minutes }} دقيقة</td>
                                                         </tr>
                                                         <tr>

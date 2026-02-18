@@ -38,7 +38,6 @@
                                     <thead>
                                         <tr class="head">
                                             <th>الاسم</th>
-                                            <th>الكود</th>
                                             <th>البريد الإلكتروني</th>
                                             <th>الهاتف</th>
                                             <th>&nbsp;</th>
@@ -49,17 +48,17 @@
                                             @foreach($students as $student)
                                                 <tr>
                                                     <td class="strong">{{ $student->name }}</td>
-                                                    <td>{{ $student->student_code }}</td>
                                                     <td>{{ $student->email ?? '-' }}</td>
                                                     <td>{{ $student->phone ?? '-' }}</td>
                                                     <td>
-                                                        <a class="btn btn-warning"
-                                                            href="{{ route(Auth::getDefaultDriver() . '.students.edit', $student->id) }}"
-                                                            role="button">تعديل</a>
 
                                                         <a class="btn btn-info"
                                                             href="{{ route(Auth::getDefaultDriver() . '.students.showExams', $student->id) }}"
-                                                            role="button">ربط امتحان</a>
+                                                            role="button">إستعراض الأختبارات</a>
+
+                                                        <a class="btn btn-warning"
+                                                            href="{{ route(Auth::getDefaultDriver() . '.students.edit', $student->id) }}"
+                                                            role="button">تعديل</a>
 
                                                         <form action="{{ route(Auth::getDefaultDriver() . '.students.delete', $student->id) }}"
                                                             method="POST" class="d-inline-block">

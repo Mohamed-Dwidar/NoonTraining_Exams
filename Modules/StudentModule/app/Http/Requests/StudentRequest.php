@@ -21,10 +21,7 @@ class StudentRequest extends FormRequest
             'email'        => ['nullable','email',Rule::unique('students','email')->ignore($studentId)],
             'phone'        => 'nullable|string|max:20',
             'national_id'  => ['nullable','digits:14',Rule::unique('students','national_id')->ignore($studentId)],
-            'birth_date'   => 'nullable|date',
-            'gender'       => 'nullable|string|in:male,female',
-            'category_id'  => 'nullable|exists:categories,id',
-            'student_code' => ['nullable','string',Rule::unique('students','student_code')->ignore($studentId)],
+            'gender'       => 'nullable|string|in:male,female'
         ];
     }
 }

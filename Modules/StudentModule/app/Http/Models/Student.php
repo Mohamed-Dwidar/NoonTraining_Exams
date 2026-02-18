@@ -16,9 +16,7 @@ class Student extends Authenticatable
         'email',
         'phone',
         'national_id',
-        'birth_date',
         'gender',
-        'student_code',
         'password',
     ];
 
@@ -27,7 +25,6 @@ class Student extends Authenticatable
     ];
 
     protected $casts = [
-        'birth_date' => 'date',
         'is_active' => 'boolean',
     ];
 

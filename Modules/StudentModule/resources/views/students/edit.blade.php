@@ -24,7 +24,8 @@
                             <div class="row">
                                 <div class="col-lg-12 col-12">
                                     <form class="card-form side-form" method="POST"
-                                        action="{{ route(Auth::getDefaultDriver() . '.students.update') }}" enctype="multipart/form-data">
+                                        action="{{ route(Auth::getDefaultDriver() . '.students.update') }}"
+                                        enctype="multipart/form-data">
                                         @csrf
 
                                         <input type="hidden" name="id" value="{{ $student->id }}">
@@ -33,8 +34,10 @@
                                             <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
                                                 <label for="name">اسم الطالب</label>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                                        id="name" name="name" value="{{ old('name', $student->name) }}">
+                                                    <input type="text"
+                                                        class="form-control @error('name') is-invalid @enderror"
+                                                        id="name" name="name"
+                                                        value="{{ old('name', $student->name) }}">
                                                     @error('name')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -47,8 +50,10 @@
                                             <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
                                                 <label for="phone">رقم الهاتف</label>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                                        id="phone" name="phone" value="{{ old('phone', $student->phone) }}">
+                                                    <input type="text"
+                                                        class="form-control @error('phone') is-invalid @enderror"
+                                                        id="phone" name="phone"
+                                                        value="{{ old('phone', $student->phone) }}">
                                                     @error('phone')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -58,8 +63,10 @@
                                             <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
                                                 <label for="email">البريد الإلكتروني</label>
                                                 <div class="form-group">
-                                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                                        id="email" name="email" value="{{ old('email', $student->email) }}">
+                                                    <input type="email"
+                                                        class="form-control @error('email') is-invalid @enderror"
+                                                        id="email" name="email"
+                                                        value="{{ old('email', $student->email) }}">
                                                     @error('email')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -68,12 +75,32 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                                <label for="national_id">الرقم القومي</label>
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="national_id">رقم الهوية</label>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control @error('national_id') is-invalid @enderror"
-                                                        id="national_id" name="national_id" value="{{ old('national_id', $student->national_id) }}">
+                                                    <input type="text"
+                                                        class="form-control @error('national_id') is-invalid @enderror"
+                                                        id="national_id" name="national_id"
+                                                        value="{{ old('national_id', $student->national_id) }}">
                                                     @error('national_id')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-sm-12 col-xs-12 col-6">
+                                                <label for="gender">الجنس</label>
+                                                <div class="form-group">
+                                                    <select class="form-control @error('gender') is-invalid @enderror"
+                                                        id="gender" name="gender">
+                                                        <option value="male"
+                                                            {{ old('gender', $student->gender) == 'male' ? 'selected' : '' }}>
+                                                            ذكر</option>
+                                                        <option value="female"
+                                                            {{ old('gender', $student->gender) == 'female' ? 'selected' : '' }}>
+                                                            أنثى</option>
+                                                    </select>
+                                                    @error('gender')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
@@ -82,9 +109,23 @@
 
                                         <div class="row">
                                             <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                                                <label for="password">الرقم السري</label>
                                                 <div class="form-group">
-                                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                                    <div class="form-check">
+                                                        <input type="checkbox" id="updatePassword" name="updatePassword">
+                                                        <label class="form-check-label" for="updatePassword">
+                                                            تحديث كلمة المرور
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="passwordInputRow" style="display: none;">
+                                            <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
+                                                <label for="password">الرقم السري الجديد</label>
+                                                <div class="form-group">
+                                                    <input type="text"
+                                                        class="form-control @error('password') is-invalid @enderror"
                                                         id="password" name="password">
                                                     @error('password')
                                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -109,4 +150,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const updatePasswordCheckbox = document.getElementById('updatePassword');
+            const passwordInputRow = document.getElementById('passwordInputRow');
+            const passwordInput = document.getElementById('password');
+
+            updatePasswordCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    passwordInputRow.style.display = 'block';
+                } else {
+                    passwordInputRow.style.display = 'none';
+                    passwordInput.value = '';
+                }
+            });
+        });
+    </script>
 @endsection

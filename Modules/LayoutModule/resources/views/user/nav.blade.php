@@ -17,7 +17,7 @@
                         <a href="{{ route(Auth::getDefaultDriver() . '.exam.index') }}"
                             class="@if (Request::segment(2) == 'exam') active @endif">
                             <i class="fa fa-book"></i>
-                            <span data-i18n="nav.dash.main" class="menu-title">الامتحانات</span>
+                            <span data-i18n="nav.dash.main" class="menu-title">الأختبارات</span>
                         </a>
                     </li>
                 @endif

@@ -9,7 +9,7 @@ foreach (['admin', 'user'] as $guard) {
         Route::get('create', [ExamModuleController::class, 'create'])->name('create');
         Route::post('store', [ExamModuleController::class, 'store'])->name('store');
         Route::get('{id}/edit', [ExamModuleController::class, 'edit'])->name('edit');
-        Route::put('update', [ExamModuleController::class, 'update'])->name('update');
+        Route::post('update', [ExamModuleController::class, 'update'])->name('update');
         Route::get('{id}/delete', [ExamModuleController::class, 'destroy'])->name('delete');
     });
 }

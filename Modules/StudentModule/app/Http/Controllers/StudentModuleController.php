@@ -9,129 +9,131 @@ use Modules\ExamModule\app\Http\Models\Exam;
 use Modules\QuestionModule\app\Http\Models\Category;
 use Modules\StudentModule\app\Http\Models\Student;
 use Modules\StudentModule\Services\StudentService;
+use Illuminate\Validation\Rule;
+use Modules\ExamModule\Services\ExamService;
+use Modules\QuestionModule\Services\CategoryService;
 
-class StudentModuleController extends Controller
-{
-    private $students;
+class StudentModuleController extends Controller {
+    private $studentService;
+    private $examService;
 
-    public function __construct(StudentService $studentService)
-    {
-        $this->students = $studentService;
+    public function __construct(StudentService $studentService,ExamService $examService,CategoryService $categoryService) {
+        $this->studentService = $studentService;
+        $this->examService = $examService;
     }
 
     /**
      * Display the intro page for students
      */
-    public function intro()
-    {
+    public function intro() {
         return view('studentmodule::intro');
     }
 
-    public function dashboard()
-    {
+    public function dashboard() {
         $exams = Auth::guard('student')->user()->exams;
-        return view('studentmodule::auth.dashboard' , compact('exams'));
+        return view('studentmodule::auth.dashboard', compact('exams'));
     }
 
-    public function index()
-    {
-        $students = $this->students->findAll();
+    public function index() {
+        $students = $this->studentService->findAll();
         return view('studentmodule::students.index', compact('students'));
     }
 
-
-    public function create()
-    {
+    public function create() {
         $categories = Category::all();
         return view('studentmodule::students.create', compact('categories'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'name'         => 'required|string|max:255',
             'email'        => 'nullable|email|unique:students,email',
             'phone'        => 'required|string|max:20|unique:students,phone',
-            'national_id'  => 'nullable|digits:14|unique:students,national_id',
-            'birth_date'   => 'nullable|date',
+            'national_id'  => 'nullable|digits:10|unique:students,national_id',
             'gender'       => 'nullable|in:male,female',
-            'category_id'  => 'nullable|exists:categories,id',
-            'student_code' => 'nullable|string|unique:students,student_code',
             'password'     => 'required|string|min:6',
+        ], [
+            'name.required' => 'حقل الاسم مطلوب',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح',
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل',
+            'phone.required' => 'حقل الهاتف مطلوب',
+            'phone.unique' => 'رقم الهاتف مستخدم بالفعل',
+            'national_id.digits' => 'رقم الهوية أو الإقامة لا يتعدي ١٠ ارقام وباللغه الانجليزية',
+            'national_id.unique' => 'رقم الهوية مستخدم بالفعل في هذا الفرع',
+            'gender.in' => 'الجنس يجب أن يكون   "ذكر" أو "أنثي"',
+            'password.required' => 'حقل كلمة المرور مطلوب',
+            'password.min' => 'كلمة المرور يجب أن تكون على الأقل ٦ أحرف',
         ]);
-
-        $this->students->create($request->all());
+        $this->studentService->create($request->all());
 
         return redirect()->route(Auth::getDefaultDriver() . '.students.index')
             ->with('success', 'تم إضافة الطالب بنجاح');
     }
 
-
-    public function edit($id)
-    {
-        $student = $this->students->find($id);
+    public function edit($id) {
+        $student = $this->studentService->find($id);
         $categories = Category::all();
 
         return view('studentmodule::students.edit', compact('student', 'categories'));
     }
 
-
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         $request->validate([
             'id'           => 'required|exists:students,id',
             'name'         => 'required|string|max:255',
             'email'        => 'nullable|email|unique:students,email,' . $request->id,
             'phone'        => 'required|string|max:20|unique:students,phone,' . $request->id,
-            'national_id'  => 'nullable|digits:14|unique:students,national_id,' . $request->id,
-            'birth_date'   => 'nullable|date',
+            'national_id'  => 'nullable|digits:10|unique:students,national_id,' . $request->id,
             'gender'       => 'nullable|in:male,female',
-            'category_id'  => 'nullable|exists:categories,id',
-            'student_code' => 'nullable|string|unique:students,student_code,' . $request->id,
             'password'     => 'nullable|string|min:6',
+        ], [
+            'name.required' => 'حقل الاسم مطلوب',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح',
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل',
+            'phone.required' => 'حقل الهاتف مطلوب',
+            'phone.unique' => 'رقم الهاتف مستخدم بالفعل',
+            'national_id.digits' => 'رقم الهوية أو الإقامة لا يتعدي ١٠ ارقام وباللغه الانجليزية',
+            'national_id.unique' => 'رقم الهوية مستخدم بالفعل',
+            'gender.in' => 'الجنس يجب أن يكون   "ذكر" أو "أنثي"',
+            'password.min' => 'كلمة المرور يجب أن تكون على الأقل ٦ أحرف',
         ]);
 
-        $this->students->update($request->all());
+        $this->studentService->update($request->all());
 
         return redirect()->route(Auth::getDefaultDriver() . '.students.index')
             ->with('success', 'تم تحديث بيانات الطالب بنجاح');
     }
 
-
-    public function delete($id)
-    {
-        $this->students->delete($id);
+    public function delete($id) {
+        $this->studentService->delete($id);
 
         return redirect()->route(Auth::getDefaultDriver() . '.students.index')
             ->with('success', 'تم حذف الطالب بنجاح');
     }
 
-    public function show($id)
-    {
+    public function show($id) {
         $student = Student::with('category')->findOrFail($id);
         return view('studentmodule::students.show', compact('student'));
     }
 
-    public function assignExam(Request $request)
-    {
+    public function showExams($id) {
+        $student = $this->studentService->find($id);
+        $exams = $this->examService->findAll();
+        return view('studentmodule::exam.assignExam', compact('student', 'exams'));
+    }
+
+    public function assignExam(Request $request) {
         $request->validate([
             'student_id' => 'required|exists:students,id',
             'exam_id'    => 'required|array',
             'exam_id.*'  => 'exists:exams,id'
         ]);
 
-        $this->students->assignExamToStudent(
+        $this->studentService->assignExamToStudent(
             $request->student_id,
             $request->exam_id
         );
 
-        return redirect()->back()->with('success', 'تم ربط الامتحان بالطالب بنجاح');
-    }
-
-     public function showExams($id)
-    {
-        $student = Student::with('category')->findOrFail($id);
-        $exams = Exam::class::all();
-        return view('studentmodule::exam.assignExam', compact('student', 'exams'));
+        return redirect()->back()->with('success', 'تم ربط الأختبار بالطالب بنجاح');
     }
 }

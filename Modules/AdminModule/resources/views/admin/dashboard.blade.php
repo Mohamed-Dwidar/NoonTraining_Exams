@@ -1,7 +1,7 @@
 @extends('layoutmodule::admin.main')
 
 @section('title')
-    لوحة تحكم الامتحانات
+    لوحة تحكم الأختبارات
 @endsection
 
 @section('content')
@@ -23,7 +23,7 @@
                                     </div>
                                     <div class="media-body text-xs-right">
                                         <h3 class="teal">{{ $totalExams }}</h3>
-                                        <h5>عدد الامتحانات الكلي</h5>
+                                        <h5>عدد الأختبارات الكلي</h5>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="media-body text-xs-right">
                                         <h3 class="teal">{{ $upcomingExams }}</h3>
-                                        <h5>الامتحانات القادمة</h5>
+                                        <h5>الأختبارات القادمة</h5>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="media-body text-xs-right">
                                         <h3 class="teal">{{ $ongoingExams }}</h3>
-                                        <h5>الامتحانات الجارية</h5>
+                                        <h5>الأختبارات الجارية</h5>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="media-body text-xs-right">
                                         <h3 class="teal">{{ $finishedExams }}</h3>
-                                        <h5>الامتحانات المنتهية</h5>
+                                        <h5>الأختبارات المنتهية</h5>
                                     </div>
                                 </div>
                             </div>

@@ -6,46 +6,37 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Modules\StudentModule\Repository\StudentRepository;
 
-class StudentService
-{
-    private $students;
+class StudentService {
+    private $studentRepository;
 
-    public function __construct(StudentRepository $studentRepository)
-    {
-        $this->students = $studentRepository;
+    public function __construct(StudentRepository $studentRepository) {
+        $this->studentRepository = $studentRepository;
     }
 
     /**
      * Get all students
      */
-    public function findAll()
-    {
-        return $this->students->all();
+    public function findAll() {
+        return $this->studentRepository->all();
     }
 
     /**
      * Get a single student
      */
-    public function find($id)
-    {
-        return $this->students->find($id);
+    public function find($id) {
+        return $this->studentRepository->find($id);
     }
 
     /**
      * Create new student
      */
-    public function create(array $data)
-    {
-        $this->validateStudent($data);
-
-        return $this->students->create([
+    public function create(array $data) {
+        return $this->studentRepository->create([
             'name'         => $data['name'],
             'email'        => $data['email'] ?? null,
             'phone'        => $data['phone'],
             'national_id'  => $data['national_id'] ?? null,
-            'birth_date'   => $data['birth_date'] ?? null,
             'gender'       => $data['gender'] ?? null,
-            'student_code' => $data['student_code'] ?? null,
             'password'     => Hash::make($data['password']),
         ]);
     }
@@ -53,19 +44,13 @@ class StudentService
     /**
      * Update student
      */
-    public function update(array $data)
-    {
-        $this->validateStudent($data, $isUpdate = true);
-
+    public function update(array $data) {
         $updateData = [
             'name'         => $data['name'],
             'email'        => $data['email'] ?? null,
             'phone'        => $data['phone'],
             'national_id'  => $data['national_id'] ?? null,
-            'birth_date'   => $data['birth_date'] ?? null,
             'gender'       => $data['gender'] ?? null,
-            'student_code' => $data['student_code'] ?? null,
-
         ];
 
         // update password only if provided
@@ -73,20 +58,18 @@ class StudentService
             $updateData['password'] = Hash::make($data['password']);
         }
 
-        return $this->students->update($updateData, $data['id']);
+        return $this->studentRepository->update($updateData, $data['id']);
     }
 
     /**
      * Delete student
      */
-    public function delete($id)
-    {
-        return $this->students->delete($id);
+    public function delete($id) {
+        return $this->studentRepository->delete($id);
     }
 
-    public function assignExamToStudent($studentId, array $examIds)
-    {
-        $student = $this->students->find($studentId);
+    public function assignExamToStudent($studentId, array $examIds) {
+        $student = $this->studentRepository->find($studentId);
 
         if (!$student) {
             throw ValidationException::withMessages([
@@ -94,62 +77,30 @@ class StudentService
             ]);
         }
 
-        // Get exams that are already assigned to this student
+        // Get all exams currently assigned to this student
         $alreadyAssignedExams = $student->exams()
-            ->whereIn('exam_id', $examIds)
             ->pluck('exam_id')
             ->toArray();
 
-        $newExamIds = array_diff($examIds, $alreadyAssignedExams);
+        $newExamIds = array_values(array_diff($examIds, $alreadyAssignedExams));
+        $removeExamIds = array_values(array_diff($alreadyAssignedExams, $examIds));
 
-        if (empty($newExamIds)) {
-            throw ValidationException::withMessages([
-                'exam' => 'All these exams are already assigned to the student.',
-            ]);
+        if (!empty($newExamIds)) {
+            $student->exams()->attach($newExamIds);
         }
-        
-        $student->exams()->attach($newExamIds);
+
+        if (!empty($removeExamIds)) {
+            $student->exams()->detach($removeExamIds);
+        }
 
         $result = [
             'success' => true,
             'student' => $student->load('exams'),
             'added_exams' => $newExamIds,
-            'already_assigned_exams' => $alreadyAssignedExams,
-            'message' => count($newExamIds) . ' exam(s) assigned successfully. ' .
-                count($alreadyAssignedExams) . ' exam(s) were already assigned.'
+            'removed_exams' => $removeExamIds,
+            'message' => 'Exams updated successfully.',
         ];
 
         return $result;
-    }
-
-
-    /**
-     * Student validation rules
-     */
-    private function validateStudent(array $data, bool $isUpdate = false)
-    {
-        if (empty($data['name'])) {
-            throw ValidationException::withMessages(['name' => 'Student name is required.']);
-        }
-
-        if (empty($data['phone'])) {
-            throw ValidationException::withMessages(['phone' => 'Phone number is required.']);
-        }
-
-        if (!$isUpdate && empty($data['password'])) {
-            throw ValidationException::withMessages(['password' => 'Password is required.']);
-        }
-
-        if (!empty($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            throw ValidationException::withMessages(['email' => 'Invalid email format.']);
-        }
-
-        if (!empty($data['national_id']) && strlen($data['national_id']) !== 14) {
-            throw ValidationException::withMessages(['national_id' => 'National ID must be 14 digits.']);
-        }
-
-        if (!empty($data['gender']) && !in_array($data['gender'], ['male', 'female'])) {
-            throw ValidationException::withMessages(['gender' => 'Gender must be male or female.']);
-        }
     }
 }

@@ -25,8 +25,8 @@ return new class extends Migration
             $table->integer('mcq_count')->default(0);
             $table->integer('true_false_count')->default(0);
 
-            $table->decimal('success_grade', 5, 2);
-            $table->decimal('total_grade', 5, 2);
+            $table->integer('success_grade')->default(0);
+            $table->integer('total_grade')->default(0);
 
             $table->integer('created_by')->nullable();
 
