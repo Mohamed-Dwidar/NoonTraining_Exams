@@ -1,10 +1,10 @@
 @extends('layoutmodule::admin.main')
 
-@section('title', 'أسئلة الامتحان - ' . $exam->title)
+@section('title', 'أسئلة الأختبار - ' . $exam->title)
 
 @section('content')
 <div class="container-fluid">
-    <h3 class="mb-3">أسئلة الامتحان: {{ $exam->title }}</h3>
+    <h3 class="mb-3">أسئلة الأختبار: {{ $exam->title }}</h3>
 
     <div class="card shadow-sm p-3 mb-3">
         <div class="card-body">

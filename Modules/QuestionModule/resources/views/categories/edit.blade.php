@@ -26,7 +26,7 @@
                                     <form class="card-form side-form" method="POST"
                                         action="{{ route(Auth::getDefaultDriver() . '.categories.update', $category->id) }}" enctype="multipart/form-data">
                                         @csrf
-                                        @method('PUT')
+                                        <input type="hidden" name="id" value="{{ $category->id }}">
 
                                         <div class="row">
                                             <div class="col-lg-4 col-sm-12 col-xs-12 col-6">
