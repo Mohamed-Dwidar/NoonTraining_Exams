@@ -5,19 +5,15 @@ namespace Modules\StudentModule\app\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Modules\ExamModule\app\Http\Models\Exam;
 use Modules\QuestionModule\app\Http\Models\Category;
 use Modules\StudentModule\app\Http\Models\Student;
 use Modules\StudentModule\Services\StudentService;
-use Illuminate\Validation\Rule;
 use Modules\ExamModule\Services\ExamService;
-use Modules\QuestionModule\Services\CategoryService;
-
 class StudentModuleController extends Controller {
     private $studentService;
     private $examService;
 
-    public function __construct(StudentService $studentService,ExamService $examService,CategoryService $categoryService) {
+    public function __construct(StudentService $studentService,ExamService $examService) {
         $this->studentService = $studentService;
         $this->examService = $examService;
     }
@@ -112,14 +108,15 @@ class StudentModuleController extends Controller {
     }
 
     public function show($id) {
-        $student = Student::with('category')->findOrFail($id);
+        $student = $this->studentService->find($id);
         return view('studentmodule::students.show', compact('student'));
     }
 
     public function showExams($id) {
         $student = $this->studentService->find($id);
+        // dd($student->exams->toArray());
         $exams = $this->examService->findAll();
-        return view('studentmodule::exam.assignExam', compact('student', 'exams'));
+        return view('studentmodule::exam.showExam', compact('student', 'exams'));
     }
 
     public function assignExam(Request $request) {
@@ -135,5 +132,61 @@ class StudentModuleController extends Controller {
         );
 
         return redirect()->back()->with('success', 'تم ربط الأختبار بالطالب بنجاح');
+    }
+
+    public function assignSingleExam(Request $request) {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'exam_id'    => 'required|exists:exams,id'
+        ]);
+
+        $student = $this->studentService->find($request->student_id);
+
+        // Get currently assigned exam IDs
+        $currentExamIds = $student->exams->pluck('id')->toArray();
+
+        // Add the new exam ID (allow duplicates - user can take the exam multiple times)
+        $currentExamIds[] = $request->exam_id;
+
+        $result = $this->studentService->assignOneExamToStudent(
+            $request->student_id,
+            $request->exam_id
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم تعيين الاختبار بنجاح',
+            'student_exam_id' => $result['student_exam_id']
+        ]);
+    }
+
+    public function unassignExam(Request $request) {
+        $request->validate([
+            'student_exam_id' => 'required|exists:student_exam,id'
+        ]);
+
+        $studentExam = $this->studentService->getStudentExam($request->student_exam_id);
+
+        if (!$studentExam) {
+            return response()->json([
+                'success' => false,
+                'message' => 'الاختبار غير موجود'
+            ], 404);
+        }
+
+        // Only allow unassignment if exam hasn't been taken yet
+        if ($studentExam->score !== null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'لا يمكن إلغاء تعيين اختبار تم إجراؤه بالفعل'
+            ], 400);
+        }
+
+        $studentExam->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم إلغاء تعيين الاختبار بنجاح'
+        ]);
     }
 }

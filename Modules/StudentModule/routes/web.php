@@ -39,6 +39,12 @@ foreach (['admin', 'user'] as $guard) {
 
             Route::post('/students/assign-exam', [StudentModuleController::class, 'assignExam'])
                 ->name('students.assignExam');
+
+            Route::post('/students/assign-single-exam', [StudentModuleController::class, 'assignSingleExam'])
+                ->name('students.assignSingleExam');
+
+            Route::post('/students/unassign-exam', [StudentModuleController::class, 'unassignExam'])
+                ->name('students.unassignExam');
         });
 }
 
