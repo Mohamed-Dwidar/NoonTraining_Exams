@@ -8,27 +8,27 @@ use Modules\QuestionModule\Repository\AnswerRepository;
 use Modules\QuestionModule\Repository\QuestionRepository;
 
 class QuestionService {
-    private $questions;
-    private $answers;
+    private $questionRepository;
+    private $answerRepository;
 
     public function __construct(
         QuestionRepository $questionRepository,
         AnswerRepository $answerRepository
     ) {
-        $this->questions = $questionRepository;
-        $this->answers   = $answerRepository;
+        $this->questionRepository = $questionRepository;
+        $this->answerRepository   = $answerRepository;
     }
 
     public function findAll() {
-        return $this->questions->all();
+        return $this->questionRepository->all();
     }
 
     public function paginate($perPage = 15) {
-        return $this->questions->paginate($perPage);
+        return $this->questionRepository->paginate($perPage);
     }
 
     public function find($id) {
-        return $this->questions->find($id);
+        return $this->questionRepository->find($id);
     }
 
     /**
@@ -47,9 +47,9 @@ class QuestionService {
             'question_text' => $data['question_text'],
             'options'       => $arr_options,
         ];
-        $question = $this->questions->create($question_data);
+        $question = $this->questionRepository->create($question_data);
 
-        $this->answers->create([
+        $this->answerRepository->create([
             'question_id'    => $question->id,
             'correct_answer' => $data['type'] === 'mcq' ? $data['options'][$data['answer']] : $data['answer'],
         ]);
@@ -90,20 +90,20 @@ class QuestionService {
             $arr_options = ['true', 'false'];
         }
 
-        $question = $this->questions->update([
+        $question = $this->questionRepository->update([
             'category_id' => $data['category_id'],
             'question_text' => $data['question_text'],
             'options' => $arr_options,
         ], $data['id']);
 
         // Fetch answer by question_id not by ID
-        $answer = $this->answers->findByQuestionId($data['id']);
+        $answer = $this->answerRepository->findByQuestionId($data['id']);
         if ($answer) {
-            $this->answers->update([
+            $this->answerRepository->update([
                 'correct_answer' => $data['type'] === 'mcq' ? $data['options'][$data['answer']] : $data['answer'],
             ], $answer->id);
         } else {
-            $this->answers->create([
+            $this->answerRepository->create([
                 'question_id'    => $data['id'],
                 'correct_answer' => $data['type'] === 'mcq' ? $data['options'][$data['answer']] : $data['answer'],
             ]);
@@ -154,12 +154,16 @@ class QuestionService {
     }
 
     public function delete($id) {
-        $answer = $this->answers->findByQuestionId($id);
+        $answer = $this->answerRepository->findByQuestionId($id);
 
         if ($answer) {
-            $this->answers->delete($answer->id);
+            $this->answerRepository->delete($answer->id);
         }
 
-        return $this->questions->delete($id);
+        return $this->questionRepository->delete($id);
+    }
+
+    public function getRandomQuestionsByType($categoryId, $type, $count) {
+        return $this->questionRepository->getRandomByType($categoryId, $type, $count);
     }
 }

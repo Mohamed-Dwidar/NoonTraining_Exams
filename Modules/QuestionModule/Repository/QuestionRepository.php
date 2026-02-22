@@ -12,4 +12,12 @@ class QuestionRepository extends BaseRepository
         return Question::class;
     }
 
+    public function getRandomByType($categoryId, $type, $limit) {
+        return Question::where('category_id', $categoryId)
+            ->where('type', $type)
+            ->inRandomOrder()
+            ->limit($limit)
+            ->get();
+    }
+
 }

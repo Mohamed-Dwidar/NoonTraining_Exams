@@ -9,13 +9,17 @@ use Modules\QuestionModule\app\Http\Models\Category;
 use Modules\StudentModule\app\Http\Models\Student;
 use Modules\StudentModule\Services\StudentService;
 use Modules\ExamModule\Services\ExamService;
+use Modules\StudentModule\Services\StudentExamService;
+
 class StudentModuleController extends Controller {
     private $studentService;
     private $examService;
+    private $studentExamService;
 
-    public function __construct(StudentService $studentService,ExamService $examService) {
+    public function __construct(StudentService $studentService,ExamService $examService,StudentExamService $studentExamService) {
         $this->studentService = $studentService;
         $this->examService = $examService;
+        $this->studentExamService = $studentExamService;
     }
 
     /**
@@ -26,7 +30,7 @@ class StudentModuleController extends Controller {
     }
 
     public function dashboard() {
-        $exams = Auth::guard('student')->user()->exams;
+        $exams = Auth::guard('student')->user()->studentExams;
         return view('studentmodule::auth.dashboard', compact('exams'));
     }
 
@@ -126,7 +130,7 @@ class StudentModuleController extends Controller {
             'exam_id.*'  => 'exists:exams,id'
         ]);
 
-        $this->studentService->assignExamToStudent(
+        $this->studentExamService->assignExamToStudent(
             $request->student_id,
             $request->exam_id
         );
@@ -148,7 +152,7 @@ class StudentModuleController extends Controller {
         // Add the new exam ID (allow duplicates - user can take the exam multiple times)
         $currentExamIds[] = $request->exam_id;
 
-        $result = $this->studentService->assignOneExamToStudent(
+        $result = $this->studentExamService->assignOneExamToStudent(
             $request->student_id,
             $request->exam_id
         );
@@ -165,7 +169,7 @@ class StudentModuleController extends Controller {
             'student_exam_id' => 'required|exists:student_exam,id'
         ]);
 
-        $studentExam = $this->studentService->getStudentExam($request->student_exam_id);
+        $studentExam = $this->studentExamService->getStudentExam($request->student_exam_id);
 
         if (!$studentExam) {
             return response()->json([
