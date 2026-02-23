@@ -10,12 +10,12 @@
         <div class="left-section">
             <div class="logo-container">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('admin-assets/images/logo/logo.png') }}" alt="شعار مركز نون للتدريب" class="logo">
+                    <img src="{{ asset('admin-assets/images/logo/logo.png') }}" alt="شعار معهد نون للتدريب" class="logo">
                 </a>
             </div>
 
             <h1 class="main-title">بوابة الاختبارات الإلكترونية</h1>
-            <p class="sub-title">مركز نون للتدريب</p>
+            <p class="sub-title">معهد نون للتدريب</p>
 
             <p class="description">
                 منصة متخصصة ومنفصلة للاختبارات الإلكترونية المصممة وفق أحدث المعايير العالمية.
@@ -29,7 +29,7 @@
 
                 <div class="modern-login-header">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('admin-assets/images/logo/logo.png') }}" alt="مركز نون للتدريب" class="modern-login-logo">
+                    <img src="{{ asset('admin-assets/images/logo/logo.png') }}" alt="معهد نون للتدريب" class="modern-login-logo">
                 </a>
                     <h1 class="modern-login-title">تسجيل دخول الطلاب</h1>
                     <p class="modern-login-subtitle">مرحباً بك في نظام الاختبارات الإلكتروني</p>
