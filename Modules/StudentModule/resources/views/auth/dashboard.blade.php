@@ -54,7 +54,7 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($student_exam->score !== null)
+                                                        @if ($student_exam->status  == 'completed')
                                                             @if ($student_exam->score >= ($student_exam->exam->success_grade ?? 0))
                                                                 <span class="badge bg-success"><i class="fa fa-check"></i>
                                                                     ناجح</span>
