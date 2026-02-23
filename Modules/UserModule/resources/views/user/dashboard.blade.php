@@ -21,88 +21,77 @@
 
     <div class="content-body">
         <div class="row">
-            <div class="col-xl-3 col-lg-6 col-xs-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-block">
-                            <div class="media">
-                                <div class="media-left media-middle">
-                                    <i class="fa fa-desktop teal font-large-2 float-xs-right"></i>
-                                </div>
-                                <div class="media-body text-xs-right">
-                                    {{-- <h3 class="teal">{{$courses_regs->count()}}</h3>  --}}
-                                    <h3 class="teal">0000000</h3>
-                                    <h5>الدورات</h5>
+             <div class="col-xl-3 col-lg-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-block">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <i class="fa fa-file-text-o teal font-large-2 float-xs-right"></i>
+                                    </div>
+                                    <div class="media-body text-xs-right">
+                                        <h3 class="teal">{{ $totalStudentExams }}</h3>
+                                        <h5>إجمالي الأختبارات</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xl-3 col-lg-6 col-xs-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-block">
-                            <div class="media">
-                                <div class="media-left media-middle">
-                                    <i class="fa fa-graduation-cap teal font-large-2 float-xs-right"></i>
+                <div class="col-xl-3 col-lg-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-block">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <i class="fa fa-clock-o teal font-large-2 float-xs-right"></i>
+                                    </div>
+                                    <div class="media-body text-xs-right">
+                                        <h3 class="teal">{{ $totalCompletedExams }}</h3>
+                                        <h5>الأختبارات المنتهية</h5>
+                                    </div>
                                 </div>
-                                <div class="media-body text-xs-right">
-                                    {{-- <h3 class="teal">{{$courses_regs->sum('price')}}</h3>  --}}
-                                    <h3 class="teal">0000000</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                                    <h5>الطلاب</h5>
+                <div class="col-xl-3 col-lg-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-block">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <i class="fa fa-users teal font-large-2 float-xs-right"></i>
+                                    </div>
+                                    <div class="media-body text-xs-right">
+                                        <h3 class="teal">{{ $totalStudents }}</h3>
+                                        <h5>إجمالي الطلاب</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-xs-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-block">
-                            <div class="media">
-                                <div class="media-left media-middle">
-                                    <i class="icon icon-money1 teal font-large-2 float-xs-right"></i>
-                                </div>
-                                <?php
-                                    // $paid = 0 ;
-                                    // if(!empty($courses_regs)){
-                                    //     foreach ($courses_regs as $one_reg) {
-                                    //         $paid = $paid + $one_reg->payments->sum('amount');
-                                    //     }
-                                    // }
-                                ?>
-                                <div class="media-body text-xs-right">
-                                    {{-- <h3 class="teal">{{$paid}} --}}
-                                        <h3 class="teal">0000000</h3>
-                                    <h5>الإيراد</h5>
+
+                <div class="col-xl-3 col-lg-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-block">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <i class="fa fa-question-circle-o teal font-large-2 float-xs-right"></i>
+                                    </div>
+                                    <div class="media-body text-xs-right">
+                                        <h3 class="teal">{{ $totalQuestions }}</h3>
+                                        <h5>إجمالي الأسئلة</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-xs-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-block">
-                            <div class="media">
-                                <div class="media-left media-middle">
-                                    <i class="fa fa-money teal font-large-2 float-xs-right"></i>
-                                </div>
-                                <div class="media-body text-xs-right">
-                                    {{-- <h3 class="teal">{{$courses_regs->sum('price') - $paid}}</h3> --}}
-                                    <h3 class="teal">0000000</h3>
-                                    <h5>المبالغ غير مسددة</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
 

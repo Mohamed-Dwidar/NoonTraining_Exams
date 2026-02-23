@@ -33,7 +33,7 @@ html body .content {
 }
 body {
   background-color: #ededed;
-  background-image: url('../../assets/images/login-bg.jpg');
+  background-image: url('/admin-assets/images/logo/login-bg.jpg');
   background-color: rgba(237, 237, 237, 0.2); /* White with 50% opacity */
   background-size: cover;
   background-position: center;
@@ -68,7 +68,7 @@ html body.boxed-layout {
 }
 
 html body.bg-full-screen-image {
-    background: url(../../images/backgrounds/bg-2.jpg) no-repeat center center fixed;
+    background: url(/admin-assets/images/logo/bg-2.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     background-size: cover;
 }
@@ -3745,7 +3745,7 @@ input[type='month'].form-control {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/assets/images/login-bg.jpg') center/cover no-repeat;
+    background: url('/admin-assets/images/logo/login-bg.jpg') center/cover no-repeat;
     opacity: 0.3;
     z-index: 1;
 }

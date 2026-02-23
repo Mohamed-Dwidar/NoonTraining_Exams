@@ -19,11 +19,11 @@
                             <div class="card-block">
                                 <div class="media">
                                     <div class="media-left media-middle">
-                                        <i class="fa fa-file teal font-large-2 float-xs-right"></i>
+                                        <i class="fa fa-file-text-o teal font-large-2 float-xs-right"></i>
                                     </div>
                                     <div class="media-body text-xs-right">
-                                        <h3 class="teal">{{ $totalExams }}</h3>
-                                        <h5>عدد الأختبارات الكلي</h5>
+                                        <h3 class="teal">{{ $totalStudentExams }}</h3>
+                                        <h5>إجمالي الأختبارات</h5>
                                     </div>
                                 </div>
                             </div>
@@ -31,56 +31,53 @@
                     </div>
                 </div>
 
-                <!-- Upcoming Exams -->
                 <div class="col-xl-3 col-lg-6 col-xs-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-block">
                                 <div class="media">
                                     <div class="media-left media-middle">
-                                        <i class="fa fa-calendar-plus-o teal font-large-2 float-xs-right"></i>
+                                        <i class="fa fa-clock-o teal font-large-2 float-xs-right"></i>
                                     </div>
                                     <div class="media-body text-xs-right">
-                                        <h3 class="teal">{{ $upcomingExams }}</h3>
-                                        <h5>الأختبارات القادمة</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ongoing Exams -->
-                <div class="col-xl-3 col-lg-6 col-xs-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-block">
-                                <div class="media">
-                                    <div class="media-left media-middle">
-                                        <i class="fa fa-hourglass-half teal font-large-2 float-xs-right"></i>
-                                    </div>
-                                    <div class="media-body text-xs-right">
-                                        <h3 class="teal">{{ $ongoingExams }}</h3>
-                                        <h5>الأختبارات الجارية</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Finished Exams -->
-                <div class="col-xl-3 col-lg-6 col-xs-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-block">
-                                <div class="media">
-                                    <div class="media-left media-middle">
-                                        <i class="fa fa-check-square-o teal font-large-2 float-xs-right"></i>
-                                    </div>
-                                    <div class="media-body text-xs-right">
-                                        <h3 class="teal">{{ $finishedExams }}</h3>
+                                        <h3 class="teal">{{ $totalCompletedExams }}</h3>
                                         <h5>الأختبارات المنتهية</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-block">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <i class="fa fa-users teal font-large-2 float-xs-right"></i>
+                                    </div>
+                                    <div class="media-body text-xs-right">
+                                        <h3 class="teal">{{ $totalStudents }}</h3>
+                                        <h5>إجمالي الطلاب</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-block">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <i class="fa fa-question-circle-o teal font-large-2 float-xs-right"></i>
+                                    </div>
+                                    <div class="media-body text-xs-right">
+                                        <h3 class="teal">{{ $totalQuestions }}</h3>
+                                        <h5>إجمالي الأسئلة</h5>
                                     </div>
                                 </div>
                             </div>

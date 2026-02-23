@@ -7,37 +7,53 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Modules\ExamModule\Services\ExamService;
+use Modules\QuestionModule\Services\QuestionService;
+use Modules\StudentModule\Services\StudentExamService;
+use Modules\StudentModule\Services\StudentService;
 use Modules\UserModule\Services\UserService;
 
-class UserAuthController extends Controller
-{
+class UserAuthController extends Controller {
     private $userService;
+    private $studentExamService;
+    private $questionService;
+    private $studentService;
 
-    public function __construct(UserService $userService)
-    {
+    public function __construct(UserService $userService, StudentExamService $studentExamService, ExamService $examService, QuestionService $questionService, StudentService $studentService) {
         $this->userService = $userService;
+        $this->studentExamService = $studentExamService;
+        $this->questionService = $questionService;
+        $this->studentService = $studentService;
     }
 
-    public function dashboard()
-    {
+    public function dashboard() {
         if (Auth::guard('user')->check()) {
-            return view('usermodule::user.dashboard');
+            $studentExams = $this->studentExamService->findAll();
+            $totalQuestions = $this->questionService->findAll()->count();
+            $totalStudents = $this->studentService->findAll()->count();
+
+            $data = [
+                'totalStudentExams' => $studentExams->count(),
+                'totalCompletedExams' => $studentExams->whereNotNull('completed_at')->count(),
+                'totalQuestions' => $totalQuestions,
+                'totalStudents' => $totalStudents,
+            ];
+
+            return view('usermodule::user.dashboard', $data);
         } else {
             return redirect('user/login');
         }
     }
 
-    public function loginForm()
-    {
+    public function loginForm() {
         if (Auth::guard('user')->check()) {
-           return redirect()->route('user.dashboard');
+            return redirect()->route('user.dashboard');
         } else {
             return view('usermodule::login');
         }
     }
 
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $rememberme = $request->has('rememberme') ? true : false;
 
         if (auth('user')->attempt(
@@ -53,14 +69,12 @@ class UserAuthController extends Controller
         return redirect()->back()->withErrors(['error' => 'البريد الأليكتروني او كلمة المرور غير صحيحة']);
     }
 
-    public function changePassword()
-    {
+    public function changePassword() {
         $user = auth()->guard('user')->user();
         return view('usermodule::user.change_password', compact('user'));
     }
 
-    public function updatePassword(Request $request)
-    {
+    public function updatePassword(Request $request) {
         $validator = Validator::make(
             $request->all(),
             [
@@ -90,8 +104,7 @@ class UserAuthController extends Controller
         }
     }
 
-    public function logout(Request $request)
-    {
+    public function logout(Request $request) {
         Auth::guard('user')->logout();
         $request->session()->flush();
         $request->session()->regenerate();

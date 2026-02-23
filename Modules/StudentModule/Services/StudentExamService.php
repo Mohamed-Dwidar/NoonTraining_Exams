@@ -18,6 +18,10 @@ class StudentExamService {
         $this->studentExamAnswerRepository = $studentExamAnswerRepository;
     }
 
+    public function findAll() {
+        return $this->studentExamRepository->all();
+    }
+
     public function findById($id) {
         return $this->studentExamRepository->find($id);
     }
