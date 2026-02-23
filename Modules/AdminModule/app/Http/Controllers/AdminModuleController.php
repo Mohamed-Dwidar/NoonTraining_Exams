@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminModule\App\Http\Controllers;
+namespace Modules\AdminModule\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Modules\ExamModule\Services\ExamService;
