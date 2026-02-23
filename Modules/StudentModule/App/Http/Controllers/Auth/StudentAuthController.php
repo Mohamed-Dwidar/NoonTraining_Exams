@@ -13,7 +13,7 @@ class StudentAuthController extends Controller
     {
         return Auth::guard('student')->check()
             ? redirect()->route('student.dashboard')
-            : view('studentmodule::Auth.login');
+            : view('studentmodule::auth.login');
     }
 
     public function login(Request $request)
