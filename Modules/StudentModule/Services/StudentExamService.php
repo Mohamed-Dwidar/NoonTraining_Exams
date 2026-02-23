@@ -86,6 +86,10 @@ class StudentExamService {
         return $result;
     }
 
+    public function unassignExam($studentExamId) {
+        return $this->studentExamRepository->delete($studentExamId);
+    }
+
     public function getStudentExam($studentExamId) {
         return $this->studentExamRepository->find($studentExamId);
     }
@@ -130,7 +134,7 @@ class StudentExamService {
         }
 
         // Update the student exam record with the score
-         $this->studentExamRepository->update([
+        $this->studentExamRepository->update([
             'score' => $correctCount,
         ], $studentExamId);
 

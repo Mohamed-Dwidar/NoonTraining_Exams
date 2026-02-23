@@ -1,4 +1,4 @@
-@extends('layoutmodule::admin.main')
+@extends('layoutmodule::layouts.main')
 
 @section('title')
 الموظفين
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    @include('layoutmodule::admin.flash')
+    @include('layoutmodule::layouts.flash')
 
     <div class="content-body">
         <div class="row">
@@ -56,11 +56,11 @@
                                         <td class="strong">{{$admin->email}}</td>
                                         <td class="action">
                                             <a class="btn btn-warning"
-                                                href="{{route(Auth::getDefaultDriver().'.admins.edit',$admin->id)}}" 
+                                                href="{{route(Auth::getDefaultDriver().'.admins.edit',$admin->id)}}"
                                                 role="button">تعديل</a>
 
                                             <a class="btn btn-danger"
-                                                href="{{route(Auth::getDefaultDriver().'.admins.delete',$admin->id)}}" 
+                                                href="{{route(Auth::getDefaultDriver().'.admins.delete',$admin->id)}}"
                                                 onclick="return confirm('هل انت متأكد انك تريد حذف هذا الموظف؟')"
                                                 role="button">حذف</a>
                                         </td>

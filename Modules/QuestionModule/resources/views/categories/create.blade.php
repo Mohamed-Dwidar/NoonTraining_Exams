@@ -1,4 +1,4 @@
-@extends('layoutmodule::admin.main')
+@extends('layoutmodule::layouts.main')
 
 @section('title')
     إضافة تصنيف
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        @include('layoutmodule::admin.flash')
+        @include('layoutmodule::layouts.flash')
 
         <div class="content-body">
             <div class="row">

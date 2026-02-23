@@ -1,4 +1,4 @@
-@extends('layoutmodule::admin.main')
+@extends('layoutmodule::layouts.main')
 
 @section('title')
     تعديل مستخدم
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    @include('layoutmodule::admin.flash')
+    @include('layoutmodule::layouts.flash')
 
     <div class="content-body">
         <div class="row">
@@ -67,7 +67,7 @@
             <div class="form-check">
                 @foreach ($allPermissions as $perm)
                     <div class="col-lg-3 col-sm-12 col-xs-12 col-6">
-                        <input type="checkbox" name="permissions[]" id="{{ $perm->name }}" 
+                        <input type="checkbox" name="permissions[]" id="{{ $perm->name }}"
                             value="{{ $perm->name }}"
                             {{ in_array($perm->name, $userPermissions) ? 'checked' : '' }}>
                         <label for="{{ $perm->name }}">{{ $perm->label ?? $perm->name }}</label>

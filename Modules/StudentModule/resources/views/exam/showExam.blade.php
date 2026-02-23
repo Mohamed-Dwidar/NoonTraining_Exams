@@ -1,4 +1,4 @@
-@extends('layoutmodule::admin.main')
+@extends('layoutmodule::layouts.main')
 
 @section('title', 'الأختبارات المسجلة للطالب')
 
@@ -13,7 +13,7 @@
         </div>
 
 
-        @include('layoutmodule::admin.flash')
+        @include('layoutmodule::layouts.flash')
 
         <!-- Success Message (for AJAX) -->
         <div id="successMessage" class="alert alert-success alert-dismissible fade d-none" role="alert" style="display: none;">

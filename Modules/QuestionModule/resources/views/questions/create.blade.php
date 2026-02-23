@@ -1,4 +1,4 @@
-@extends('layoutmodule::admin.main')
+@extends('layoutmodule::layouts.main')
 
 @section('title')
     إضافة أسئلة جديدة
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        @include('layoutmodule::admin.flash')
+        @include('layoutmodule::layouts.flash')
 
         <div class="content-body">
             <div class="row">
@@ -55,46 +55,6 @@
             </div>
         </div>
     </div>
-
-<style>
-    .question-row {
-        background: #f8f9fc;
-        border-left: 4px solid #4e73df;
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 20px;
-        transition: 0.25s ease;
-        position: relative;
-    }
-    .question-row:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-    .form-control, .form-select {
-        border-radius: 8px;
-        padding: 10px 12px;
-    }
-    .options-container {
-        background: #ffffff;
-        padding: 15px;
-        border-radius: 10px;
-        border: 1px solid #e3e6f0;
-        margin-top: 10px;
-    }
-    .remove-question {
-        border-radius: 6px;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .is-invalid { border-color: #e74a3b; }
-    .invalid-feedback { display: none; font-size: 0.875rem; }
-    .was-validated .form-control:invalid ~ .invalid-feedback,
-    .was-validated .form-select:invalid ~ .invalid-feedback { display: block; }
-</style>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let questionIndex = 0;
@@ -192,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </select>
                 <div class="invalid-feedback">يرجى اختيار الإجابة الصحيحة</div>
             `;
+            optionsContainer.style.display = 'block';
             optionsContainer.innerHTML = `
                 <div class="col-12">
                     <label class="form-label fw-semibold mb-2">خيارات الإجابة <span class="text-danger">*</span></label>
@@ -215,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </select>
                 <div class="invalid-feedback">يرجى اختيار الإجابة الصحيحة</div>
             `;
+            optionsContainer.style.display = 'none';
             optionsContainer.innerHTML = '';
         }
     }

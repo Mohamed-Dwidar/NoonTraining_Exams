@@ -53,7 +53,7 @@
 <body data-open="click" data-menu="horizontal-menu" data-col="2-columns"
     class="horizontal-layout horizontal-menu 2-columns fixed-navbar">
 
-    @include('layoutmodule::admin.header')
+    @include('layoutmodule::layouts.header')
 
     @if (Auth::guard('admin')->check())
         @include('layoutmodule::admin.nav')
@@ -63,15 +63,13 @@
         @include('layoutmodule::user.nav')
     @endif
 
-
-
     <div class="app-content content container-fluid">
         <div class="content-wrapper">
             @yield('content')
         </div>
     </div>
 
-    @include('layoutmodule::admin.footer')
+    @include('layoutmodule::layouts.footer')
 
     <!-- BEGIN VENDOR JS-->
     <script src="{{ asset('admin-assets/js/core/libraries/jquery.min.js') }}" type="text/javascript"></script>

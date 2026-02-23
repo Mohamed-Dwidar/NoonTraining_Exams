@@ -1,4 +1,4 @@
-@extends('layoutmodule::admin.main')
+@extends('layoutmodule::layouts.main')
 
 @section('title')
 اضافه موظف جديدة
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    @include('layoutmodule::admin.flash')
+    @include('layoutmodule::layouts.flash')
 
     <div class="content-body">
         <div class="row">
@@ -53,14 +53,14 @@
                                 <dt class="col-sm-3">اسم الموظف</dt>
                                 <dd class="col-sm-9">{{$admin->name}}</dd>
 
-                                 
+
 
                                 <dt class="col-sm-3">تفاصيل الموظف</dt>
                                 <dd class="col-sm-9">{!!$admin->content!!}</dd>
                             </dl>
                         </div>
 
-                         
+
                     </div>
 
 

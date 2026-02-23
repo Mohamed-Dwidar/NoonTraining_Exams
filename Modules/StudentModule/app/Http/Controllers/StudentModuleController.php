@@ -166,7 +166,7 @@ class StudentModuleController extends Controller {
 
     public function unassignExam(Request $request) {
         $request->validate([
-            'student_exam_id' => 'required|exists:student_exam,id'
+            'student_exam_id' => 'required|exists:student_exams,id'
         ]);
 
         $studentExam = $this->studentExamService->getStudentExam($request->student_exam_id);
@@ -179,14 +179,14 @@ class StudentModuleController extends Controller {
         }
 
         // Only allow unassignment if exam hasn't been taken yet
-        if ($studentExam->score !== null) {
+        if ($studentExam->status !== 'not_started') {
             return response()->json([
                 'success' => false,
                 'message' => 'لا يمكن إلغاء تعيين اختبار تم إجراؤه بالفعل'
             ], 400);
         }
 
-        $studentExam->delete();
+        $this->studentExamService->unassignExam($request->student_exam_id);
 
         return response()->json([
             'success' => true,

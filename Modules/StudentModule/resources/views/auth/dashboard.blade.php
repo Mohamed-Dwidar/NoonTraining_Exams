@@ -1,4 +1,4 @@
-@extends('layoutmodule::admin.main')
+@extends('layoutmodule::layouts.main')
 
 @section('title')
     لوحة تحكم الطالب
@@ -8,7 +8,7 @@
 
     <div class="content-wrapper container-fluid">
 
-        @include('layoutmodule::admin.flash')
+        @include('layoutmodule::layouts.flash')
 
         <div class="content-body">
 
