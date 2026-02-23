@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\UserModule\app\Http\Controllers\Admin\UserAdminModuleController;
-use Modules\UserModule\app\Http\Controllers\Auth\UserAuthController;
+use Modules\UserModule\App\Http\Controllers\Admin\UserAdminModuleController;
+use Modules\UserModule\App\Http\Controllers\Auth\UserAuthController;
 
 // Public user login routes
 // Route::get('/', [UserAuthController::class, 'loginForm'])->name('user.loginForm');

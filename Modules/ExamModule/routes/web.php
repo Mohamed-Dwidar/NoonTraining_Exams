@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\ExamModule\app\Http\Controllers\ExamModuleController;
+use Modules\ExamModule\App\Http\Controllers\ExamModuleController;
 
 foreach (['admin', 'user'] as $guard) {
     Route::prefix("$guard/exam")->middleware("auth:$guard")->name("$guard.exam.")->group(function () {

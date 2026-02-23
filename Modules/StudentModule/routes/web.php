@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\StudentModule\app\Http\Controllers\StudentModuleController;
-use Modules\StudentModule\app\Http\Controllers\Auth\StudentAuthController;
-use Modules\StudentModule\app\Http\Controllers\Exam\StudentExamController;
+use Modules\StudentModule\App\Http\Controllers\StudentModuleController;
+use Modules\StudentModule\App\Http\Controllers\Auth\StudentAuthController;
+use Modules\StudentModule\App\Http\Controllers\Exam\StudentExamController;
 
 foreach (['admin', 'user'] as $guard) {
     Route::prefix($guard)->middleware("auth:$guard")->name("$guard.")->group(function () {

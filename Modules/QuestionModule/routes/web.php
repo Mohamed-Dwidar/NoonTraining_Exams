@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\QuestionModule\app\Http\Controllers\CategoryController;
-use Modules\QuestionModule\app\Http\Controllers\QuestionModuleController;
+use Modules\QuestionModule\App\Http\Controllers\CategoryController;
+use Modules\QuestionModule\App\Http\Controllers\QuestionModuleController;
 
 foreach (['admin', 'user'] as $guard) {
     Route::prefix($guard)->middleware("auth:$guard")->name("$guard.")->group(function () {
