@@ -4,16 +4,11 @@ namespace Modules\StudentModule\App\Imports;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-// use Modules\StudentModule\App\Http\Controllers\StudentModuleController;
 use Modules\StudentModule\Services\StudentService;
 
 class StudentImport implements ToCollection {
-    // protected $controller;
     protected $studentService;
 
-    // public function __construct(StudentModuleController $controller) {
-    //     $this->controller = $controller;
-    // }
     public function __construct(StudentService $studentService) {
         $this->studentService = $studentService;
     }
@@ -33,6 +28,7 @@ class StudentImport implements ToCollection {
                 // 'gender'       => $row[4],
                 'password'     =>  $row[1]
             ];
+
             //check if student already exists by national_id
             $existingStudent = $this->studentService->findByNationalId($data['national_id']);
             if ($existingStudent) {

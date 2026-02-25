@@ -20,15 +20,18 @@ class StudentAuthController extends Controller
     {
         // Validate input
         $credentials = $request->validate([
-            'phone'    => 'required',
+            'national_id'    => 'required',
             'password' => 'required'
+        ], [
+            'national_id.required' => 'رقم الهوية مطلوب.',
+            'password.required' => 'كلمة المرور مطلوبة.',
         ]);
 
         $remember = $request->boolean('rememberme');
 
-        // Try login using phone + password
+        // Try login using national_id + password
         if (Auth::guard('student')->attempt([
-            'phone'    => $credentials['phone'],
+            'national_id'    => $credentials['national_id'],
             'password' => $credentials['password']
         ], $remember)) {
 

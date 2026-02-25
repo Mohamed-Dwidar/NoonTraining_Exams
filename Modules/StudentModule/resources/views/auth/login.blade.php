@@ -55,16 +55,16 @@
                         @csrf
 
                         <div class="modern-form-group">
-                            <label for="phone">رقم الجوال</label>
+                            <label for="national_id">رقم الهوية</label>
                             <div class="modern-input-wrapper">
-                                <i class="modern-input-icon icon-phone3"></i>
-                                <input type="text" id="phone" name="phone" value="{{ old('phone') }}"
-                                    class="modern-form-control @error('phone') is-invalid @enderror"
+                                <i class="modern-input-icon icon-user"></i>
+                                <input type="text" id="national_id" name="national_id" value="{{ old('national_id') }}"
+                                    class="modern-form-control @error('national_id') is-invalid @enderror"
                                     placeholder="أدخل رقم الهاتف" required maxlength="15" pattern="[0-9+]+"
                                     title="أدخل رقم هاتف صحيح (أرقام فقط مع +)">
                             </div>
-                            @if ($errors->has('phone'))
-                                <div class="modern-invalid-feedback">{{ $errors->first('phone') }}</div>
+                            @if ($errors->has('national_id'))
+                                <div class="modern-invalid-feedback">{{ $errors->first('national_id') }}</div>
                             @endif
                         </div>
 
