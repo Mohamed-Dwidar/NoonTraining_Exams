@@ -10,6 +10,8 @@ use Modules\StudentModule\app\Http\Models\Student;
 use Modules\StudentModule\Services\StudentService;
 use Modules\ExamModule\Services\ExamService;
 use Modules\StudentModule\Services\StudentExamService;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\StudentModule\App\Imports\StudentImport;
 
 class StudentModuleController extends Controller {
     private $studentService;
@@ -35,7 +37,7 @@ class StudentModuleController extends Controller {
     }
 
     public function index() {
-        $students = $this->studentService->findAll();
+        $students = $this->studentService->paginate(25);
         return view('studentmodule::students.index', compact('students'));
     }
 
@@ -47,7 +49,7 @@ class StudentModuleController extends Controller {
     public function store(Request $request) {
         $request->validate([
             'name'         => 'required|string|max:255',
-            'email'        => 'nullable|email|unique:students,email',
+            'email'        => 'nullable|email',
             'phone'        => 'required|string|max:20|unique:students,phone',
             'national_id'  => 'nullable|digits:10|unique:students,national_id',
             'gender'       => 'nullable|in:male,female',
@@ -81,7 +83,7 @@ class StudentModuleController extends Controller {
         $request->validate([
             'id'           => 'required|exists:students,id',
             'name'         => 'required|string|max:255',
-            'email'        => 'nullable|email|unique:students,email,' . $request->id,
+            'email'        => 'nullable|email',
             'phone'        => 'required|string|max:20|unique:students,phone,' . $request->id,
             'national_id'  => 'nullable|digits:10|unique:students,national_id,' . $request->id,
             'gender'       => 'nullable|in:male,female',
@@ -114,6 +116,11 @@ class StudentModuleController extends Controller {
     public function show($id) {
         $student = $this->studentService->find($id);
         return view('studentmodule::students.show', compact('student'));
+    }
+
+    public function importStudents(Request $request) {
+        Excel::import(new StudentImport($this->studentService), $request->file('file'));
+        return back()->with('success', 'تم الاستيراد بنجاح!');
     }
 
     public function showExams($id) {

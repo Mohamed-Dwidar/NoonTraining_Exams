@@ -23,11 +23,19 @@ class StudentService {
         return $this->studentRepository->all();
     }
 
+     public function paginate($perPage = 15) {
+        return $this->studentRepository->paginate($perPage);
+     }
+
     /**
      * Get a single student
      */
     public function find($id) {
         return $this->studentRepository->find($id);
+    }
+
+    public function findByNationalId($nationalId) {
+        return $this->studentRepository->findByNationalId($nationalId);
     }
 
     /**
