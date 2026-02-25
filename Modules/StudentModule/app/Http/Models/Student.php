@@ -43,16 +43,33 @@ class Student extends Authenticatable
         return $this->hasMany(StudentExam::class, 'student_id');
     }
 
+     public function scopeFilter($query, $request = []){
 
+        if (isset($request['name']) && $request['name'] != '') {
+            $query->where('name', 'LIKE', '%' . $request['name'] . '%');
+        }
 
+        if (isset($request['email']) && $request['email'] != '') {
+            $query->where('email', 'LIKE', '%' . $request['email'] . '%');
+        }
 
-    // public function examAttempts()
-    // {
-    //     return $this->hasMany(StudentExam::class, 'student_id');
-    // }
+        if (isset($request['phone']) && $request['phone'] != '') {
+            $query->where('phone', 'LIKE', '%' . $request['phone'] . '%');
+        }
 
-    // public function examAttempt($examId)
-    // {
-    //     return $this->examAttempts()->where('exam_id', $examId)->first();
-    // }
+        if (isset($request['national_id']) && $request['national_id'] != '') {
+            $query->where('national_id', 'LIKE', '%' . $request['national_id'] . '%');
+        }
+
+        if (isset($request['search']) && $request['search'] != '') {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request['search'] . '%')
+                    ->orWhere('email', 'LIKE', '%' . $request['search'] . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $request['search'] . '%')
+                    ->orWhere('national_id', 'LIKE', '%' . $request['search'] . '%');
+            });
+        }
+
+        return $query;
+     }
 }

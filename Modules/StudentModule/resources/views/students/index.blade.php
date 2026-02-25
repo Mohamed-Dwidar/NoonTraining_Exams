@@ -25,7 +25,21 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-lg-8"></div>
+                                <div class="col-lg-8">
+                                    <form method="GET" action="{{ route(Auth::getDefaultDriver() . '.students.index') }}"
+                                        class="d-flex">
+                                        <div class="input-group">
+                                            <input type="text" name="search" id="searchInput" class="form-control"
+                                                placeholder="بحث عن طالب..." value="{{ request()->query('search') }}" style="width: 400px">
+                                            &nbsp;&nbsp;&nbsp;
+                                            <button class="btn btn-outline-secondary" type="submit" style="margin-top:5px">بحث</button>
+                                            &nbsp;
+                                            <button class="btn btn-outline-danger" type="button"  style="margin-top:5px"
+                                                id="clearBtn">مسح</button>
+
+                                        </div>
+                                    </form>
+                                </div>
                                 <div class="col-lg-4">
                                     <a class="btn btn-success round btn-min-width mr-1 mb-1"
                                         href="{{ route(Auth::getDefaultDriver() . '.students.create') }}"
@@ -139,6 +153,7 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
+                // Import form handling
                 $('#importForm').on('submit', function(e) {
                     // Hide the form content and footer
                     $('#formContent').hide();
@@ -154,6 +169,12 @@
                     $('#modalFooter').show();
                     $('#uploadingMessage').hide();
                     $('#importForm')[0].reset();
+                });
+
+                // Clear search button
+                $('#clearBtn').on('click', function() {
+                    $('#searchInput').val('');
+                    window.location.href = "{{ route(Auth::getDefaultDriver() . '.students.index') }}";
                 });
             });
         </script>

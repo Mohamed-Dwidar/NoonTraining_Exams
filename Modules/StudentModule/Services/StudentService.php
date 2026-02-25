@@ -23,9 +23,13 @@ class StudentService {
         return $this->studentRepository->all();
     }
 
-     public function paginate($perPage = 15) {
+    public function paginate($perPage = 15) {
         return $this->studentRepository->paginate($perPage);
-     }
+    }
+
+    public function filter($request = []) {
+        return $this->studentRepository->filter($request);
+    }
 
     /**
      * Get a single student

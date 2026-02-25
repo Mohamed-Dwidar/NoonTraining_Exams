@@ -57,11 +57,11 @@
                         <div class="modern-form-group">
                             <label for="national_id">رقم الهوية</label>
                             <div class="modern-input-wrapper">
-                                <i class="modern-input-icon icon-user"></i>
+                                <i class="modern-input-icon icon-card"></i>
                                 <input type="text" id="national_id" name="national_id" value="{{ old('national_id') }}"
                                     class="modern-form-control @error('national_id') is-invalid @enderror"
-                                    placeholder="أدخل رقم الهاتف" required maxlength="15" pattern="[0-9+]+"
-                                    title="أدخل رقم هاتف صحيح (أرقام فقط مع +)">
+                                    placeholder="أدخل رقم الهوية" required autofocus pattern="\d{10,15}"
+                                    title="يرجى إدخال رقم هوية صالح (10-15 رقم)">
                             </div>
                             @if ($errors->has('national_id'))
                                 <div class="modern-invalid-feedback">{{ $errors->first('national_id') }}</div>

@@ -13,4 +13,8 @@ class StudentRepository extends BaseRepository {
     public function findByNationalId($nationalId) {
         return Student::where('national_id', $nationalId)->first();
     }
+
+    function filter($request) {
+        return Student::filter($request);
+    }
 }

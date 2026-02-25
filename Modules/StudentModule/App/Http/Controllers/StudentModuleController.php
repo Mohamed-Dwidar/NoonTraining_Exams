@@ -18,7 +18,7 @@ class StudentModuleController extends Controller {
     private $examService;
     private $studentExamService;
 
-    public function __construct(StudentService $studentService,ExamService $examService,StudentExamService $studentExamService) {
+    public function __construct(StudentService $studentService, ExamService $examService, StudentExamService $studentExamService) {
         $this->studentService = $studentService;
         $this->examService = $examService;
         $this->studentExamService = $studentExamService;
@@ -36,8 +36,8 @@ class StudentModuleController extends Controller {
         return view('studentmodule::auth.dashboard', compact('exams'));
     }
 
-    public function index() {
-        $students = $this->studentService->paginate(25);
+    public function index(Request $request) {
+        $students = $this->studentService->filter($request->all())->paginate(25);
         return view('studentmodule::students.index', compact('students'));
     }
 
