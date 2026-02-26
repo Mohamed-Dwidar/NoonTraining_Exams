@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Modules\QuestionModule\app\Http\Models\Category;
 use Modules\QuestionModule\Services\QuestionService;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\QuestionModule\App\Imports\QuestionImport;
 
 class QuestionModuleController extends Controller {
     private $questionService;
@@ -126,5 +128,23 @@ class QuestionModuleController extends Controller {
 
         return redirect()->route(Auth::getDefaultDriver() . '.questions.index')
             ->with('success', 'تم حذف السؤال بنجاح.');
+    }
+
+    public function importStudents(Request $request) {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+            'category_id' => 'required|exists:categories,id',
+            'question_type' => 'required|in:mcq,true_false',
+        ], [
+            'file.required' => 'الملف مطلوب.',
+            'file.mimes' => 'صيغة الملف غير صحيحة. يجب أن يكون Excel أو CSV.',
+            'category_id.required' => 'التصنيف مطلوب.',
+            'category_id.exists' => 'التصنيف المحدد غير موجود.',
+            'question_type.required' => 'نوع الأسئلة مطلوب.',
+            'question_type.in' => 'نوع الأسئلة غير صحيح.',
+        ]);
+
+        Excel::import(new QuestionImport($this->questionService, $request->category_id, $request->question_type), $request->file('file'));
+        return back()->with('success', 'تم استيراد الأسئلة بنجاح!');
     }
 }

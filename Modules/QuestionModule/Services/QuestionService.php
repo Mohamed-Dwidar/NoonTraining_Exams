@@ -49,6 +49,12 @@ class QuestionService {
         ];
         $question = $this->questionRepository->create($question_data);
 
+        // dd([
+        //     'question_id'    => $question->id,
+        //     'correct_answer' => $data['type'] === 'mcq' ? $data['options'][$data['answer']] : $data['answer'],
+        // ]);
+
+
         $this->answerRepository->create([
             'question_id'    => $question->id,
             'correct_answer' => $data['type'] === 'mcq' ? $data['options'][$data['answer']] : $data['answer'],

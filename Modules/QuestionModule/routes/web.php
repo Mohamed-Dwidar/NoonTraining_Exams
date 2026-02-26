@@ -14,6 +14,7 @@ foreach (['admin', 'user'] as $guard) {
             Route::get('{id}/edit', [QuestionModuleController::class, 'editQuestion'])->name('question.edit');
             Route::put('update', [QuestionModuleController::class, 'updateQuestion'])->name('question.update');
             Route::get('{id}/delete', [QuestionModuleController::class, 'deleteQuestion'])->name('question.delete');
+            Route::post('import', [QuestionModuleController::class, 'importStudents'])->name('questions.import');
         });
 
         // Categories routes

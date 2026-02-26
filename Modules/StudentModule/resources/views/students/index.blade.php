@@ -129,7 +129,7 @@
                                 <input type="file" name="file" id="fileInput" class="form-control"
                                     accept=".xlsx,.xls,.csv" required>
                                 <small class="form-text text-muted">الصيغ المدعومة: (.xlsx, .xls)</small>
-                                <a href="http://127.0.0.1:8001/assets/templates/walkover_template.xlsx"
+                                <a href="{{ asset('imports/students_template.xlsx') }}"
                                     class="btn btn-sm btn-info mt-2 badge info" style="color: #ffffff !important;" download>
                                     تحميل نموذج الملف</a>
                             </div>
