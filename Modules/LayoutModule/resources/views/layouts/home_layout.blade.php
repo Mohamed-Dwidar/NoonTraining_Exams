@@ -8,7 +8,7 @@
     <meta name="description" content="نظام الاختبارات - معهد نون للتدريب">
     <meta name="keywords" content="اختبارات, معهد نون, تدريب">
     <meta name="author" content="Noon Training Center">
-    <title>مرحباً بك في موقع الاختبارات - معهد نون للتدريب</title>
+    <title>مرحباً بك في منصة الاختبارات المحوسبة - معهد نون للتدريب</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,6 +19,8 @@
     <!-- font icons-->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/fonts/icomoon.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/vendors/css/extensions/pace.css') }}">
     <!-- END VENDOR CSS-->
     <!-- BEGIN ROBUST CSS-->
@@ -35,6 +37,7 @@
     <!-- BEGIN Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css-rtl/app.css') }}">
     <!-- END Custom CSS-->
+
 </head>
 
 <body>
