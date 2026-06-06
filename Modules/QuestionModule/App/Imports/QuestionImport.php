@@ -28,6 +28,12 @@ class QuestionImport implements ToCollection {
                 continue; // Skip this row or log an error
             }
 
+            // Skip rows with missing data
+            if ($this->questionType === 'mcq' && ($row[1] === null || $row[2] === null || $row[3] === null || $row[4] === null || $row[5] === null)) {
+                // Handle error: Not enough columns for MCQ
+                continue; // Skip this row or log an error
+            }
+
             // Prepare question data based on type
             $data = [
                 'category_id' => $this->categoryId,
@@ -59,7 +65,6 @@ class QuestionImport implements ToCollection {
                 // For true_false
                 $data['answer'] = strtolower((string)$row[1]) === 'صح'  ? 'true' : 'false';
             }
-            // dd($data);
             $this->questionService->create($data);
         }
     }

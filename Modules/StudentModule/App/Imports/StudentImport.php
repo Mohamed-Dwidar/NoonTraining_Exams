@@ -20,6 +20,11 @@ class StudentImport implements ToCollection {
                 continue;
             }
 
+            // Skip rows with missing data
+            if (empty($row[0]) || empty($row[1]) || empty($row[2])) {
+                continue;
+            }
+
             $data = [
                 'name'         => $row[0],
                 'national_id'  => $row[1],
