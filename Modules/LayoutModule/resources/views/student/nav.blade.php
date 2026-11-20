@@ -2,8 +2,13 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col nav-links">
         <nav id="primary-menu">
             <ul class="top-menu menu-eff text-right">
-
-          
+                <li class="nav-item">
+                    <a href="{{ route('student.dashboard') }}"
+                        class="@if (in_array(Request::segment(2), ['dashboard', 'exam', 'typing-test'])) active @endif">
+                        <i class="fa fa-tasks"></i>
+                        <span data-i18n="nav.dash.main" class="menu-title">أختباراتي</span>
+                    </a>
+                </li>
 
             </ul>
         </nav>

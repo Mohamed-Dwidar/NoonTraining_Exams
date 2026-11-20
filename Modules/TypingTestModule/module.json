@@ -1,0 +1,11 @@
+{
+    "name": "TypingTestModule",
+    "alias": "typingtestmodule",
+    "description": "Typing speed test (أختبار سرعة الكتابة)",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TypingTestModule\\App\\Providers\\TypingTestModuleServiceProvider"
+    ],
+    "files": []
+}

@@ -31,6 +31,7 @@ class ExamService
             'true_false_count' => $data['true_false_count'] ?? 0,
             'success_grade' => $data['success_grade'],
             'total_grade' => $data['total_questions'],
+            'has_typing_test' => !empty($data['has_typing_test']),
             'created_by' => auth()->id(),
         ];
         return $this->examRepository->create($exam_data);
@@ -52,6 +53,7 @@ class ExamService
             'true_false_count' => $data['true_false_count'] ?? 0,
             'success_grade' => $data['success_grade'],
             'total_grade' => $data['total_questions'],
+            'has_typing_test' => !empty($data['has_typing_test']),
             'created_by' => $data['created_by'] ?? null,
         ];
 

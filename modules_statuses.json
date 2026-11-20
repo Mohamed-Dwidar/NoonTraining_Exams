@@ -5,5 +5,6 @@
     "UserModule": true,
     "ExamModule": true,
     "QuestionModule": true,
-    "StudentModule": true
+    "StudentModule": true,
+    "TypingTestModule": true
 }

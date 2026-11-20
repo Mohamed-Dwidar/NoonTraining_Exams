@@ -167,6 +167,31 @@
                         </div>
 
 
+                        @if (!empty($typingTest) && $typingTest->status === 'completed')
+                            <!-- Typing test (first part, pass/fail only — not part of the score) -->
+                            <div class="row g-4 mb-3">
+                                <div class="col-lg-12">
+                                    <div class="info-box {{ $typingTest->passed ? 'border-success' : 'border-danger' }}">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-8">
+                                                <p class="text-muted mb-1"><i class="fa fa-keyboard-o"></i> أختبار سرعة الكتابة</p>
+                                                <h4 class="mb-0 fw-bold">
+                                                    الكلمات الصحيحة: {{ $typingTest->correct_words }} / {{ $typingTest->word_count }}
+                                                    <small class="text-muted">(درجة النجاح: {{ $typingTest->success_grade }})</small>
+                                                </h4>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <span class="result-badge-large badge {{ $typingTest->passed ? 'bg-success' : 'bg-danger' }} shadow">
+                                                    {{ $typingTest->passed ? 'ناجح ✓' : 'راسب ✗' }}
+                                                </span>
+                                                <a href="{{ route('student.typing.result', $typingTest->id) }}" class="btn btn-sm btn-outline-primary">التفاصيل</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                         <!-- Additional Details -->
                         <div class="row g-4 mb-5">
                             <div class="col-lg-3">

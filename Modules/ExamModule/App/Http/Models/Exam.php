@@ -24,7 +24,12 @@ class Exam extends Model {
         'true_false_count',
         'success_grade',
         'total_grade',
+        'has_typing_test',
         'created_by',
+    ];
+
+    protected $casts = [
+        'has_typing_test' => 'boolean',
     ];
 
     // Exam creator (Admin/User)

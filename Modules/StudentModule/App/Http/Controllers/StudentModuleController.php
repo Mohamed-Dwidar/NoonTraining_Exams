@@ -12,16 +12,22 @@ use Modules\ExamModule\Services\ExamService;
 use Modules\StudentModule\Services\StudentExamService;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\StudentModule\App\Imports\StudentImport;
+use Modules\TypingTestModule\Services\TypingTestService;
+use Modules\TypingTestModule\Services\TypingTestSettingService;
 
 class StudentModuleController extends Controller {
     private $studentService;
     private $examService;
     private $studentExamService;
+    private $typingTestService;
+    private $typingSettingService;
 
-    public function __construct(StudentService $studentService, ExamService $examService, StudentExamService $studentExamService) {
+    public function __construct(StudentService $studentService, ExamService $examService, StudentExamService $studentExamService, TypingTestService $typingTestService, TypingTestSettingService $typingSettingService) {
         $this->studentService = $studentService;
         $this->examService = $examService;
         $this->studentExamService = $studentExamService;
+        $this->typingTestService = $typingTestService;
+        $this->typingSettingService = $typingSettingService;
     }
 
     /**
@@ -32,8 +38,21 @@ class StudentModuleController extends Controller {
     }
 
     public function dashboard() {
-        $exams = Auth::guard('student')->user()->studentExams;
-        return view('studentmodule::auth.dashboard', compact('exams'));
+        $student = Auth::guard('student')->user();
+
+        // Attempts whose time ran out while the student was away are graded first
+        foreach ($student->studentExams as $studentExam) {
+            $this->studentExamService->completeIfExpired($studentExam);
+        }
+        $this->typingTestService->completeExpiredForStudent($student->id);
+
+        $exams = $student->studentExams()->with('exam')->get();
+        // Standalone typing tests are listed with the other exams (linked ones belong to their course row)
+        $typingAttempts = $this->typingTestService->standaloneForStudent($student->id);
+        // Typing part of linked courses, keyed by student_exam_id (course counts as started once it's opened)
+        $linkedTyping = $this->typingTestService->linkedForStudent($student->id)->keyBy('student_exam_id');
+        $typingSettings = $this->typingSettingService->get();
+        return view('studentmodule::auth.dashboard', compact('exams', 'typingAttempts', 'typingSettings', 'linkedTyping'));
     }
 
     public function index(Request $request) {
@@ -51,7 +70,7 @@ class StudentModuleController extends Controller {
             'name'         => 'required|string|max:255',
             'email'        => 'nullable|email',
             'phone'        => 'required|string|max:20|unique:students,phone',
-            'national_id'  => 'nullable|digits:10|unique:students,national_id',
+            'national_id'  => 'required|digits:10|unique:students,national_id',
             'gender'       => 'nullable|in:male,female',
             'password'     => 'required|string|min:6',
         ], [
@@ -60,7 +79,8 @@ class StudentModuleController extends Controller {
             'email.unique' => 'البريد الإلكتروني مستخدم بالفعل',
             'phone.required' => 'حقل الهاتف مطلوب',
             'phone.unique' => 'رقم الهاتف مستخدم بالفعل',
-            'national_id.digits' => 'رقم الهوية أو الإقامة لا يتعدي ١٠ ارقام وباللغه الانجليزية',
+            'national_id.required' => 'رقم الهوية مطلوب',
+            'national_id.digits' => 'رقم الهوية يجب ان يكون ١٠ رقم',
             'national_id.unique' => 'رقم الهوية مستخدم بالفعل في هذا الفرع',
             'gender.in' => 'الجنس يجب أن يكون   "ذكر" أو "أنثي"',
             'password.required' => 'حقل كلمة المرور مطلوب',
@@ -85,7 +105,7 @@ class StudentModuleController extends Controller {
             'name'         => 'required|string|max:255',
             'email'        => 'nullable|email',
             'phone'        => 'required|string|max:20|unique:students,phone,' . $request->id,
-            'national_id'  => 'nullable|digits:10|unique:students,national_id,' . $request->id,
+            'national_id'  => 'required|digits:10|unique:students,national_id,' . $request->id,
             'gender'       => 'nullable|in:male,female',
             'password'     => 'nullable|string|min:6',
         ], [
@@ -94,7 +114,8 @@ class StudentModuleController extends Controller {
             'email.unique' => 'البريد الإلكتروني مستخدم بالفعل',
             'phone.required' => 'حقل الهاتف مطلوب',
             'phone.unique' => 'رقم الهاتف مستخدم بالفعل',
-            'national_id.digits' => 'رقم الهوية أو الإقامة لا يتعدي ١٠ ارقام وباللغه الانجليزية',
+            'national_id.required' => 'رقم الهوية مطلوب',
+            'national_id.digits' => 'رقم الهوية يجب ان يكون ١٠ رقم',
             'national_id.unique' => 'رقم الهوية مستخدم بالفعل',
             'gender.in' => 'الجنس يجب أن يكون   "ذكر" أو "أنثي"',
             'password.min' => 'كلمة المرور يجب أن تكون على الأقل ٦ أحرف',
@@ -127,7 +148,8 @@ class StudentModuleController extends Controller {
         $student = $this->studentService->find($id);
         // dd($student->exams->toArray());
         $exams = $this->examService->findAll();
-        return view('studentmodule::exam.showExam', compact('student', 'exams'));
+        $typingAttempts = $this->typingTestService->standaloneForStudent($student->id);
+        return view('studentmodule::exam.showExam', compact('student', 'exams', 'typingAttempts'));
     }
 
     public function assignExam(Request $request) {
@@ -185,8 +207,8 @@ class StudentModuleController extends Controller {
             ], 404);
         }
 
-        // Only allow unassignment if exam hasn't been taken yet
-        if ($studentExam->status !== 'not_started') {
+        // Only allow unassignment if exam hasn't been taken yet (including its linked typing test)
+        if ($studentExam->status !== 'not_started' || $this->typingTestService->hasStartedForStudentExam($studentExam->id)) {
             return response()->json([
                 'success' => false,
                 'message' => 'لا يمكن إلغاء تعيين اختبار تم إجراؤه بالفعل'

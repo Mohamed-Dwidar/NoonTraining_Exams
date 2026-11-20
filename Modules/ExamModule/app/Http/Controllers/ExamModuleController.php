@@ -39,6 +39,7 @@ class ExamModuleController extends Controller {
             'mcq_count'        => 'nullable|integer|min:0',
             'true_false_count' => 'nullable|integer|min:0',
             'success_grade'    => 'nullable|numeric|min:0',
+            'has_typing_test'  => 'nullable|boolean',
         ]);
 
         $validator->after(function ($validator) use ($request) {
@@ -112,6 +113,7 @@ class ExamModuleController extends Controller {
             'mcq_count' => 'nullable|integer|min:0',
             'true_false_count' => 'nullable|integer|min:0',
             'success_grade' => 'nullable|numeric|min:0',
+            'has_typing_test' => 'nullable|boolean',
         ]);
 
         $validator->after(function ($validator) use ($request) {

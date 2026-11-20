@@ -119,6 +119,36 @@ class StudentExamService {
         );
     }
 
+    /** Seconds left for an attempt in progress (full duration if not started). */
+    public function remainingSeconds($studentExam): int {
+        $duration = (int) optional($studentExam->exam)->duration_minutes;
+        if (!$studentExam->started_at) {
+            return $duration * 60;
+        }
+        $deadline = $studentExam->started_at->copy()->addMinutes($duration);
+        return max(0, (int) ceil(now()->diffInSeconds($deadline, false)));
+    }
+
+    /**
+     * Grade and close an attempt whose time ran out (student left the page).
+     * Returns true when the attempt was closed now.
+     */
+    public function completeIfExpired($studentExam): bool {
+        if ($studentExam->status !== 'in_progress' || !$studentExam->started_at
+            || (int) optional($studentExam->exam)->duration_minutes <= 0
+            || $this->remainingSeconds($studentExam) > 0) {
+            return false;
+        }
+
+        $this->correctExamAnswers($studentExam->id);
+        $this->studentExamRepository->update([
+            'status'       => 'completed',
+            'completed_at' => now(),
+        ], $studentExam->id);
+
+        return true;
+    }
+
     public function correctExamAnswers($studentExamId) {
         $studentExam = $this->studentExamRepository->find($studentExamId);
         $exam = $studentExam->exam;

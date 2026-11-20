@@ -192,6 +192,23 @@
                                             </div>
                                         </div>
 
+                                        <div class="row">
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="has_typing_test" value="0">
+                                                    <label>
+                                                        <input type="checkbox" name="has_typing_test" value="1"
+                                                            {{ old('has_typing_test', $exam->has_typing_test) ? 'checked' : '' }}>
+                                                        <i class="fa fa-keyboard-o"></i>
+                                                        يبدأ الأختبار بأختبار سرعة الكتابة
+                                                    </label>
+                                                    <small class="d-block text-muted">
+                                                        يظهر للطالب أولاً أختبار سرعة الكتابة، ثم ينتقل إلى الأسئلة. نتيجته (ناجح / راسب) لا تؤثر على درجة هذا الأختبار.
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-12">
                                             <a href="{{ route(Auth::getDefaultDriver() . '.exam.index') }}"
                                                 class="btn btn-secondary">إلغاء</a>

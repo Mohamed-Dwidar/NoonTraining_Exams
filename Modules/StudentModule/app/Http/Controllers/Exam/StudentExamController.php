@@ -14,22 +14,25 @@ use Illuminate\Support\Facades\DB;
 use Modules\ExamModule\Services\ExamService;
 use Modules\QuestionModule\Services\QuestionService;
 use Modules\StudentModule\Services\StudentExamService;
+use Modules\TypingTestModule\Services\TypingTestService;
 
 class StudentExamController extends Controller {
     private $examService;
     private $studentExamService;
     private $questionService;
+    private $typingTestService;
 
-    public function __construct(StudentExamService $studentExamService, ExamService $examService, QuestionService $questionService) {
+    public function __construct(StudentExamService $studentExamService, ExamService $examService, QuestionService $questionService, TypingTestService $typingTestService) {
         $this->studentExamService = $studentExamService;
         $this->examService = $examService;
         $this->questionService = $questionService;
+        $this->typingTestService = $typingTestService;
     }
 
     /**
      * Show exam start page
      */
-    public function startExam($studentExamId) {
+    public function startExam(Request $request, $studentExamId) {
         $student = Auth::guard('student')->user();
         $studentExam = $this->studentExamService->findById($studentExamId);
         $exam = $studentExam->exam;
@@ -40,27 +43,30 @@ class StudentExamController extends Controller {
             abort(404, 'Exam attempt not found');
         }
 
+        if ($studentExam->status === 'completed') {
+            return redirect()->route('student.exam.result', $studentExam->id);
+        }
+
+        // Exam linked to the typing test: the typing test comes first (one attempt per course attempt).
+        // Passed -> straight to the questions. Failed -> result page offers "continue" (?proceed=1) or "exit".
+        if ($exam->has_typing_test && $studentExam->status === 'not_started') {
+            $typingTest = $this->typingTestService->getOrCreateForStudentExam($studentExam);
+
+            if ($typingTest->status !== 'completed') {
+                return redirect()->route('student.typing.start', $typingTest->id);
+            }
+
+            if (!$typingTest->passed && !$request->boolean('proceed')) {
+                return redirect()->route('student.typing.result', $typingTest->id);
+            }
+        }
+
         //Initialize exam attempt if not already done
         if ($studentExam->status === 'not_started') {
             $this->initExam($studentExam->id);
-        } else {
-            //check if the exam duration has expired
-            $startedAt = Carbon::parse($studentExam->started_at);
-            $now = Carbon::now();
-            $elapsedMinutes = $startedAt->diffInMinutes($now);
-            if ($elapsedMinutes >= $exam->duration_minutes) {
-                // Mark as completed if time is up
-                $studentExam->update([
-                    'status' => 'completed',
-                    'completed_at' => Carbon::now()
-                ]);
-
-                //correct answers and calculate score
-                $this->studentExamService->correctExamAnswers($studentExam->id);
-                ///////
-
-                return redirect()->route('student.exam.result', $exam->id)->with('error', 'انتهى وقت الاختبار.');
-            }
+        } elseif ($this->studentExamService->completeIfExpired($studentExam)) {
+            // Time ran out while the student was away: graded and closed
+            return redirect()->route('student.exam.result', $studentExam->id);
         }
 
         // Load existing questions for this attempt
@@ -73,8 +79,9 @@ class StudentExamController extends Controller {
                 'started_at' => Carbon::now()
             ]);
         }
-        // dd($examQuestions->toArray());
-        return view('studentmodule::exam.start', compact('exam', 'examQuestions', 'studentExam'));
+        // Timer on the page comes from the server (resume on any device keeps the real remaining time)
+        $remainingSeconds = $this->studentExamService->remainingSeconds($studentExam->fresh('exam'));
+        return view('studentmodule::exam.start', compact('exam', 'examQuestions', 'studentExam', 'remainingSeconds'));
     }
 
     private function initExam($studentExamId) {
@@ -158,7 +165,8 @@ class StudentExamController extends Controller {
         if (!$studentExam || $studentExam->student_id != $student->id) {
             abort(404, 'Exam attempt not found');
         }
-        return view('studentmodule::exam.result', compact('exam', 'studentExam'));
+        $typingTest = $this->typingTestService->findForStudentExam($studentExam->id);
+        return view('studentmodule::exam.result', compact('exam', 'studentExam', 'typingTest'));
     }
 
     /**

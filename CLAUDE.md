@@ -48,11 +48,16 @@ Then suggest a commit message.
 - Route names: `{guard}.{resource}.{action}` (e.g. `admin.students.index`, `user.exam.edit`, `student.exam.start`). Inconsistent singular/plural in QuestionModule (`questions.index` vs `question.create`) and UserModule (`admin.users.list` vs `admin.user.create`).
 - Admin and staff share the same CRUD routes: `foreach (['admin','user'] as $guard)` with `auth:$guard`. Controllers redirect via `route(Auth::getDefaultDriver() . '.students.index')` — keep this pattern for shared screens.
 - Always use named routes — never hardcoded URLs
-- Flow: Controller → Service → Repository (`prettus` BaseRepository) → Model. Controllers should stay thin; some still query models directly (e.g. `Category::all()`).
+- **Layering (required):** Controller → Service → Repository (`prettus` BaseRepository) → Model.
+  - Controllers call only Services — never Repositories or Models directly (no `Model::all()`, `Model::find()`, `Model::where()` in controllers). Keep controllers thin: validate, call service, return view/redirect.
+  - Services hold the business logic and call only Repositories — never query Models directly.
+  - Repositories are the only layer that talks to Models / Eloquent.
+  - Existing code that breaks this (e.g. `Category::all()` in controllers) should be moved behind the service/repository when you touch it.
 - Validation: mostly inline `$request->validate()` / `Validator::make()` with Arabic messages. One Form Request exists (`StudentRequest`, unused (?)). (proposed) new code: Form Requests in `App/Http/Requests`.
 - Update/delete style: update posts `id` in the body (`POST students/update`), delete often via GET `{id}/delete` (proposed: POST/DELETE for new routes).
 - Models namespace: `Modules\<X>Module\App\Http\Models`. Imports often use lowercase `app\` — works on macOS only; use `App\` in new code (proposed).
-- Views: `@extends('layoutmodule::layouts.main')` + `@include('layoutmodule::layouts.flash')`; flash keys `success` / `error`.
+- Views: `@extends('layoutmodule::layouts.main')` + `@include('layoutmodule::layouts.flash')`. The flash partial shows only `success` and validation errors — `with('error', …)` is never displayed; use `withErrors([...])` (or a local alert) for error messages.
+- Theme CSS is **Bootstrap 4.0.0-alpha.4** (`public/admin-assets/css-rtl/bootstrap.css`): `d-none`, `d-flex`, `justify-content-*`, `align-items-*`, `text-center`, `text-start`, `fw-bold`, `bg-secondary` and `.badge` styles don't exist. Hide/show with inline `style="display:none"` + jQuery `toggle()`, use small local CSS for flex/centering, `bg-blue-grey` for grey badges.
 - Language / direction: Arabic RTL UI (all user-facing text and validation messages in Arabic); code/comments in English.
 - Naming: DB columns snake_case; controller methods camelCase; views snake_case/camelCase mixed (`showExam.blade.php`, `change_password.blade.php`).
 - Code style: opening brace on same line for classes/methods in newer modules (Student/Question/Exam); Laravel style in older ones. Laravel Pint is available but no config (?).
@@ -65,6 +70,7 @@ Then suggest a commit message.
 - **QuestionModule** (categories, questions, answers) ↔ ExamModule (`exams.category_id`), StudentModule (`QuestionService::getRandomQuestionsByType` builds attempts; `answers.correct_answer` used for grading). Question import via `QuestionImport` + `public/imports/questions_*_template.xlsx`.
 - **ExamModule** ↔ QuestionModule (category + mcq/true_false counts), StudentModule (`student_exams` pivot), AdminModule dashboard.
 - **StudentModule** ↔ `student` guard, ExamModule (assign/unassign), QuestionModule (random questions, grading), `StudentImport` + `public/imports/students_template.xlsx`.
+- **TypingTestModule** (أختبار سرعة الكتابة) ↔ StudentModule (standalone attempts assigned from `students.showExams`; `StudentExamController::startExam` sends linked exams to the typing test first; result shown in `exam/result`), ExamModule (`exams.has_typing_test`), LayoutModule navs (admin/user), student dashboard (`auth/dashboard`). Typing result is pass/fail only and never changes `student_exams.score`.
 - **Reports / results export** (planned (?)) ↔ StudentModule `student_exams` scores, ExamModule `success_grade`.
 
 ## Rules

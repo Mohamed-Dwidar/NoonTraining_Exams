@@ -49,6 +49,14 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route(Auth::getDefaultDriver() . '.typing.results.index') }}"
+                        class="@if (Request::segment(2) == 'typing-test') active @endif">
+                        <i class="fa fa-keyboard-o"></i>
+                        <span data-i18n="nav.dash.main" class="menu-title">أختبار سرعة الكتابة</span>
+                    </a>
+                </li>
+
             </ul>
         </nav>
     </div>

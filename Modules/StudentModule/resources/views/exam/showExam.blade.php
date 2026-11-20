@@ -3,6 +3,14 @@
 @section('title', 'الأختبارات المسجلة للطالب')
 
 @section('content')
+    @php
+        $guard = Auth::getDefaultDriver();
+        // Course attempts and standalone typing test attempts in one list, ordered by assignment date
+        $assignedRows = $student->studentExams->map(fn($se) => ['type' => 'exam', 'item' => $se])
+            ->concat($typingAttempts->map(fn($t) => ['type' => 'typing', 'item' => $t]))
+            ->sortByDesc(fn($row) => $row['item']->created_at)
+            ->values();
+    @endphp
     <div class="content-wrapper container-fluid">
         <div class="content-header">
             <div class="content-header-left mb-2 breadcrumb-new col">
@@ -31,7 +39,7 @@
                                 <div class="col-lg-8">
                                     <h4 class="card-title">
                                         <i class="fa fa-graduation-cap"></i> الاختبارات المسجلة
-                                        (<span id="assignedExamCount">{{ $student->exams->count() }}</span>)
+                                        (<span id="assignedExamCount">{{ $assignedRows->count() }}</span>)
                                     </h4>
                                 </div>
                                 <div class="col-lg-4">
@@ -44,7 +52,7 @@
 
                         <div class="card-body">
                             <div id="assignedExamsContainer">
-                                @if ($student->exams->count() > 0)
+                                @if ($assignedRows->count() > 0)
                                     <div class="table-responsive">
                                         <table class="table mb-0" id="assignedExamsTable">
                                             <thead class="table-primary">
@@ -57,7 +65,51 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="assignedExamsTableBody">
-                                                @foreach ($student->studentExams->sortByDesc('created_at') as $student_exam)
+                                                @foreach ($assignedRows as $row)
+                                                    @if ($row['type'] === 'typing')
+                                                        @php $attempt = $row['item']; @endphp
+                                                        <tr id="typing-row-{{ $attempt->id }}">
+                                                            <td><strong><i class="fa fa-keyboard-o"></i> أختبار سرعة الكتابة</strong></td>
+                                                            <td>{{ $attempt->started_at ? $attempt->started_at->format('Y-m-d H:i') : '-' }}</td>
+                                                            <td class="text-center">
+                                                                @if ($attempt->status === 'completed')
+                                                                    <span class="badge {{ $attempt->passed ? 'bg-success' : 'bg-danger' }}">
+                                                                        {{ $attempt->correct_words }} / {{ $attempt->word_count }} كلمة
+                                                                    </span>
+                                                                @else
+                                                                    <span class="text-muted">لم يتم الاختبار</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                @if ($attempt->status === 'completed')
+                                                                    @if ($attempt->passed)
+                                                                        <span class="badge bg-success"><i class="fa fa-check"></i> ناجح</span>
+                                                                    @else
+                                                                        <span class="badge bg-danger"><i class="fa fa-times"></i> راسب</span>
+                                                                    @endif
+                                                                @elseif ($attempt->status === 'in_progress')
+                                                                    <span class="badge bg-warning">جارٍ</span>
+                                                                @else
+                                                                    <span class="text-muted"><i class="fa fa-hourglass-half"></i> في انتظار الاختبار</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                @if ($attempt->status === 'not_started')
+                                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                                        onclick="unassignTyping({{ $attempt->id }}); return false;"
+                                                                        title="إلغاء تعيين الاختبار">
+                                                                        <i class="fa fa-times"></i> إلغاء التعيين
+                                                                    </button>
+                                                                @elseif ($attempt->status === 'completed')
+                                                                    <a class="btn btn-sm btn-info" href="{{ route($guard . '.typing.results.show', $attempt->id) }}">التفاصيل</a>
+                                                                @else
+                                                                    <span class="text-muted">-</span>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                        @continue
+                                                    @endif
+                                                    @php $student_exam = $row['item']; @endphp
                                                     <tr id="exam-row-{{ $student_exam->id }}">
                                                         <td><strong>{{ $student_exam->exam->title }}</strong></td>
                                                         <td>{{ $student_exam->started_at ? $student_exam->started_at->format('Y-m-d H:i') : '-' }}
@@ -141,6 +193,26 @@
                         </div>
 
                         <div id="examsList" class="list-group" style="max-height: 500px; overflow-y: auto;">
+                            <a href="#" class="list-group-item list-group-item-action exam-item" data-exam-id="typing" data-exam-title="أختبار سرعة الكتابة"
+                               onclick="assignExam('typing', 'أختبار سرعة الكتابة', this); return false;">
+                                <div class="row align-items-center">
+                                    <div class="col-md-9">
+                                        <h6 class="mb-0"><i class="fa fa-keyboard-o"></i> أختبار سرعة الكتابة</h6>
+                                        <small class="text-muted d-block mb-0">أختبار ثابت — غير مرتبط بتاريخ</small>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-sm {{ $typingAttempts->count() ? 'btn-secondary' : 'btn-success' }}"
+                                            onclick="event.stopPropagation(); assignExam('typing', 'أختبار سرعة الكتابة', this); return false;"
+                                            style="white-space: nowrap;">
+                                            @if ($typingAttempts->count())
+                                                <i class="fa fa-check"></i> تعيين مرة أخرى
+                                            @else
+                                                <i class="fa fa-plus"></i> تعيين
+                                            @endif
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
                             @php
                                 $assignedExamIds = $student->exams->pluck('id')->toArray();
                             @endphp
@@ -268,13 +340,17 @@
             }
             setModalMessage('info', '<i class="fa fa-spinner fa-spin"></i> جاري التعيين...');
 
-            fetch('{{ route(Auth::getDefaultDriver() . '.students.assignSingleExam') }}', {
+            const isTyping = examId === 'typing';
+            fetch(isTyping ? '{{ route($guard . '.typing.assign') }}' : '{{ route(Auth::getDefaultDriver() . '.students.assignSingleExam') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
-                    body: JSON.stringify({
+                    body: JSON.stringify(isTyping ? {
+                        student_id: {{ $student->id }}
+                    } : {
                         student_id: {{ $student->id }},
                         exam_id: examId
                     })
@@ -296,16 +372,19 @@
                         // Update assigned exams table (prepend new row)
                         const container = document.getElementById('assignedExamsContainer');
                         const tbody = document.getElementById('assignedExamsTableBody');
-                        const studentExamId = data.student_exam_id;
+                        const studentExamId = isTyping ? data.attempt_id : data.student_exam_id;
+                        const unassignCall = isTyping
+                            ? `unassignTyping(${studentExamId})`
+                            : `unassignExam(${studentExamId}, '${escapeHtml(examTitle).replace(/'/g, "\\'")}')`;
                         const newRowHtml = `
-                            <tr id="exam-row-${studentExamId}">
-                                <td><strong>${escapeHtml(examTitle)}</strong></td>
+                            <tr id="${isTyping ? 'typing-row-' : 'exam-row-'}${studentExamId}">
+                                <td><strong>${isTyping ? '<i class="fa fa-keyboard-o"></i> ' : ''}${escapeHtml(examTitle)}</strong></td>
                                 <td>-</td>
                                 <td class="text-center"><span class="text-muted">لم يتم الاختبار</span></td>
                                 <td><span class="text-muted"><i class="fa fa-hourglass-half"></i> في انتظار الاختبار</span></td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-danger"
-                                        onclick="unassignExam(${studentExamId}, '${escapeHtml(examTitle).replace(/'/g, "\\'")}')؛ return false;"
+                                        onclick="${unassignCall}; return false;"
                                         title="إلغاء تعيين الاختبار">
                                         <i class="fa fa-times"></i> إلغاء التعيين
                                     </button>
@@ -425,7 +504,15 @@
         }
 
         // Unassign exam via AJAX
-        function unassignExam(studentExamId, examTitle) {
+        function unassignTyping(attemptId) {
+            unassignExam(attemptId, 'أختبار سرعة الكتابة', {
+                url: '{{ route($guard . '.typing.unassign', '__ID__') }}'.replace('__ID__', attemptId),
+                body: {},
+                rowId: 'typing-row-' + attemptId
+            });
+        }
+
+        function unassignExam(studentExamId, examTitle, options = {}) {
             // Show confirmation modal
             const confirmMessage = document.getElementById('confirmMessage');
             const confirmButton = document.getElementById('confirmButton');
@@ -448,18 +535,19 @@
                     if (modal) modal.hide();
                 }
 
-                const row = document.getElementById('exam-row-' + studentExamId);
+                const row = document.getElementById(options.rowId || ('exam-row-' + studentExamId));
                 if (row) {
                     row.style.opacity = '0.5';
                 }
 
-                fetch('{{ route(Auth::getDefaultDriver() . '.students.unassignExam') }}', {
+                fetch(options.url || '{{ route(Auth::getDefaultDriver() . '.students.unassignExam') }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Accept': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
-                        body: JSON.stringify({
+                        body: JSON.stringify(options.body || {
                             student_exam_id: studentExamId
                         })
                     })

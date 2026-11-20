@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')
+    @php
+        // Courses and standalone typing tests in one list, newest assignment first
+        $rows = $exams->map(fn($se) => ['type' => 'exam', 'item' => $se])
+            ->concat($typingAttempts->map(fn($t) => ['type' => 'typing', 'item' => $t]))
+            ->sortByDesc(fn($row) => $row['item']->created_at)
+            ->values();
+    @endphp
 
     <div class="content-wrapper container-fluid">
 
@@ -24,7 +31,7 @@
                         </div>
 
                         <div class="card-body">
-                            @if ($exams->count() > 0)
+                            @if ($rows->count() > 0)
                                 <div class="table-responsive">
                                     <table class="table mb-0" id="assignedExamsTable">
                                         <thead class="table-primary">
@@ -37,7 +44,62 @@
                                             </tr>
                                         </thead>
                                         <tbody id="assignedExamsTableBody">
-                                            @foreach ($exams->sortByDesc('created_at') as $student_exam)
+                                            @foreach ($rows as $row)
+                                                @if ($row['type'] === 'typing')
+                                                    @php $attempt = $row['item']; @endphp
+                                                    <tr id="typing-row-{{ $attempt->id }}">
+                                                        <td><strong><i class="fa fa-keyboard-o"></i> {{ $typingSettings->title }}</strong></td>
+                                                        <td>{{ $attempt->started_at ? $attempt->started_at->format('Y-m-d H:i') : '-' }}</td>
+                                                        <td class="text-center">
+                                                            @if ($attempt->status === 'completed')
+                                                                <span class="badge {{ $attempt->passed ? 'bg-success' : 'bg-danger' }}">
+                                                                    {{ $attempt->correct_words }} / {{ $attempt->word_count }} كلمة
+                                                                </span>
+                                                            @else
+                                                                <span class="text-muted">لم يتم الاختبار</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($attempt->status === 'completed')
+                                                                @if ($attempt->passed)
+                                                                    <span class="badge bg-success"><i class="fa fa-check"></i> ناجح</span>
+                                                                @else
+                                                                    <span class="badge bg-danger"><i class="fa fa-times"></i> راسب</span>
+                                                                @endif
+                                                            @elseif ($attempt->status === 'in_progress')
+                                                                <span class="text-warning"><i class="fa fa-pencil"></i> جاري الاختبار</span>
+                                                            @else
+                                                                <span class="text-muted"><i class="fa fa-hourglass-half"></i> في انتظار الاختبار</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($attempt->status === 'not_started')
+                                                                <button type="button"
+                                                                    data-kind="typing"
+                                                                    data-exam-title="{{ $typingSettings->title }}"
+                                                                    data-exam-duration="{{ $typingSettings->duration_minutes }}"
+                                                                    data-total-questions="{{ $typingSettings->word_count }}"
+                                                                    data-success-grade="{{ $typingSettings->success_grade }}"
+                                                                    data-exam-url="{{ route('student.typing.start', $attempt->id) }}"
+                                                                    class="btn btn-success btn-sm startExamBtn">
+                                                                    بدء الأختبار
+                                                                </button>
+                                                            @elseif ($attempt->status === 'in_progress')
+                                                                <a href="{{ route('student.typing.start', $attempt->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-play"></i> إكمال الأختبار</a>
+                                                            @else
+                                                                <a href="{{ route('student.typing.result', $attempt->id) }}" class="btn btn-info btn-sm">عرض النتيجة</a>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    @continue
+                                                @endif
+                                                @php
+                                                    $student_exam = $row['item'];
+                                                    // In progress: questions started, or the linked typing part already opened
+                                                    $linked = $linkedTyping->get($student_exam->id);
+                                                    $inProgress = $student_exam->status === 'in_progress'
+                                                        || ($student_exam->status === 'not_started' && $linked && $linked->status !== 'not_started');
+                                                @endphp
                                                 <tr id="exam-row-{{ $student_exam->id }}">
                                                     <td><strong>{{ $student_exam->exam->title }}</strong></td>
                                                     <td>{{ $student_exam->started_at ? $student_exam->started_at->format('Y-m-d H:i') : '-' }}
@@ -62,6 +124,8 @@
                                                                 <span class="badge bg-danger"><i class="fa fa-times"></i>
                                                                     راسب</span>
                                                             @endif
+                                                        @elseif ($inProgress)
+                                                            <span class="text-warning"><i class="fa fa-pencil"></i> جاري الاختبار</span>
                                                         @else
                                                             <span class="text-muted"><i class="fa fa-hourglass-half"></i> في
                                                                 انتظار الاختبار</span>
@@ -69,7 +133,11 @@
                                                     </td>
 
                                                     <td>
-                                                        @if ($student_exam->status == 'not_started')
+                                                        @if ($inProgress)
+                                                            <a href="{{ route('student.exam.start', $student_exam->id) }}" class="btn btn-warning btn-sm">
+                                                                <i class="fa fa-play"></i> إكمال الأختبار
+                                                            </a>
+                                                        @elseif ($student_exam->status == 'not_started')
                                                             <button type="button"
                                                                 id="startExamBtn-{{ $student_exam->id }}"
                                                                 data-exam-id="{{ $student_exam->id }}"
@@ -78,6 +146,7 @@
                                                                 data-total-questions="{{ $student_exam->exam->total_questions ?? 0 }}"
                                                                 data-success-grade="{{ $student_exam->exam->success_grade ?? 0 }}"
                                                                 data-total-grade="{{ $student_exam->exam->total_grade ?? 0 }}"
+                                                                data-has-typing="{{ $student_exam->exam->has_typing_test ? 1 : 0 }}"
                                                                 data-exam-url="{{ route('student.exam.start', $student_exam->id) }}"
                                                                 class="btn btn-success btn-sm startExamBtn">
                                                                 بدء الأختبار
@@ -128,6 +197,11 @@
                         <strong>تنبيه:</strong> بمجرد بدء الاختبار، سيبدأ العد التنازلي ولن تتمكن من إيقافه.
                     </div>
                     <h5 class="mb-2 text-center" id="examTitleModal"></h5>
+                    <div class="alert alert-info" id="typingNoticeModal" style="display: none;">
+                        <i class="fa fa-keyboard-o"></i>
+                        يبدأ هذا الأختبار بـ <strong>أختبار سرعة الكتابة</strong>، ثم تنتقل بعده إلى الأسئلة.
+                        مدة الأسئلة تبدأ عند الانتقال إليها.
+                    </div>
                     <div class="exam-info">
                         <div class="row">
                             <div class="col-md-6">
@@ -136,7 +210,7 @@
                                     <strong> مدة الاختبار:</strong>
                                     <span id="examDurationModal" class="text-primary"></span>
                                 </p>
-                                <p class="mb-2">
+                                <p class="mb-2" id="totalGradeRow">
                                     <i class="fa fa-trophy text-warning"></i>
                                     <strong> الدرجة الكلية:</strong>
                                     <span id="totalGradeModal" class="text-primary"></span>
@@ -145,7 +219,7 @@
                             <div class="col-md-6">
                                 <p class="mb-2">
                                     <i class="fa fa-list text-info"></i>
-                                    <strong> إجمالي الأسئلة:</strong>
+                                    <strong id="totalQuestionsLabel"> إجمالي الأسئلة:</strong>
                                     <span id="totalQuestionsModal" class="text-primary"></span>
                                 </p>
                                 <p class="mb-2">
@@ -156,6 +230,11 @@
                             </div>
                         </div>
                     </div>
+                    <ul class="small text-muted mt-1 mb-0" id="typingRulesModal" style="display: none;">
+                        <li>اكتب النص المعروض كما هو تماماً، بما في ذلك التشكيل وعلامات الترقيم.</li>
+                        <li>النتيجة هي عدد الكلمات الصحيحة فقط، ونسيان أي كلمة يجعل كل الكلمات التي بعدها خاطئة.</li>
+                        <li>عند انتهاء الوقت يتم إرسال ما كتبته تلقائياً.</li>
+                    </ul>
                     <hr>
                     <p class="text-muted text-center mt-2"><strong>هل أنت متأكد من أنك تريد بدء الاختبار الآن؟</strong></p>
                 </div>
@@ -199,6 +278,14 @@
             $('#trueFalseCountModal').text(trueFalseCount);
             $('#successGradeModal').text(successGrade);
             $('#totalGradeModal').text(totalGrade);
+            $('#typingNoticeModal').toggle($(this).data('has-typing') == 1);
+
+            // Standalone typing test: words instead of questions, pass mark in correct words
+            const isTyping = $(this).data('kind') === 'typing';
+            $('#totalGradeRow').toggle(!isTyping); // typing test has no total grade
+            $('#typingRulesModal').toggle(isTyping);
+            $('#totalQuestionsLabel').text(isTyping ? ' عدد الكلمات:' : ' إجمالي الأسئلة:');
+            if (isTyping) $('#successGradeModal').text(successGrade + ' كلمة صحيحة');
 
             // Show modal
             $('#examStartModal').modal('show');

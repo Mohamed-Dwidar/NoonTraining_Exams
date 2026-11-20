@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="card p-3">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>{{ $exam->title }}</h3>
+    <div class="exam-bar mb-2">
+        <h3 class="mb-0">{{ $exam->title }}</h3>
 
         <!-- Timer Display -->
         <div class="alert alert-warning mb-0" id="examTimer">
@@ -12,8 +12,16 @@
         </div>
     </div>
 
-    <!-- Exam Progress Bar -->
-    <div class="progress mb-4" style="height: 25px;">
+    <!-- Question counter + finish button (finish is available at any question) -->
+    <div class="exam-bar mb-1">
+        <strong id="questionCounter" class="question-counter">سؤال 1 من {{ count($examQuestions) }}</strong>
+        <button type="button" class="btn btn-danger btn-sm" id="finishAnytimeBtn" onclick="showSubmitModal()">
+            <i class="icon-check"></i> إنهاء الاختبار
+        </button>
+    </div>
+
+    <!-- Exam Progress Bar (label is outside the bar so it never wraps) -->
+    <div class="progress mb-4" id="examProgress">
         <div class="progress-bar progress-bar-striped progress-bar-animated"
              id="progressBar"
              role="progressbar"
@@ -21,7 +29,6 @@
              aria-valuenow="0"
              aria-valuemin="0"
              aria-valuemax="100">
-            سؤال 1 من {{ count($examQuestions) }}
         </div>
     </div>
 
@@ -151,6 +158,11 @@
                 <p><strong>هل أنت متأكد من إنهاء الاختبار؟</strong></p>
                 <p class="text-danger"><i class="icon-alert-triangle"></i> لا يمكنك العودة إلى الأسئلة بعد الإرسال.</p>
                 <p class="text-muted">تمت الإجابة على <span id="answeredCount">0</span> من <span id="totalQuestionsCount">{{ count($examQuestions) }}</span> سؤال.</p>
+                <div class="alert alert-warning mb-0" id="unansweredWarning" style="display: none;">
+                    <i class="icon-alert-triangle"></i>
+                    <strong>تنبيه:</strong> لم تُجب على <strong id="unansweredCount">0</strong> سؤال.
+                    سيتم احتساب النتيجة على الأسئلة التي أجبت عنها فقط، وتُحسب الأسئلة غير المُجاب عنها خاطئة.
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
@@ -167,7 +179,7 @@ let currentQuestion = 0;
 const totalQuestions = {{ count($examQuestions) }};
 const studentExamId = {{ $studentExam->id }};
 let examDuration = {{ $exam->duration_minutes }};
-let timeLeft = examDuration * 60;
+let timeLeft = {{ (int) ($remainingSeconds ?? $exam->duration_minutes * 60) }}; // from the server
 let timerInterval;
 let answers = {};
 let isSaving = false;
@@ -208,20 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function startTimer() {
     console.log('Starting timer...');
 
-    // Check for saved time from previous session
-    const savedStartTime = localStorage.getItem('exam_start_time_' + {{ $exam->id }});
-    const savedDuration = localStorage.getItem('exam_duration_' + {{ $exam->id }});
-
-    if (savedStartTime && savedDuration) {
-        const now = new Date().getTime();
-        const elapsedSeconds = Math.floor((now - parseInt(savedStartTime)) / 1000);
-        const totalSeconds = parseInt(savedDuration) * 60;
-        timeLeft = Math.max(0, totalSeconds - elapsedSeconds);
-    } else {
-        // First time starting - save start time
-        localStorage.setItem('exam_start_time_' + {{ $exam->id }}, new Date().getTime());
-        localStorage.setItem('exam_duration_' + {{ $exam->id }}, examDuration);
-    }
+    // Remaining time is computed on the server from started_at (see StudentExamService::remainingSeconds)
 
     updateTimerDisplay();
 
@@ -368,7 +367,7 @@ function updateProgressBar() {
 
     progressBar.style.width = `${progress}%`;
     progressBar.setAttribute('aria-valuenow', progress);
-    progressBar.textContent = `سؤال ${currentQuestion + 1} من ${totalQuestions}`;
+    document.getElementById('questionCounter').textContent = `سؤال ${currentQuestion + 1} من ${totalQuestions}`;
 }
 
 // Answer Management Functions
@@ -483,6 +482,11 @@ function showSubmitModal() {
     const answeredCount = Object.keys(answers).length;
     document.getElementById('answeredCount').textContent = answeredCount;
     document.getElementById('totalQuestionsCount').textContent = totalQuestions;
+
+    // Finishing early: warn that unanswered questions count as wrong
+    const unanswered = totalQuestions - answeredCount;
+    document.getElementById('unansweredCount').textContent = unanswered;
+    $('#unansweredWarning').toggle(unanswered > 0);
 
     $('#confirmSubmitModal').modal({
         backdrop: 'static',
@@ -630,6 +634,33 @@ document.addEventListener('keydown', function(e) {
         opacity: 1;
         transform: translateX(0);
     }
+}
+
+/* Theme is Bootstrap 4 alpha (no d-flex utilities) */
+.exam-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+#examProgress {
+    height: 10px;
+    background: #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#examProgress .progress-bar {
+    height: 100%;
+    background: #1e9b72;
+    transition: width .3s ease;
+}
+
+.question-counter {
+    white-space: nowrap;
+    font-size: 1.1rem;
 }
 
 #examTimer {
